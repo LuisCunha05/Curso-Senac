@@ -1,0 +1,1 @@
+print('Alternativa "A", Verdadeiro.')
