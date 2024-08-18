@@ -1,6 +1,5 @@
 import tkinter as tk
 
-#test
 
 class Pyculator:
     def __init__(self) -> None:
