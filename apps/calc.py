@@ -6,17 +6,20 @@ class Pyculator:
 
         self.root = tk.Tk()
         self.root.geometry('500x600')
+        self.root.resizable(width=False, height=False)
         self.root.title('Pyculator')
         self.root.configure(background='#282828')
         
         self.pyc_label = tk.Label(
-            self.root, text='Pyculator',
+            self.root, text='Pyculator Ultra Long test for testing purposes, still not enought so we have to continue and see where it lands!',
             font=('Arial', 14),
             height=4,
             highlightthickness=1,
             highlightbackground='gray',
             background='#282828',
-            fg='#ffffff'
+            fg='#ffffff',
+            justify='right',
+            wraplength=468
             )
         self.pyc_label.pack(padx=15,pady=15, fill='x')
 
