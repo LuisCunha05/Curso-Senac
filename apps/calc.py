@@ -1,5 +1,13 @@
 import tkinter as tk
 
+def getLastNumber(string: str) -> str:
+    result = ''
+    for i in range(1, len(string)):
+        if(string[-i].isnumeric() or string[-i] == '.'):
+            result += string[-i]
+        else:
+            break
+    return result[::-1]
 
 class Pyculator:
     __symbols = ['+', '-', '/', '*', '.']
@@ -17,9 +25,7 @@ class Pyculator:
                     char = ''
                 else:
                     self._parent_open += 1
-                    if(self.calc[-1] == ')'):
-                        char = '*' + char
-                    elif(self.calc[-1].isnumeric()):
+                    if(self.calc[-1] == ')' or self.calc[-1].isnumeric()):
                         char = '*' + char
             case ')':
                 if(self._parent_close >= self._parent_open):
