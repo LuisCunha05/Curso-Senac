@@ -33,7 +33,7 @@ class Pyculator:
                 else:
                     self._parent_close += 1
             case '.':
-                if(not self.calc[-1].isnumeric()):
+                if(not self.calc[-1].isnumeric() or '.' in getLastNumber(self.calc)):
                     char = ''
 
         if(char in Pyculator.__symbols and self.calc[-1] in Pyculator.__symbols ):
