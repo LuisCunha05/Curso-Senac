@@ -1,6 +1,5 @@
 import tkinter as tk
 
-print(ord('π'))
 
 class Pyculator:
     __symbols = ['+', '-', '/', '*', '.']
@@ -142,7 +141,6 @@ class PyculatorGUI(Pyculator):
         #self.btn_quit = tk.Button(self.root, text="Quit", font=('Arial', 16), background='#4d4d4d', fg='#ffffff', width=15, command=self.root.destroy).pack()
 
         self.root.mainloop()
-
 
 
 PyculatorGUI()
