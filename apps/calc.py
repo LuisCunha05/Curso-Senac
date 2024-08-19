@@ -6,13 +6,35 @@ class Pyculator:
     __symbols = ['+', '-', '/', '*', '.']
     def __init__(self) -> None:
         self.calc: str = '0'
+        self._parent_open = 0
+        self._parent_close = 0
     
     def addChar(self, char: str) -> str:
         """Adds a character to the Calculation string. CANNOT add a new symbol if the last character is a symbol"""
+
+        match(char):
+            case '(':
+                if(self._parent_open >= 5):
+                    char = ''
+                else:
+                    self._parent_open += 1
+                    if(self.calc[-1] == ')'):
+                        char = '*' + char
+                    elif(self.calc[-1].isnumeric()):
+                        char = '*' + char
+            case ')':
+                if(self._parent_close >= self._parent_open):
+                    char = ''
+                else:
+                    self._parent_close += 1
+            case '.':
+                if(not self.calc[-1].isnumeric()):
+                    char = ''
+
         if(char in Pyculator.__symbols and self.calc[-1] in Pyculator.__symbols ):
             return self.calc
         
-        if(self.calc == '0'):
+        if(self.calc == '0' and char != ''):
             self.calc = char
             return self.calc
         self.calc += char
@@ -20,6 +42,8 @@ class Pyculator:
     
     def clear(self) -> str:
         self.calc = '0'
+        self._parent_open = 0
+        self._parent_close = 0
         return self.calc
 
 
