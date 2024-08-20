@@ -11,26 +11,27 @@ cFrame.columnconfigure(0, weight=1)
 cFrame.columnconfigure(1, weight=2)
 cFrame.columnconfigure(2, weight=1)
 
-
-# Function
-def callback():
-    root.focus()
-
 def validateCad():
-    hold = [uEntry.get(), pEntry.get(), cpEntry.get()]
-    if(hold[0] == ''):
-        messagebox.showerror('Login Incorreto!', 'O login não pode ser vazio!')
+    user = uEntry.get()
+    password = pEntry.get()
+    cpassword = cpEntry.get()
+    #print(user, password, cpassword)
+    if(user == '' or len(user) < 5):
+        messagebox.showerror('Login Incorreto!', 'O login é muito curto!')
         return
-    if(hold[0] == hold[1]):
+    elif(password == '' or len(password) < 6):
+        messagebox.showerror('Senha Invalida!', 'A senha é muito curta!')
+        return
+    elif(user == password):
         messagebox.showwarning('Senha Invalida!', 'A senha não pode ser igual ao login!')
         return
-    if(hold[1] != hold[2]):
+    elif(password != cpassword):
         messagebox.showerror('Senha Incorreta!', 'As senhas são diferentes!')
         return
     uEntry.delete(0, 'end')
     pEntry.delete(0, 'end')
     cpEntry.delete(0, 'end')
-    callback()
+    root.focus()
     messagebox.showinfo('Cadastrado', 'Cadrastro realizado com sucesso!')
 
 #Labels
