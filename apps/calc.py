@@ -51,6 +51,17 @@ class Pyculator:
         self._parent_close = 0
         return self.calc
 
+    def backSpace(self) -> str:
+        match(self.calc[-1]):
+            case '(':
+                self._parent_open -= 1
+            case ')':
+                self._parent_close -= 1
+
+        self.calc = '0' if self.calc[:-1] == '' else self.calc[:-1]
+        return self.calc
+
+
 
 class PyculatorGUI(Pyculator):
     def __init__(self) -> None:
@@ -125,7 +136,7 @@ class PyculatorGUI(Pyculator):
         self.btn_clear.grid(row=0, column=0, sticky='we')
         self.btn_clear_entry = tk.Button(self.op_frame, text='CE', command= lambda: self._stringCalc.set(self.clear()), font=('Arial', 16), background='#4d4d4d', fg='#ffffff')
         self.btn_clear_entry.grid(row=0, column=1, sticky='we')
-        self.btn_backspace = tk.Button(self.op_frame, text='🡐', font=('Arial', 16), background='#4d4d4d', fg='#ffffff')
+        self.btn_backspace = tk.Button(self.op_frame, text='🡐', command= lambda: self._stringCalc.set(self.backSpace()), font=('Arial', 16), background='#4d4d4d', fg='#ffffff')
         self.btn_backspace.grid(row=0, column=2, sticky='we')
 
         #Operations
