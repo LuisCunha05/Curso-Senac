@@ -51,7 +51,7 @@ class Pyculator:
         if(char in Pyculator.__symbols and lastChar in Pyculator.__symbols ):
             return self.calc
         
-        if(self.calc == '0' and char != ''):
+        if(lastNum == '0' and char != ''):
             self.calc = char
             return self.calc
         self.calc += char
