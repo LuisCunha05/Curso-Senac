@@ -1,16 +1,18 @@
 import tkinter as tk
-
+print(float('2.2'))
 def getLastNumber(string: str) -> str:
     result = ''
-    for i in range(1, len(string)):
-        if(string[-i].isnumeric() or string[-i] == '.'):
-            result += string[-i]
+    for i in range(len(string)):
+        print('debugg1:',string, string[-(i+1)].isnumeric())
+        if(string[-(i+1)].isnumeric() or string[-(i+1)] == '.'):
+            result += string[-(i+1)]
         else:
             break
     return result[::-1]
 
 class Pyculator:
     __symbols = ['+', '-', '/', '*', '.']
+    MAX_INT = 9223372036854775807
     def __init__(self) -> None:
         self.calc: str = '0'
         self._parent_open = 0
@@ -19,24 +21,34 @@ class Pyculator:
     def addChar(self, char: str) -> str:
         """Adds a character to the Calculation string. CANNOT add a new symbol if the last character is a symbol"""
 
+        lastChar = self.getLastChar()
+        lastNum = getLastNumber(self.calc)
+        print(lastNum)
+        if(char.isnumeric()):
+            if(lastChar == ')'):
+                char += '*'
+            elif(lastNum != '' and float(lastNum) > self.MAX_INT):
+                return self.calc
+
         match(char):
             case '(':
                 if(self._parent_open >= 5):
-                    char = ''
+                    return self.calc
                 else:
                     self._parent_open += 1
-                    if(self.calc[-1] == ')' or self.calc[-1].isnumeric()):
+                    temp = lastNum
+                    if(lastChar == ')' or temp != '0' and temp != '' ):
                         char = '*' + char
             case ')':
-                if(self._parent_close >= self._parent_open):
-                    char = ''
+                if(self._parent_close >= self._parent_open or lastNum == ''):
+                    return self.calc
                 else:
                     self._parent_close += 1
             case '.':
-                if(not self.calc[-1].isnumeric() or '.' in getLastNumber(self.calc)):
-                    char = ''
+                if(not lastChar.isnumeric() or '.' in lastNum):
+                    return self.calc
 
-        if(char in Pyculator.__symbols and self.calc[-1] in Pyculator.__symbols ):
+        if(char in Pyculator.__symbols and lastChar in Pyculator.__symbols ):
             return self.calc
         
         if(self.calc == '0' and char != ''):
@@ -50,9 +62,12 @@ class Pyculator:
         self._parent_open = 0
         self._parent_close = 0
         return self.calc
+    
+    def getLastChar(self) -> str:
+        return self.calc[-1]
 
     def backSpace(self) -> str:
-        match(self.calc[-1]):
+        match(self.getLastChar()):
             case '(':
                 self._parent_open -= 1
             case ')':
