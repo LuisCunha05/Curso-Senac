@@ -1,5 +1,5 @@
 import tkinter as tk
-print(float('2.2'))
+
 def getLastNumber(string: str) -> str:
     result = ''
     for i in range(len(string)):
