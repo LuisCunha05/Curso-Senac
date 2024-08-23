@@ -6,30 +6,33 @@ Cada botão que a pessoa clicar deve redirecionar a tela para o campo com opçõ
 import tkinter as tk
 
 def setGeometry(master: tk.Tk, scale: float = 0.7, width: int = None, height: int = None, resizable: bool = True):
-        """Sets the window size and put it at center of the screen, by default uses 70% of the screen.
-        If WIDTH or HEIGHT are given than uses this values instead."""
-        width = width if width else int(master.winfo_screenwidth() * scale)
-        height = height if height else int(master.winfo_screenheight() * scale)
-        x = int((master.winfo_screenwidth() - width) / 2)
-        y = int((master.winfo_screenheight() - height) / 2)
+    """Sets the window size and put it at center of the screen, by default uses 70% of the screen.
+    If WIDTH or HEIGHT are given than uses this values instead."""
+    width = width if width else int(master.winfo_screenwidth() * scale)
+    height = height if height else int(master.winfo_screenheight() * scale)
+    x = int((master.winfo_screenwidth() - width) / 2)
+    y = int((master.winfo_screenheight() - height) / 2)
 
-        master.geometry(f'{width}x{height}+{x}+{y}')
-        master.resizable(resizable, resizable)
+    master.geometry(f'{width}x{height}+{x}+{y}')
+    master.resizable(resizable, resizable)
+
+def addButton(master: tk.Frame, kwargs):
+    pass
 
 class Cardapio:
     def __init__(self) -> None:
         self.root = tk.Tk()
         setGeometry(self.root, resizable=False)
         self.root.title('The Menu')
+        self.login()
 
         self.root.mainloop()
-
-
-    
 
     def login(self):
         for i in self.root.winfo_children():
             i.destroy()
+        mainF = tk.Frame(self.root, background='#e5cb5f')
+        mainF.pack(padx=5, pady=5, fill='both', expand=True)   
 
 
 if __name__ == '__main__':
