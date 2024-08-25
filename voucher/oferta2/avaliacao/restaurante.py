@@ -16,8 +16,19 @@ def setGeometry(master: tk.Tk, scale: float = 0.7, width: int = None, height: in
     master.geometry(f'{width}x{height}+{x}+{y}')
     master.resizable(resizable, resizable)
 
-def addButton(master: tk.Frame, kwargs):
-    pass
+def addButton(origin: tk.Frame, b_kwargs: dict = {}, p_kwargs: dict = {}) -> tk.Button:
+    button =  tk.Button(origin, **b_kwargs)
+    button.pack(**p_kwargs)
+    return button
+
+def addFrame(origin: tk.Frame, f_kwargs: dict = {}, p_kwargs: dict = {}) -> tk.Button:
+    frame =  tk.Frame(origin, **f_kwargs)
+    frame.pack(**p_kwargs)
+    return frame
+
+def deleteChildren(object: tk.Tk | tk.Frame):
+    for child in object.winfo_children():
+        child.destroy()
 
 class Cardapio:
     def __init__(self) -> None:
@@ -25,14 +36,12 @@ class Cardapio:
         setGeometry(self.root, resizable=False)
         self.root.title('The Menu')
         self.login()
-
+        
         self.root.mainloop()
 
     def login(self):
-        for i in self.root.winfo_children():
-            i.destroy()
-        mainF = tk.Frame(self.root, background='#e5cb5f')
-        mainF.pack(padx=5, pady=5, fill='both', expand=True)   
+        mainF = addFrame(self.root, {'background':'#e5cb5f'}, {'padx':5, 'pady':5, 'fill':'both', 'expand':True})
+        addButton(mainF, {'text':'Teste', 'background':'cyan', 'command':lambda: deleteChildren(mainF)})
 
 
 if __name__ == '__main__':
