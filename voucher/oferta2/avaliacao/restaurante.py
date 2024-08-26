@@ -5,13 +5,13 @@ Cada botão que a pessoa clicar deve redirecionar a tela para o campo com opçõ
 
 import tkinter as tk
 
-def setGeometry(master: tk.Tk, scale: float = 0.7, width: int = None, height: int = None, resizable: bool = True):
+def setGeometry(master:tk.Tk, scale:float = 0.7, width:int = None, height:int = None,x:int = None, y:int = None, resizable:bool = True):
     """Sets the window size and put it at center of the screen, by default uses 70% of the screen.
     If WIDTH or HEIGHT are given than uses this values instead."""
     width = width if width else int(master.winfo_screenwidth() * scale)
     height = height if height else int(master.winfo_screenheight() * scale)
-    x = int((master.winfo_screenwidth() - width) / 2)
-    y = int((master.winfo_screenheight() - height) / 2)
+    x = x if x else int((master.winfo_screenwidth() - width) / 2)
+    y = y if y else int((master.winfo_screenheight() - height) / 2)
 
     master.geometry(f'{width}x{height}+{x}+{y}')
     master.resizable(resizable, resizable)
@@ -21,10 +21,15 @@ def addButton(origin: tk.Frame, b_kwargs: dict = {}, p_kwargs: dict = {}) -> tk.
     button.pack(**p_kwargs)
     return button
 
-def addFrame(origin: tk.Frame, f_kwargs: dict = {}, p_kwargs: dict = {}) -> tk.Button:
+def addFrame(origin: tk.Frame, f_kwargs: dict = {}, p_kwargs: dict = {}) -> tk.Frame:
     frame =  tk.Frame(origin, **f_kwargs)
     frame.pack(**p_kwargs)
     return frame
+
+def addLabel(origin: tk.Frame, l_kwargs: dict = {}, p_kwargs: dict = {}) -> tk.Label:
+    label =  tk.Label(origin, **l_kwargs)
+    label.pack(**p_kwargs)
+    return label
 
 def deleteChildren(object: tk.Tk | tk.Frame):
     for child in object.winfo_children():
@@ -33,16 +38,39 @@ def deleteChildren(object: tk.Tk | tk.Frame):
 class Cardapio:
     def __init__(self) -> None:
         self.root = tk.Tk()
-        setGeometry(self.root, resizable=False)
+        setGeometry(self.root, width=1920, height=1000)
+        self.root.minsize(width=1920, height=1000)
         self.root.title('The Menu')
+        self.root.configure(background='#edb3b0')
+
+        #Loading Assets
+        self._assets = {
+        'house':tk.PhotoImage(file='assets\\house.png'),
+        'banner':tk.PhotoImage(file='assets\\banner.png'),
+        'cart':tk.PhotoImage(file='assets\\cart.png'),
+        'entrada':tk.PhotoImage(file='assets\\entrada.png'),
+        'bebidas':tk.PhotoImage(file='assets\\bebidas.png'),
+        'alcool':tk.PhotoImage(file='assets\\alcool.png'),
+        'pp':tk.PhotoImage(file='assets\\pp.png'),
+        'sobremesa':tk.PhotoImage(file='assets\\sobremesa.png'),
+        'chef':tk.PhotoImage(file='assets\\chef.png'),
+        'add_cart':tk.PhotoImage(file='assets\\add_cart.png'),
+        'feijoada':tk.PhotoImage(file='assets\\feijoada.png'),
+        }
+
+        #Header config
+        self.header = addFrame(self.root, {'background':'#f2c6c4', 'height':150}, { 'fill':'x','anchor':'n', 'expand':True})
+        addLabel(self.header, {'image':self._assets['house'], 'borderwidth':0}, {'padx':(150,0), 'side':'left'})
+        addLabel(self.header, {'image':self._assets['banner'], 'borderwidth':0, 'background':'#f2c6c4'}, {'fill':'x', 'side':'left', 'anchor':'n', 'expand':True})
+        addLabel(self.header, {'image':self._assets['cart'], 'borderwidth':0}, {'padx':(0,150), 'side':'right', 'anchor':'e'})
+        self.content = addFrame(self.root, {'background':'#eff3b0'}, {'fill':'both', 'expand':True})
+
         self.login()
-        
         self.root.mainloop()
 
     def login(self):
-        mainF = addFrame(self.root, {'background':'#e5cb5f'}, {'padx':5, 'pady':5, 'fill':'both', 'expand':True})
-        addButton(mainF, {'text':'Teste', 'background':'cyan', 'command':lambda: deleteChildren(mainF)})
-
+        pass
+        
 
 if __name__ == '__main__':
     Cardapio()
