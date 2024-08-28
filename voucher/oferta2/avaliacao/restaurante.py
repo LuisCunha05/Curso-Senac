@@ -4,6 +4,7 @@ Depois do login deve ser possível ao usuário entrar na tela inicial onde ele p
 Cada botão que a pessoa clicar deve redirecionar a tela para o campo com opções variadas de produtos (no mínimo 5) para ser selecionada pelo usuário, a pessoa pode adicionar tudo no pedido dela clicando em um botão para adicionar ao pedido (use a criatividade para criar esse botão) e ao final da tela deve ter a opção de finalizar o pedido para que a pessoa possa visualizar tudo o que foi colocado no carrinho até agora e confirme se está tudo certo, caso esteja ela envia o pedido a cozinha, e finaliza o sistema com uma imagem divertida, caso não ela deve ter a opção de acrescentar mais itens ao pedido ou retirar os mesmos que já estejam lá."""
 
 import tkinter as tk
+from assets import Assets
 from tkinter import messagebox
 from collections import abc as t
 
@@ -46,6 +47,7 @@ def forgetChildren(object: tk.Tk | tk.Frame):
 
 
 class Cardapio:
+    
     def __init__(self) -> None:
         self.root = tk.Tk()
         setGeometry(self.root, width=1920, height=1000)
@@ -68,7 +70,7 @@ class Cardapio:
                 'chef':tk.PhotoImage(file='assets\\home\\chef.png'),
             },
             'alcool':{
-                'p1':{'name':'´Cerveja', 'price':1, 'img':0},
+                'p1':{'name':'Cerveja', 'price':1, 'img':0},
                 'p2':{'name':'Jack Daniels', 'price':1, 'img':0},
                 'p3':{'name':'Martini', 'price':1, 'img':0},
                 'p4':{'name':'Rúm', 'price':1, 'img':0},
@@ -119,10 +121,6 @@ class Cardapio:
                 'p6':{'name':'placeholder', 'price':1, 'img':0}
             }
         }
-
-        #Content Backgroudn color: #edb3b0
-        #NavBar Backgroudn color: #f2c6c4
-        #Text Color: #626262
 
         #Header config
         self._header = addFrame(self.root, {'background':'#f2c6c4'}, { 'fill':'x', 'anchor':'n'})
