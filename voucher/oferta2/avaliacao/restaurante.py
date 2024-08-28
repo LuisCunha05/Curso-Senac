@@ -4,7 +4,7 @@ Depois do login deve ser possível ao usuário entrar na tela inicial onde ele p
 Cada botão que a pessoa clicar deve redirecionar a tela para o campo com opções variadas de produtos (no mínimo 5) para ser selecionada pelo usuário, a pessoa pode adicionar tudo no pedido dela clicando em um botão para adicionar ao pedido (use a criatividade para criar esse botão) e ao final da tela deve ter a opção de finalizar o pedido para que a pessoa possa visualizar tudo o que foi colocado no carrinho até agora e confirme se está tudo certo, caso esteja ela envia o pedido a cozinha, e finaliza o sistema com uma imagem divertida, caso não ela deve ter a opção de acrescentar mais itens ao pedido ou retirar os mesmos que já estejam lá."""
 
 import tkinter as tk
-from assets import Assets
+from assets import Assets as ss
 from tkinter import messagebox
 from collections import abc as t
 
@@ -123,7 +123,7 @@ class Cardapio:
         }
 
         #Header config
-        self._header = addFrame(self.root, {'background':'#f2c6c4'}, { 'fill':'x', 'anchor':'n'})
+        self._header = addFrame(self.root, {'background':ss.COLOR['nav']}, { 'fill':'x', 'anchor':'n'})
         self._homeB = addLabel(self._header, {'image':self._assets['house'], 'borderwidth':0}, {'padx':(150,0), 'side':'left'})
         self._homeB.pack_forget()
         self._banner = addLabel(self._header, {'image':self._assets['banner'], 'borderwidth':0, 'background':'#f2c6c4'}, {'fill':'x', 'side':'left', 'anchor':'n', 'expand':True})
