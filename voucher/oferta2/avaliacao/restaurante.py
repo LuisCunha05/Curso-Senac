@@ -68,25 +68,55 @@ class Cardapio:
                 'chef':tk.PhotoImage(file='assets\\home\\chef.png'),
             },
             'alcool':{
-
+                'p1':{'name':'´Cerveja', 'price':1, 'img':0},
+                'p2':{'name':'Jack Daniels', 'price':1, 'img':0},
+                'p3':{'name':'Martini', 'price':1, 'img':0},
+                'p4':{'name':'Rúm', 'price':1, 'img':0},
+                'p5':{'name':'Vinho', 'price':1, 'img':0},
+                'p6':{'name':'Licor', 'price':1, 'img':0}
             },
             'bebidas':{
-
+                'p1':{'name':'Suco de Cenoura', 'price':1, 'img':0},
+                'p2':{'name':'Suco de Goiaba', 'price':1, 'img':0},
+                'p3':{'name':'Suco de Kiwi', 'price':1, 'img':0},
+                'p4':{'name':'Suco de Laranja', 'price':1, 'img':0},
+                'p5':{'name':'Suco de Manga', 'price':1, 'img':0},
+                'p6':{'name':'Suco de Repolho', 'price':1, 'img':0}
             },
             'cart':{
                 'add_cart':tk.PhotoImage(file='assets\\cart\\add_cart.png')
             },
             'chef':{
-
+                'p1':{'name':'placeholder', 'price':1, 'img':0},
+                'p2':{'name':'placeholder', 'price':1, 'img':0},
+                'p3':{'name':'placeholder', 'price':1, 'img':0},
+                'p4':{'name':'placeholder', 'price':1, 'img':0},
+                'p5':{'name':'placeholder', 'price':1, 'img':0},
+                'p6':{'name':'placeholder', 'price':1, 'img':0}
             },
             'entrada':{
-
+                'p1':{'name':'placeholder', 'price':1, 'img':0},
+                'p2':{'name':'placeholder', 'price':1, 'img':0},
+                'p3':{'name':'placeholder', 'price':1, 'img':0},
+                'p4':{'name':'placeholder', 'price':1, 'img':0},
+                'p5':{'name':'placeholder', 'price':1, 'img':0},
+                'p6':{'name':'placeholder', 'price':1, 'img':0}
             },
             'prato_principal':{
-
+                'p1':{'name':'placeholder', 'price':1, 'img':0},
+                'p2':{'name':'placeholder', 'price':1, 'img':0},
+                'p3':{'name':'placeholder', 'price':1, 'img':0},
+                'p4':{'name':'placeholder', 'price':1, 'img':0},
+                'p5':{'name':'placeholder', 'price':1, 'img':0},
+                'p6':{'name':'placeholder', 'price':1, 'img':0}
             },
             'sobremesa':{
-
+                'p1':{'name':'placeholder', 'price':1, 'img':0},
+                'p2':{'name':'placeholder', 'price':1, 'img':0},
+                'p3':{'name':'placeholder', 'price':1, 'img':0},
+                'p4':{'name':'placeholder', 'price':1, 'img':0},
+                'p5':{'name':'placeholder', 'price':1, 'img':0},
+                'p6':{'name':'placeholder', 'price':1, 'img':0}
             }
         }
 
