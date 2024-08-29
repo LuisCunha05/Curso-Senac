@@ -35,6 +35,11 @@ def addLabel(origin: tk.Frame, l_kwargs: dict = {}, p_kwargs: dict = {}) -> tk.L
     label.pack(**p_kwargs)
     return label
 
+def addLabelP(origin: tk.Frame, l_kwargs: dict = {}, pl_kwargs: dict = {}) -> tk.Label:
+    label = tk.Label(origin, **l_kwargs)
+    label.place(**pl_kwargs)
+    return label
+
 def addEntry(origin: tk.Frame, e_kwargs: dict = {}, p_kwargs: dict = {}) -> tk.Entry:
     entry = tk.Entry(origin, **e_kwargs)
     entry.pack(**p_kwargs)
@@ -57,10 +62,12 @@ class Cardapio:
 
         #Loading Assets
         self._assets = {
-            'house':tk.PhotoImage(file='assets\\house.png'),
-            'banner':tk.PhotoImage(file='assets\\banner.png'),
-            'cartI':tk.PhotoImage(file='assets\\cart.png'),
-            'feijoada':tk.PhotoImage(file='assets\\feijoada.png'),
+            'login':{
+                'house':tk.PhotoImage(file='assets\\login\\house.png'),
+                'banner':tk.PhotoImage(file='assets\\login\\banner.png'),
+                'cartI':tk.PhotoImage(file='assets\\login\\cart.png'),
+                'feijoada':tk.PhotoImage(file='assets\\login\\feijoada.png'),
+            },
             'home':{
                 'entrada':tk.PhotoImage(file='assets\\home\\entrada.png'),
                 'bebidas':tk.PhotoImage(file='assets\\home\\bebidas.png'),
@@ -68,66 +75,15 @@ class Cardapio:
                 'pp':tk.PhotoImage(file='assets\\home\\pp.png'),
                 'sobremesa':tk.PhotoImage(file='assets\\home\\sobremesa.png'),
                 'chef':tk.PhotoImage(file='assets\\home\\chef.png'),
-            },
-            'alcool':{
-                'p1':{'name':'Cerveja', 'price':1, 'img':0},
-                'p2':{'name':'Jack Daniels', 'price':1, 'img':0},
-                'p3':{'name':'Martini', 'price':1, 'img':0},
-                'p4':{'name':'Rúm', 'price':1, 'img':0},
-                'p5':{'name':'Vinho', 'price':1, 'img':0},
-                'p6':{'name':'Licor', 'price':1, 'img':0}
-            },
-            'bebidas':{
-                'p1':{'name':'Suco de Cenoura', 'price':1, 'img':0},
-                'p2':{'name':'Suco de Goiaba', 'price':1, 'img':0},
-                'p3':{'name':'Suco de Kiwi', 'price':1, 'img':0},
-                'p4':{'name':'Suco de Laranja', 'price':1, 'img':0},
-                'p5':{'name':'Suco de Manga', 'price':1, 'img':0},
-                'p6':{'name':'Suco de Repolho', 'price':1, 'img':0}
-            },
-            'cart':{
-                'add_cart':tk.PhotoImage(file='assets\\cart\\add_cart.png')
-            },
-            'chef':{
-                'p1':{'name':'placeholder', 'price':1, 'img':0},
-                'p2':{'name':'placeholder', 'price':1, 'img':0},
-                'p3':{'name':'placeholder', 'price':1, 'img':0},
-                'p4':{'name':'placeholder', 'price':1, 'img':0},
-                'p5':{'name':'placeholder', 'price':1, 'img':0},
-                'p6':{'name':'placeholder', 'price':1, 'img':0}
-            },
-            'entrada':{
-                'p1':{'name':'placeholder', 'price':1, 'img':0},
-                'p2':{'name':'placeholder', 'price':1, 'img':0},
-                'p3':{'name':'placeholder', 'price':1, 'img':0},
-                'p4':{'name':'placeholder', 'price':1, 'img':0},
-                'p5':{'name':'placeholder', 'price':1, 'img':0},
-                'p6':{'name':'placeholder', 'price':1, 'img':0}
-            },
-            'prato_principal':{
-                'p1':{'name':'placeholder', 'price':1, 'img':0},
-                'p2':{'name':'placeholder', 'price':1, 'img':0},
-                'p3':{'name':'placeholder', 'price':1, 'img':0},
-                'p4':{'name':'placeholder', 'price':1, 'img':0},
-                'p5':{'name':'placeholder', 'price':1, 'img':0},
-                'p6':{'name':'placeholder', 'price':1, 'img':0}
-            },
-            'sobremesa':{
-                'p1':{'name':'placeholder', 'price':1, 'img':0},
-                'p2':{'name':'placeholder', 'price':1, 'img':0},
-                'p3':{'name':'placeholder', 'price':1, 'img':0},
-                'p4':{'name':'placeholder', 'price':1, 'img':0},
-                'p5':{'name':'placeholder', 'price':1, 'img':0},
-                'p6':{'name':'placeholder', 'price':1, 'img':0}
             }
         }
 
         #Header config
         self._header = addFrame(self.root, {'background':ss.COLOR['nav']}, { 'fill':'x', 'anchor':'n'})
-        self._homeB = addLabel(self._header, {'image':self._assets['house'], 'borderwidth':0}, {'padx':(150,0), 'side':'left'})
+        self._homeB = addLabel(self._header, {'image':self._assets['login']['house'], 'borderwidth':0}, {'padx':(150,0), 'side':'left'})
         self._homeB.pack_forget()
-        self._banner = addLabel(self._header, {'image':self._assets['banner'], 'borderwidth':0, 'background':'#f2c6c4'}, {'fill':'x', 'side':'left', 'anchor':'n', 'expand':True})
-        self._cartB = addLabel(self._header, {'image':self._assets['cartI'], 'borderwidth':0}, {'padx':(0,150), 'side':'right', 'anchor':'e'})
+        self._banner = addLabel(self._header, {'image':self._assets['login']['banner'], 'borderwidth':0, 'background':'#f2c6c4'}, {'fill':'x', 'side':'left', 'anchor':'n', 'expand':True})
+        self._cartB = addLabel(self._header, {'image':self._assets['login']['cartI'], 'borderwidth':0}, {'padx':(0,150), 'side':'right', 'anchor':'e'})
         self._cartB.pack_forget()
         self.content = addFrame(self.root, {'background':'#edb3b0'}, {'fill':'both', 'expand':True })
 
@@ -138,13 +94,8 @@ class Cardapio:
         forgetChildren(self.content)
 
         addLabel(self.content, {'font':('Helvetica', 24), 'text':f'Olá, {self.user} e abaixo as opções de entrada:', 'background':'#edb3b0', 'fg':'#626262'},
-                  {'fill':'x', 'padx':150, 'anchor':'center'})
+                                {'fill':'x', 'padx':150, 'anchor':'center'})
         hEntrada = addFrame(self.content, {'background':'#F9B97D', 'width':1267, 'height':668}, {'anchor':'n', 'pady':20})
-        hEntrada.columnconfigure(0, weight=1)
-        hEntrada.columnconfigure(1, weight=1)
-        hEntrada.columnconfigure(2, weight=1)
-        hEntrada.rowconfigure(0, weight=1)
-        hEntrada.rowconfigure(1, weight=1)
 
         linha1 = addFrame(hEntrada, {'background':'#F9B97D'}, {'fill':'x', 'pady':(10,0)})
         linha1.columnconfigure(0, weight=1)
@@ -154,18 +105,17 @@ class Cardapio:
         self._mg1 = tk.Label(linha1, image=self._assets['home']['entrada'], borderwidth=0)
         self._mg1.grid(column=0, row=0, padx=(10,0))
         self._mg1.bind("<Button-1>", lambda e: self.entrada())
-
-        tk.Label(linha1, text='Entrada', font=('Helvetica', 18), fg='#626262' ).grid(column=0, row=1, padx=(10,0), sticky='we')
+        tk.Label(linha1, text='Entrada', font=('Helvetica', 18), fg=ss.COLOR['text'] ).grid(column=0, row=1, padx=(10,0), sticky='we')
 
         self._mg2 = tk.Label(linha1, image=self._assets['home']['entrada'], borderwidth=0)
         self._mg2.grid(column=1, row=0, padx=40)
         self._mg2.bind("<Button-1>", lambda e: print('yo2'))
-        tk.Label(linha1, text='Prato Principal', font=('Helvetica', 18), fg='#626262' ).grid(column=1, row=1, padx=40, sticky='we')
+        tk.Label(linha1, text='Prato Principal', font=('Helvetica', 18), fg=ss.COLOR['text'] ).grid(column=1, row=1, padx=40, sticky='we')
 
         self._mg3 = tk.Label(linha1, image=self._assets['home']['entrada'], borderwidth=0)
         self._mg3.grid(column=2, row=0, padx=(0,10))
         self._mg3.bind("<Button-1>", lambda e: print('yo3'))
-        tk.Label(linha1, text='Bebidas', font=('Helvetica', 18), fg='#626262' ).grid(column=2, row=1, padx=(0,10), sticky='we')
+        tk.Label(linha1, text='Bebidas', font=('Helvetica', 18), fg=ss.COLOR['text'] ).grid(column=2, row=1, padx=(0,10), sticky='we')
 
         linha2 = addFrame(hEntrada, {'background':'#F9B97D'}, {'fill':'x', 'pady':(20,10)})
         linha2.columnconfigure(0, weight=1)
@@ -175,17 +125,17 @@ class Cardapio:
         self._mg4 = tk.Label(linha2, image=self._assets['home']['entrada'], borderwidth=0, text='text' )
         self._mg4.grid(column=0, row=0, padx=(10,0))
         self._mg4.bind("<Button-1>", lambda e: print('yo4'))
-        tk.Label(linha2, text='Bebidas Alcoólicas', font=('Helvetica', 18), fg='#626262' ).grid(column=0, row=1, padx=(10,0), sticky='we')
+        tk.Label(linha2, text='Bebidas Alcoólicas', font=('Helvetica', 18), fg=ss.COLOR['text'] ).grid(column=0, row=1, padx=(10,0), sticky='we')
 
         self._mg5 = tk.Label(linha2, image=self._assets['home']['entrada'], borderwidth=0)
         self._mg5.grid(column=1, row=0, padx=40)
         self._mg5.bind("<Button-1>", lambda e: print('yo5'))
-        tk.Label(linha2, text='Sobremesas', font=('Helvetica', 18), fg='#626262' ).grid(column=1, row=1, padx=40, sticky='we')
+        tk.Label(linha2, text='Sobremesas', font=('Helvetica', 18), fg=ss.COLOR['text'] ).grid(column=1, row=1, padx=40, sticky='we')
 
         self._mg6 = tk.Label(linha2, image=self._assets['home']['entrada'], borderwidth=0)
         self._mg6.grid(column=2, row=0, padx=(0,10))
         self._mg6.bind("<Button-1>", lambda e: print('yo6'))
-        tk.Label(linha2, text='Menu do Chef', font=('Helvetica', 18), fg='#626262' ).grid(column=2, row=1, padx=(0,10), sticky='we')
+        tk.Label(linha2, text='Menu do Chef', font=('Helvetica', 18), fg=ss.COLOR['text'] ).grid(column=2, row=1, padx=(0,10), sticky='we')
 
     def home(self):
         #Repack the header in correct order
@@ -252,7 +202,7 @@ class Cardapio:
 
     def login(self):
         #Left Image
-        addLabel(self.content, {'image':self._assets['feijoada'], 'borderwidth':0}, {'padx':(150,0), 'side':'left'})
+        addLabel(self.content, {'image':self._assets['login']['feijoada'], 'borderwidth':0}, {'padx':(150,0), 'side':'left'})
 
         #login elements
         holderLogin = addFrame(self.content, {'background':'white', 'width':400}, {'padx':(0,150), 'side':'right', 'anchor':'e'})#Frame
@@ -264,7 +214,7 @@ class Cardapio:
         addLabel(holderLogin, {'background':'white', 'text':'Confirmar Senha', 'font':('Helvetica', 24), 'anchor':'w', 'justify':'left'}, {'padx':15,'pady':(20,0), 'fill':'x'})#Label Password Confirmation
         self.cpEntry = addEntry(holderLogin, {'font':('Helvetica', 24)}, {'padx':15, 'fill':'x'})#Entry Password Confirmation
         self.cpEntry.config(show='*')
-        addButton(holderLogin, {'text':'Entrar', 'font':('Helvetica', 24),'fg':'white', 'background':'#444444','highlightthickness':3, 'highlightbackground':'#727272',
+        addButton(holderLogin, {'text':'Entrar', 'font':('Helvetica', 24),'fg':'white', 'background':ss.COLOR['green'],'relief':'groove', 'border':0,
                                 'command': lambda: validateCad(self, self.uEntry, self.pEntry, self.cpEntry)}, {'pady': (40,15)})
         #tk.Entry(borderwidth=)
 
