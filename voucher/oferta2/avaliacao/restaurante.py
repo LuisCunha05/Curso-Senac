@@ -7,6 +7,8 @@ import tkinter as tk
 from assets import Assets as ss
 from tkinter import messagebox
 from collections import abc as t
+from typing import Tuple
+
 
 
 def setGeometry(master:tk.Tk, scale:float = 0.7, width:int = None, height:int = None,x:int = None, y:int = None, resizable:bool = True):
@@ -49,6 +51,29 @@ def forgetChildren(object: tk.Tk | tk.Frame):
     for child in object.winfo_children():
         child.pack_forget()
 
+def addProdFrame(frame: tk.Tk | tk.Frame, name: str, price:float, img: tk.PhotoImage, cart: tk.PhotoImage, kargs :dict= {}) -> Tuple[tk.Frame, tk.Label, tk.Label]:
+    pFrame = tk.Frame(frame, width=389, height=314, background='white')
+    pFrame.pack(**kargs)
+
+    pImgFrame = tk.Frame(pFrame)
+    pImgFrame.pack(anchor='n')
+
+    pImg = tk.Label(pImgFrame, image=img, borderwidth=0)
+    pImg.pack()
+
+    pTextFrame = tk.Frame(pFrame, background='white')
+    pTextFrame.pack(fill='x', padx=4, pady=4)
+
+    pName = tk.Label(pTextFrame, text=name, font=ss.FONT_S, background='white', foreground=ss.COLOR['text'], justify='left', anchor='w', wraplength=205)
+    pName.pack(side='left', fill='x', anchor='w', expand=1)
+
+    pAddCart = tk.Label(pTextFrame, image=cart, borderwidth=0)
+    pAddCart.pack(side='right')
+
+    pPrice = tk.Label(pTextFrame, text=f'R${price:.2f}', font=ss.FONT_M, background='white', foreground=ss.COLOR['text'], justify='right')
+    pPrice.pack(side='right')
+
+    return (pFrame, pImg, pAddCart)
 
 
 class Cardapio:
@@ -58,6 +83,7 @@ class Cardapio:
         setGeometry(self.root, width=1920, height=1000)
         self.root.minsize(width=1920, height=1000)
         self.root.title('The Menu')
+        self.root.state('zoomed')
         #self.root.configure(background='#edb3b0')
 
         #Loading Assets
@@ -95,47 +121,53 @@ class Cardapio:
 
         addLabel(self.content, {'font':('Helvetica', 24), 'text':f'Olá, {self.user} e abaixo as opções de entrada:', 'background':'#edb3b0', 'fg':'#626262'},
                                 {'fill':'x', 'padx':150, 'anchor':'center'})
-        hEntrada = addFrame(self.content, {'background':'#F9B97D', 'width':1267, 'height':668}, {'anchor':'n', 'pady':20})
+        
+        self.e_assets = ss.getPhotoImagesFromCat( ss ,category='entrada')
 
-        linha1 = addFrame(hEntrada, {'background':'#F9B97D'}, {'fill':'x', 'pady':(10,0)})
-        linha1.columnconfigure(0, weight=1)
-        linha1.columnconfigure(1, weight=1)
-        linha1.columnconfigure(2, weight=1)
+        self.pT1 = self.e_assets[ss.ENTRADA[0]['name']]
+        self.pTC = tk.PhotoImage(file=ss.CART)#'Texto de Teste Grande e Maior que deveria' ss.ENTRADA[0]['name']
+        self.pTestF, self.pTestL, self.PTestC = addProdFrame(self.content, ss.ENTRADA[0]['name'], ss.ENTRADA[0]['price'], self.pT1, self.pTC, {'anchor':'center'})
+        #hEntrada = addFrame(self.content, {'background':'#F9B97D', 'width':1267, 'height':668}, {'anchor':'n', 'pady':20})
+#
+        #linha1 = addFrame(hEntrada, {'background':'#F9B97D'}, {'fill':'x', 'pady':(10,0)})
+        #linha1.columnconfigure(0, weight=1)
+        #linha1.columnconfigure(1, weight=1)
+        #linha1.columnconfigure(2, weight=1)
+#
+        #self._mg1 = tk.Label(linha1, image=self._assets['home']['entrada'], borderwidth=0)
+        #self._mg1.grid(column=0, row=0, padx=(10,0))
+        #self._mg1.bind("<Button-1>", lambda e: self.entrada())
+        #tk.Label(linha1, text='Entrada', font=('Helvetica', 18), fg=ss.COLOR['text'] ).grid(column=0, row=1, padx=(10,0), sticky='we')
+#
+        #self._mg2 = tk.Label(linha1, image=self._assets['home']['entrada'], borderwidth=0)
+        #self._mg2.grid(column=1, row=0, padx=40)
+        #self._mg2.bind("<Button-1>", lambda e: print('yo2'))
+        #tk.Label(linha1, text='Prato Principal', font=('Helvetica', 18), fg=ss.COLOR['text'] ).grid(column=1, row=1, padx=40, sticky='we')
+#
+        #self._mg3 = tk.Label(linha1, image=self._assets['home']['entrada'], borderwidth=0)
+        #self._mg3.grid(column=2, row=0, padx=(0,10))
+        #self._mg3.bind("<Button-1>", lambda e: print('yo3'))
+        #tk.Label(linha1, text='Bebidas', font=('Helvetica', 18), fg=ss.COLOR['text'] ).grid(column=2, row=1, padx=(0,10), sticky='we')
+#
+        #linha2 = addFrame(hEntrada, {'background':'#F9B97D'}, {'fill':'x', 'pady':(20,10)})
+        #linha2.columnconfigure(0, weight=1)
+        #linha2.columnconfigure(1, weight=1)
+        #linha2.columnconfigure(2, weight=1)
+#
+        #self._mg4 = tk.Label(linha2, image=self._assets['home']['entrada'], borderwidth=0, text='text' )
+        #self._mg4.grid(column=0, row=0, padx=(10,0))
+        #self._mg4.bind("<Button-1>", lambda e: print('yo4'))
+        #tk.Label(linha2, text='Bebidas Alcoólicas', font=('Helvetica', 18), fg=ss.COLOR['text'] ).grid(column=0, row=1, padx=(10,0), sticky='we')
 
-        self._mg1 = tk.Label(linha1, image=self._assets['home']['entrada'], borderwidth=0)
-        self._mg1.grid(column=0, row=0, padx=(10,0))
-        self._mg1.bind("<Button-1>", lambda e: self.entrada())
-        tk.Label(linha1, text='Entrada', font=('Helvetica', 18), fg=ss.COLOR['text'] ).grid(column=0, row=1, padx=(10,0), sticky='we')
-
-        self._mg2 = tk.Label(linha1, image=self._assets['home']['entrada'], borderwidth=0)
-        self._mg2.grid(column=1, row=0, padx=40)
-        self._mg2.bind("<Button-1>", lambda e: print('yo2'))
-        tk.Label(linha1, text='Prato Principal', font=('Helvetica', 18), fg=ss.COLOR['text'] ).grid(column=1, row=1, padx=40, sticky='we')
-
-        self._mg3 = tk.Label(linha1, image=self._assets['home']['entrada'], borderwidth=0)
-        self._mg3.grid(column=2, row=0, padx=(0,10))
-        self._mg3.bind("<Button-1>", lambda e: print('yo3'))
-        tk.Label(linha1, text='Bebidas', font=('Helvetica', 18), fg=ss.COLOR['text'] ).grid(column=2, row=1, padx=(0,10), sticky='we')
-
-        linha2 = addFrame(hEntrada, {'background':'#F9B97D'}, {'fill':'x', 'pady':(20,10)})
-        linha2.columnconfigure(0, weight=1)
-        linha2.columnconfigure(1, weight=1)
-        linha2.columnconfigure(2, weight=1)
-
-        self._mg4 = tk.Label(linha2, image=self._assets['home']['entrada'], borderwidth=0, text='text' )
-        self._mg4.grid(column=0, row=0, padx=(10,0))
-        self._mg4.bind("<Button-1>", lambda e: print('yo4'))
-        tk.Label(linha2, text='Bebidas Alcoólicas', font=('Helvetica', 18), fg=ss.COLOR['text'] ).grid(column=0, row=1, padx=(10,0), sticky='we')
-
-        self._mg5 = tk.Label(linha2, image=self._assets['home']['entrada'], borderwidth=0)
-        self._mg5.grid(column=1, row=0, padx=40)
-        self._mg5.bind("<Button-1>", lambda e: print('yo5'))
-        tk.Label(linha2, text='Sobremesas', font=('Helvetica', 18), fg=ss.COLOR['text'] ).grid(column=1, row=1, padx=40, sticky='we')
-
-        self._mg6 = tk.Label(linha2, image=self._assets['home']['entrada'], borderwidth=0)
-        self._mg6.grid(column=2, row=0, padx=(0,10))
-        self._mg6.bind("<Button-1>", lambda e: print('yo6'))
-        tk.Label(linha2, text='Menu do Chef', font=('Helvetica', 18), fg=ss.COLOR['text'] ).grid(column=2, row=1, padx=(0,10), sticky='we')
+        #self._mg5 = tk.Label(linha2, image=self._assets['home']['entrada'], borderwidth=0)
+        #self._mg5.grid(column=1, row=0, padx=40)
+        #self._mg5.bind("<Button-1>", lambda e: print('yo5'))
+        #tk.Label(linha2, text='Sobremesas', font=('Helvetica', 18), fg=ss.COLOR['text'] ).grid(column=1, row=1, padx=40, sticky='we')
+#
+        #self._mg6 = tk.Label(linha2, image=self._assets['home']['entrada'], borderwidth=0)
+        #self._mg6.grid(column=2, row=0, padx=(0,10))
+        #self._mg6.bind("<Button-1>", lambda e: print('yo6'))
+        #tk.Label(linha2, text='Menu do Chef', font=('Helvetica', 18), fg=ss.COLOR['text'] ).grid(column=2, row=1, padx=(0,10), sticky='we')
 
     def home(self):
         #Repack the header in correct order

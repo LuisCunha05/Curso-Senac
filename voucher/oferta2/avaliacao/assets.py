@@ -10,6 +10,10 @@ class Assets:
         'green':'#4CAF50'
     } 
 
+    FONT_S = ('Helvetica', 13)
+    FONT_M = ('Helvetica', 20)
+    FONT_G = ('Helvetica', 24)
+
     ALCOOL = [
         {'name':'Cerveja', 'price':1, 'img':'assets\\alcool\\beer.png'},
         {'name':'Jack Daniels', 'price':1, 'img':'assets\\alcool\\jack.png'},
@@ -69,7 +73,7 @@ class Assets:
     def __init__(self) -> None:
         pass
 
-    def getPhotoImagesFromCat(self, category: Literal['alcool', 'bebidas', 'chef', 'entrada', 'principal', 'sobremesa']) -> dict[str: PhotoImage]:
+    def getPhotoImagesFromCat(self, category:Literal['alcool', 'bebidas', 'chef', 'entrada', 'principal', 'sobremesa']) -> dict[str: PhotoImage]:
         """Returns a dictionary containing PhotoImage object from the chosen category of Assets. Format dict{ name:PhotoImage }"""
         match(category):
             case 'alcool':
