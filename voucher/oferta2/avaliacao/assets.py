@@ -14,6 +14,24 @@ class Assets:
     FONT_M = ('Helvetica', 20)
     FONT_G = ('Helvetica', 24)
 
+    LOGIN = {
+        'house':'assets\\login\\house.png',
+        'banner':'assets\\login\\banner.png',
+        'cartI':'assets\\login\\cart.png',
+        'feijoada':'assets\\login\\feijoada.png'
+    }
+
+    HOME = {
+        'entrada':'assets\\home\\entrada.png',
+        'bebidas':'assets\\home\\bebidas.png',
+        'alcool':'assets\\home\\alcool.png',
+        'pp':'assets\\home\\pp.png',
+        'sobremesa':'assets\\home\\sobremesa.png',
+        'chef':'assets\\home\\chef.png'
+    }
+
+    CART = 'assets\\cart\\add_cart.png'
+
     ALCOOL = [
         {'name':'Cerveja', 'price':1, 'img':'assets\\alcool\\beer.png'},
         {'name':'Jack Daniels', 'price':1, 'img':'assets\\alcool\\jack.png'},
@@ -31,8 +49,6 @@ class Assets:
         {'name':'Suco de Manga', 'price':1, 'img':'assets\\bebidas\\manga.png'},
         {'name':'Suco de Repolho', 'price':1, 'img':'assets\\bebidas\\repolho.png'}
     ]
-
-    CART = 'assets\\cart\\add_cart.png'
 
     CHEF = [
         {'name':'Bacalhau', 'price':1, 'img':'assets\\chef\\bacalhau.png'},
@@ -72,7 +88,8 @@ class Assets:
 
     def __init__(self) -> None:
         pass
-
+    
+    @classmethod
     def getPhotoImagesFromCat(self, category:Literal['alcool', 'bebidas', 'chef', 'entrada', 'principal', 'sobremesa']) -> dict[str: PhotoImage]:
         """Returns a dictionary containing PhotoImage object from the chosen category of Assets. Format dict{ name:PhotoImage }"""
         match(category):
