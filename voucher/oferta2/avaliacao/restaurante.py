@@ -84,86 +84,73 @@ class Cardapio:
         self.root.minsize(width=1920, height=1000)
         self.root.title('The Menu')
         self.root.state('zoomed')
-        #self.root.configure(background='#edb3b0')
+        self.root.configure(background='purple')
 
         #Loading Assets
         self.__assets = {
             'login':{
-                'imgHouse':tk.PhotoImage(file=Assets.LOGIN['house']),
-                'imgBanner':tk.PhotoImage(file=Assets.LOGIN['banner']),
-                'imgCart':tk.PhotoImage(file=Assets.LOGIN['cartI']),
-                'imgFeijoada':tk.PhotoImage(file=Assets.LOGIN['feijoada']),
+                'iHouse':tk.PhotoImage(file=Assets.LOGIN['house']),
+                'iBanner':tk.PhotoImage(file=Assets.LOGIN['banner']),
+                'iCart':tk.PhotoImage(file=Assets.LOGIN['cartI']),
+                'iFeijoada':tk.PhotoImage(file=Assets.LOGIN['feijoada']),
             }
         }
 
-        #Header config
-        self._header = addFrame(self.root, {'background':Assets.COLOR['nav']}, { 'fill':'x', 'anchor':'n'})
-        self._homeB = addLabel(self._header, {'image':self.__assets['login']['imgHouse'], 'borderwidth':0}, {'padx':(150,0), 'side':'left'})
-        self._homeB.pack_forget()
-        self._banner = addLabel(self._header, {'image':self.__assets['login']['imgBanner'], 'borderwidth':0, 'background':'#f2c6c4'}, {'fill':'x', 'side':'left', 'anchor':'n', 'expand':True})
-        self._cartB = addLabel(self._header, {'image':self.__assets['login']['imgCart'], 'borderwidth':0}, {'padx':(0,150), 'side':'right', 'anchor':'e'})
+        #Header config self.__assets['login']['fHeader']
+        #header = tk.Frame(self.root, background=Assets.COLOR['nav'], height=150, borderwidth=0, )
+        #header.grid(column=0, row=0, sticky='ew')
+
+        header = addFrame(self.root, {'background':Assets.COLOR['nav']}, { 'fill':'x', 'anchor':'n'})
+        self.__assets['login']['bHome'] = addLabel(header, {'image':self.__assets['login']['iHouse'], 'borderwidth':0}, {'padx':(150,0), 'side':'left'})
+        self.__assets['login']['bHome'].pack_forget()
+        self._banner = addLabel(header, {'image':self.__assets['login']['iBanner'], 'borderwidth':0, 'background':'#f2c6c4'}, {'fill':'x', 'side':'left', 'anchor':'n', 'expand':True})
+        self._cartB = addLabel(header, {'image':self.__assets['login']['iCart'], 'borderwidth':0}, {'padx':(0,150), 'side':'right', 'anchor':'e'})
         self._cartB.pack_forget()
-        self.content = addFrame(self.root, {'background':'#edb3b0'}, {'fill':'both', 'expand':True })
+
+        #self.content = tk.Frame(self.root, background=Assets.COLOR['bg'], borderwidth=0)
+        #self.content.grid(column=0, row=1, sticky='nsew')
+        self.content = addFrame(self.root, {'background':Assets.COLOR['bg']}, {'fill':'both', 'expand':True })
+        self.content.columnconfigure(0, weight=1)
+        self.content.rowconfigure(0, weight=1)
 
         self.login()
         self.root.mainloop()
 
     def entrada(self):
-        forgetChildren(self.content)
+        try: #Tries to Raise the Page into view if already exists, otherwise proceeds to create it
+            if(self.__assets['entrada']['fEntrada']):
+                self.__assets['entrada']['fEntrada'].tkraise()
+                
+            return
+        except KeyError as e:
+            print(f'Gracefully handled {e}')
+            pass
+        #forgetChildren(self.content)
+        self.__assets.update({'entrada':{}})
 
-        addLabel(self.content, {'font':Assets.FONT_G, 'text':f'Olá, {self.user} e abaixo as opções de entrada:', 'background':'#edb3b0', 'fg':'#626262'},
+        self.__assets['entrada']['fEntrada'] = tk.Frame(self.content, background=Assets.COLOR['bg'])
+        self.__assets['entrada']['fEntrada'].grid(column=0, row=0, sticky='nsew')
+
+        addLabel(self.__assets['entrada']['fEntrada'], {'font':Assets.FONT_G, 'text':f'Olá, {self.user} e abaixo as opções de entrada:', 'background':'#edb3b0', 'fg':'#626262'},
                                 {'fill':'x', 'padx':150, 'anchor':'center'})
         
         self.e_assets = Assets.getPhotoImagesFromCat(category='entrada')
 
         self.pT1 = self.e_assets[Assets.ENTRADA[0]['name']]
         self.pTC = tk.PhotoImage(file=Assets.CART)#'Texto de Teste Grande e Maior que deveria' Assets.ENTRADA[0]['name']
-        self.pTestF, self.pTestL, self.PTestC = addProdFrame(self.content, Assets.ENTRADA[0]['name'], Assets.ENTRADA[0]['price'], self.pT1, self.pTC, {'anchor':'center'})
+        self.pTestF, self.pTestL, self.PTestC = addProdFrame(self.__assets['entrada']['fEntrada'], Assets.ENTRADA[0]['name'], Assets.ENTRADA[0]['price'], self.pT1, self.pTC, {'anchor':'center'})
         #hEntrada = addFrame(self.content, {'background':'#F9B97D', 'width':1267, 'height':668}, {'anchor':'n', 'pady':20})
-#
-        #linha1 = addFrame(hEntrada, {'background':'#F9B97D'}, {'fill':'x', 'pady':(10,0)})
-        #linha1.columnconfigure(0, weight=1)
-        #linha1.columnconfigure(1, weight=1)
-        #linha1.columnconfigure(2, weight=1)
-#
-        #self._mg1 = tk.Label(linha1, image=Assets.HOME['entrada'], borderwidth=0)
-        #self._mg1.grid(column=0, row=0, padx=(10,0))
-        #self._mg1.bind("<Button-1>", lambda e: self.entrada())
-        #tk.Label(linha1, text='Entrada', font=('Helvetica', 18), fg=Assets.COLOR['text'] ).grid(column=0, row=1, padx=(10,0), sticky='we')
-#
-        #self._mg2 = tk.Label(linha1, image=Assets.HOME['entrada'], borderwidth=0)
-        #self._mg2.grid(column=1, row=0, padx=40)
-        #self._mg2.bind("<Button-1>", lambda e: print('yo2'))
-        #tk.Label(linha1, text='Prato Principal', font=('Helvetica', 18), fg=Assets.COLOR['text'] ).grid(column=1, row=1, padx=40, sticky='we')
-#
-        #self._mg3 = tk.Label(linha1, image=Assets.HOME['entrada'], borderwidth=0)
-        #self._mg3.grid(column=2, row=0, padx=(0,10))
-        #self._mg3.bind("<Button-1>", lambda e: print('yo3'))
-        #tk.Label(linha1, text='Bebidas', font=('Helvetica', 18), fg=Assets.COLOR['text'] ).grid(column=2, row=1, padx=(0,10), sticky='we')
-#
-        #linha2 = addFrame(hEntrada, {'background':'#F9B97D'}, {'fill':'x', 'pady':(20,10)})
-        #linha2.columnconfigure(0, weight=1)
-        #linha2.columnconfigure(1, weight=1)
-        #linha2.columnconfigure(2, weight=1)
-#
-        #self._mg4 = tk.Label(linha2, image=Assets.HOME['entrada'], borderwidth=0, text='text' )
-        #self._mg4.grid(column=0, row=0, padx=(10,0))
-        #self._mg4.bind("<Button-1>", lambda e: print('yo4'))
-        #tk.Label(linha2, text='Bebidas Alcoólicas', font=('Helvetica', 18), fg=Assets.COLOR['text'] ).grid(column=0, row=1, padx=(10,0), sticky='we')
-
-        #self._mg5 = tk.Label(linha2, image=Assets.HOME['entrada'], borderwidth=0)
-        #self._mg5.grid(column=1, row=0, padx=40)
-        #self._mg5.bind("<Button-1>", lambda e: print('yo5'))
-        #tk.Label(linha2, text='Sobremesas', font=('Helvetica', 18), fg=Assets.COLOR['text'] ).grid(column=1, row=1, padx=40, sticky='we')
-#
-        #self._mg6 = tk.Label(linha2, image=Assets.HOME['entrada'], borderwidth=0)
-        #self._mg6.grid(column=2, row=0, padx=(0,10))
-        #self._mg6.bind("<Button-1>", lambda e: print('yo6'))
-        #tk.Label(linha2, text='Menu do Chef', font=('Helvetica', 18), fg=Assets.COLOR['text'] ).grid(column=2, row=1, padx=(0,10), sticky='we')
 
     def home(self):
-        #Loading Assets
+        try: #Tries to Raise the Page into view if already exists, otherwise proceeds to create it
+            if(self.__assets['home']['fHome']):
+                self.__assets['home']['fHome'].tkraise()
+            return
+        except KeyError as e:
+            print(f'Gracefully handled {e}')
+            pass
 
+        #Loading Assets
         self.__assets.update({
             'home':{
                 'entrada':tk.PhotoImage(file=Assets.HOME['entrada']),
@@ -176,19 +163,19 @@ class Cardapio:
         })
 
         #Repack the header in correct order
-        if(not self._homeB.winfo_viewable()):
-            self._homeB.pack(padx=(150,0), side='left')
-            self._homeB.bind('<Button-1>', lambda e: self.home())
+        if(not self.__assets['login']['bHome'].winfo_viewable()):
+            self.__assets['login']['bHome'].pack(padx=(150,0), side='left')
+            self.__assets['login']['bHome'].bind('<Button-1>', lambda e: self.home())
             self._banner.pack(fill='x', side='left', anchor='n', expand=True)
             self._cartB.pack(padx=(0,150), side='right', anchor='e')
 
-        #Forget all elements inside content 
-        forgetChildren(self.content)
+        self.__assets['home']['fHome'] = tk.Frame(self.content, background=Assets.COLOR['bg'])
+        self.__assets['home']['fHome'].grid(column=0, row=0, sticky='nsew')
 
         #Add new elements
-        addLabel(self.content, {'font':Assets.FONT_G, 'text':f'Olá, {self.user} e abaixo as opções do restaurante, as opções possíveis são:', 'background':'#edb3b0', 'fg':'#626262'},
+        addLabel(self.__assets['home']['fHome'], {'font':Assets.FONT_G, 'text':f'Olá, {self.user} e abaixo as opções do restaurante, as opções possíveis são:', 'background':'#edb3b0', 'fg':'#626262'},
                   {'fill':'x', 'padx':150, 'anchor':'center'})
-        holderHome = addFrame(self.content, {'background':'#F9B97D', 'width':1267, 'height':618}, {'anchor':'n', 'pady':20})
+        holderHome = addFrame(self.__assets['home']['fHome'], {'background':'#F9B97D', 'width':1267, 'height':618}, {'anchor':'n', 'pady':20})
         holderHome.columnconfigure(0, weight=1)
         holderHome.columnconfigure(1, weight=1)
         holderHome.columnconfigure(2, weight=1)
@@ -238,22 +225,35 @@ class Cardapio:
 
 
     def login(self):
-        #Left Image
-        addLabel(self.content, {'image':self.__assets['login']['imgFeijoada'], 'borderwidth':0}, {'padx':(150,0), 'side':'left'})
+        try: #Tries to Raise the Page into view if already exists, otherwise proceeds to create it
+            if(self.__assets['login']['fLogin']):
+                self.__assets['login']['fLogin'].tkraise()
+            return
+        except KeyError as e:
+            print(f'Gracefully handled {e}')
+            pass
+
+        self.__assets['login']['fLogin'] = tk.Frame(self.content, background=Assets.COLOR['bg'])
+        self.__assets['login']['fLogin'].grid(column=0, row=0, sticky='nsew')
+        addLabel(self.__assets['login']['fLogin'], {'image':self.__assets['login']['iFeijoada'], 'borderwidth':0}, {'padx':(150,0), 'side':'left'})
 
         #login elements
-        holderLogin = addFrame(self.content, {'background':'white', 'width':400}, {'padx':(0,150), 'side':'right', 'anchor':'e'})#Frame
-        addLabel(holderLogin, {'background':'white', 'text':'Usuário', 'font':Assets.FONT_G, 'anchor':'w', 'justify':'left'}, {'padx':15, 'pady':(15,0), 'fill':'x'})#Label User
-        self.uEntry = addEntry(holderLogin, {'font':Assets.FONT_G}, {'padx':15, 'fill':'x'})#Entry User
-        addLabel(holderLogin, {'background':'white', 'text':'Senha', 'font':Assets.FONT_G, 'anchor':'w', 'justify':'left'}, {'padx':15, 'pady':(20,0), 'fill':'x'})#Label Password
-        self.pEntry = addEntry(holderLogin, {'font':Assets.FONT_G}, {'padx':15, 'fill':'x'})#Entry Password
+        fLogin = addFrame(self.__assets['login']['fLogin'], {'background':'white', 'width':400}, {'padx':(0,150), 'side':'right', 'anchor':'e'})
+
+        addLabel(fLogin, {'background':'white', 'text':'Usuário', 'font':Assets.FONT_G, 'anchor':'w', 'justify':'left'}, {'padx':15, 'pady':(15,0), 'fill':'x'})#Label User
+        self.uEntry = addEntry(fLogin, {'font':Assets.FONT_G}, {'padx':15, 'fill':'x'})#Entry User
+
+        addLabel(fLogin, {'background':'white', 'text':'Senha', 'font':Assets.FONT_G, 'anchor':'w', 'justify':'left'}, {'padx':15, 'pady':(20,0), 'fill':'x'})#Label Password
+        self.pEntry = addEntry(fLogin, {'font':Assets.FONT_G}, {'padx':15, 'fill':'x'})#Entry Password
         self.pEntry.config(show='*')
-        addLabel(holderLogin, {'background':'white', 'text':'Confirmar Senha', 'font':Assets.FONT_G, 'anchor':'w', 'justify':'left'}, {'padx':15,'pady':(20,0), 'fill':'x'})#Label Password Confirmation
-        self.cpEntry = addEntry(holderLogin, {'font':Assets.FONT_G}, {'padx':15, 'fill':'x'})#Entry Password Confirmation
+
+        addLabel(fLogin, {'background':'white', 'text':'Confirmar Senha', 'font':Assets.FONT_G, 'anchor':'w', 'justify':'left'}, {'padx':15,'pady':(20,0), 'fill':'x'})#Label Password Confirmation
+        self.cpEntry = addEntry(fLogin, {'font':Assets.FONT_G}, {'padx':15, 'fill':'x'})#Entry Password Confirmation
         self.cpEntry.config(show='*')
-        addButton(holderLogin, {'text':'Entrar', 'font':Assets.FONT_G,'fg':'white', 'background':Assets.COLOR['green'],'relief':'groove', 'border':0,
-                                'command': lambda: validateCad(self, self.uEntry, self.pEntry, self.cpEntry)}, {'pady': (40,15)})
-        #tk.Entry(borderwidth=)
+
+        addButton(fLogin, {'text':'Entrar', 'font':Assets.FONT_G,'fg':'white', 'background':Assets.COLOR['green'],'relief':'groove', 'border':0,
+                            'command': lambda: validateCad(self, self.uEntry, self.pEntry, self.cpEntry)}, {'pady': (40,15)})
+
 
 def validateCad(object: Cardapio, uEntry:tk.Entry, pEntry:tk.Entry, cpEntry:tk.Entry):
     object.user = uEntry.get()
