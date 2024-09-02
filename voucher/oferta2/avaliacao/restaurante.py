@@ -148,7 +148,7 @@ class Cardapio:
         self.__assets['entrada']['fEntrada'] = tk.Frame(self.content, background=Assets.COLOR['bg'])
         self.__assets['entrada']['fEntrada'].grid(column=0, row=0, sticky='nsew')
 
-        addLabel(self.__assets['entrada']['fEntrada'], {'font':Assets.FONT_G, 'text':f'Olá, {self.user} e abaixo as opções de Entrada:', 'background':'#edb3b0', 'fg':'#626262'},
+        addLabel(self.__assets['entrada']['fEntrada'], {'font':Assets.FONT_G, 'text':f'Olá, {self.user} e abaixo as opções de Entrada:', 'background':Assets.COLOR['bg'], 'fg':Assets.COLOR['text']},
                                 {'fill':'x', 'padx':150, 'anchor':'center'})
         
         self.__assets['entrada'].update(Assets.getPhotoImagesFromCat(category='entrada'))
@@ -188,7 +188,7 @@ class Cardapio:
         self.__assets['bebidas']['fBebidas'] = tk.Frame(self.content, background=Assets.COLOR['bg'])
         self.__assets['bebidas']['fBebidas'].grid(column=0, row=0, sticky='nsew')
 
-        addLabel(self.__assets['bebidas']['fBebidas'], {'font':Assets.FONT_G, 'text':f'Olá, {self.user} e abaixo as opções de Bebidas:', 'background':'#edb3b0', 'fg':'#626262'},
+        addLabel(self.__assets['bebidas']['fBebidas'], {'font':Assets.FONT_G, 'text':f'Olá, {self.user} e abaixo as opções de Bebidas:', 'background':Assets.COLOR['bg'], 'fg':Assets.COLOR['text']},
                                 {'fill':'x', 'padx':150, 'anchor':'center'})
         
         self.__assets['bebidas'].update(Assets.getPhotoImagesFromCat(category='bebidas'))
@@ -228,7 +228,7 @@ class Cardapio:
         self.__assets['prato_principal']['fPrato_principal'] = tk.Frame(self.content, background=Assets.COLOR['bg'])
         self.__assets['prato_principal']['fPrato_principal'].grid(column=0, row=0, sticky='nsew')
 
-        addLabel(self.__assets['prato_principal']['fPrato_principal'], {'font':Assets.FONT_G, 'text':f'Olá, {self.user} e abaixo as opções de Pratos Principal:', 'background':'#edb3b0', 'fg':'#626262'},
+        addLabel(self.__assets['prato_principal']['fPrato_principal'], {'font':Assets.FONT_G, 'text':f'Olá, {self.user} e abaixo as opções de Pratos Principal:', 'background':Assets.COLOR['bg'], 'fg':Assets.COLOR['text']},
                                 {'fill':'x', 'padx':150, 'anchor':'center'})
         
         self.__assets['prato_principal'].update(Assets.getPhotoImagesFromCat(category='principal'))
@@ -268,7 +268,7 @@ class Cardapio:
         self.__assets['alcool']['fAlcool'] = tk.Frame(self.content, background=Assets.COLOR['bg'])
         self.__assets['alcool']['fAlcool'].grid(column=0, row=0, sticky='nsew')
 
-        addLabel(self.__assets['alcool']['fAlcool'], {'font':Assets.FONT_G, 'text':f'Olá, {self.user} e abaixo as opções de Bebidas Alcoólicas:', 'background':'#edb3b0', 'fg':'#626262'},
+        addLabel(self.__assets['alcool']['fAlcool'], {'font':Assets.FONT_G, 'text':f'Olá, {self.user} e abaixo as opções de Bebidas Alcoólicas:', 'background':Assets.COLOR['bg'], 'fg':Assets.COLOR['text']},
                                 {'fill':'x', 'padx':150, 'anchor':'center'})
         
         self.__assets['alcool'].update(Assets.getPhotoImagesFromCat(category='alcool'))
@@ -299,6 +299,86 @@ class Cardapio:
             labelB = addProdFrame(linha2, nameB, Assets.ALCOOL[index]['price'], self.__assets['alcool'][nameB], self.__assets['cart']['addCart'], {'column':i, 'row':0,'padx':padding})
             labelB.bind('<Button-1>', lambda e: print(f'Prod: {Assets.ALCOOL[index]['name']}'))
 
+    def sobremesa(self):
+        if(self.raiseFrame('sobremesa', 'fSobremesa')):
+            return
+
+        self.__assets.update({'sobremesa':{}})
+
+        self.__assets['sobremesa']['fSobremesa'] = tk.Frame(self.content, background=Assets.COLOR['bg'])
+        self.__assets['sobremesa']['fSobremesa'].grid(column=0, row=0, sticky='nsew')
+
+        addLabel(self.__assets['sobremesa']['fSobremesa'], {'font':Assets.FONT_G, 'text':f'Olá, {self.user} e abaixo as opções de Bebidas Alcoólicas:', 'background':Assets.COLOR['bg'], 'fg':Assets.COLOR['text']},
+                                {'fill':'x', 'padx':150, 'anchor':'center'})
+        
+        self.__assets['sobremesa'].update(Assets.getPhotoImagesFromCat(category='sobremesa'))
+
+        productF = addFrame(self.__assets['sobremesa']['fSobremesa'], {'background':Assets.COLOR['orange'], 'width':1267, 'height':618}, {'anchor':'n', 'pady':20})
+
+        linha1 = addFrame(productF, {'background':Assets.COLOR['orange']}, {'fill':'x', 'pady':10, 'padx':10})
+        linha1.columnconfigure(0, weight=1)
+        linha1.columnconfigure(1, weight=1)
+        linha1.columnconfigure(2, weight=1)
+
+        linha2 = addFrame(productF, {'background':Assets.COLOR['orange']}, {'fill':'x', 'pady':10, 'padx':10})
+        linha2.columnconfigure(0, weight=1)
+        linha2.columnconfigure(1, weight=1)
+        linha2.columnconfigure(2, weight=1)
+
+        index = -1
+        for i in range(3):
+            index += 1
+            nameA = Assets.SOBREMESA[index]['name']
+            padding = 40 if i == 1 else 0
+
+            labelA = addProdFrame(linha1, nameA, Assets.SOBREMESA[index]['price'], self.__assets['sobremesa'][nameA], self.__assets['cart']['addCart'], {'column':i, 'row':0,'padx':padding})
+            labelA.bind('<Button-1>', lambda e: print(f'Prod: {Assets.SOBREMESA[index]['name']}'))
+
+            index += 1
+            nameB = Assets.SOBREMESA[index]['name']
+            labelB = addProdFrame(linha2, nameB, Assets.SOBREMESA[index]['price'], self.__assets['sobremesa'][nameB], self.__assets['cart']['addCart'], {'column':i, 'row':0,'padx':padding})
+            labelB.bind('<Button-1>', lambda e: print(f'Prod: {Assets.SOBREMESA[index]['name']}'))
+
+    def chef(self):
+        if(self.raiseFrame('chef', 'fChef')):
+            return
+
+        self.__assets.update({'chef':{}})
+
+        self.__assets['chef']['fChef'] = tk.Frame(self.content, background=Assets.COLOR['bg'])
+        self.__assets['chef']['fChef'].grid(column=0, row=0, sticky='nsew')
+
+        addLabel(self.__assets['chef']['fChef'], {'font':Assets.FONT_G, 'text':f'Olá, {self.user} e abaixo as opções do Menu do Chef:', 'background':Assets.COLOR['bg'], 'fg':Assets.COLOR['text']},
+                                {'fill':'x', 'padx':150, 'anchor':'center'})
+        
+        self.__assets['chef'].update(Assets.getPhotoImagesFromCat(category='chef'))
+
+        productF = addFrame(self.__assets['chef']['fChef'], {'background':Assets.COLOR['orange'], 'width':1267, 'height':618}, {'anchor':'n', 'pady':20})
+
+        linha1 = addFrame(productF, {'background':Assets.COLOR['orange']}, {'fill':'x', 'pady':10, 'padx':10})
+        linha1.columnconfigure(0, weight=1)
+        linha1.columnconfigure(1, weight=1)
+        linha1.columnconfigure(2, weight=1)
+
+        linha2 = addFrame(productF, {'background':Assets.COLOR['orange']}, {'fill':'x', 'pady':10, 'padx':10})
+        linha2.columnconfigure(0, weight=1)
+        linha2.columnconfigure(1, weight=1)
+        linha2.columnconfigure(2, weight=1)
+
+        index = -1
+        for i in range(3):
+            index += 1
+            nameA = Assets.CHEF[index]['name']
+            padding = 40 if i == 1 else 0
+
+            labelA = addProdFrame(linha1, nameA, Assets.CHEF[index]['price'], self.__assets['chef'][nameA], self.__assets['cart']['addCart'], {'column':i, 'row':0,'padx':padding})
+            labelA.bind('<Button-1>', lambda e: print(f'Prod: {Assets.CHEF[index]['name']}'))
+
+            index += 1
+            nameB = Assets.CHEF[index]['name']
+            labelB = addProdFrame(linha2, nameB, Assets.CHEF[index]['price'], self.__assets['chef'][nameB], self.__assets['cart']['addCart'], {'column':i, 'row':0,'padx':padding})
+            labelB.bind('<Button-1>', lambda e: print(f'Prod: {Assets.CHEF[index]['name']}'))
+
     def home(self):
         if(self.raiseFrame('home', 'fHome')):
             return
@@ -321,7 +401,8 @@ class Cardapio:
         self.__assets['home']['fHome'].grid(column=0, row=0, sticky='nsew')
 
         #Add new elements
-        addLabel(self.__assets['home']['fHome'], {'font':Assets.FONT_G, 'text':f'Olá, {self.user} e abaixo as opções do restaurante, as opções possíveis são:', 'background':'#edb3b0',     'fg':'#626262'}, {'fill':'x', 'padx':150, 'anchor':'center'})
+        addLabel(self.__assets['home']['fHome'], {'font':Assets.FONT_G, 'text':f'Olá, {self.user} e abaixo as opções do restaurante, as opções possíveis são:', 'background':Assets.COLOR['bg'],
+                                                       'fg':Assets.COLOR['text']}, {'fill':'x', 'padx':150, 'anchor':'center'})
 
         homeF = addFrame(self.__assets['home']['fHome'], {'background':Assets.COLOR['orange'], 'width':1267, 'height':618}, {'anchor':'n', 'pady':20})
 
@@ -334,17 +415,17 @@ class Cardapio:
         entrada.grid(column=0, row=0, padx=(10,0))
         entrada.bind("<Button-1>", lambda e: self.entrada())
 
-        tk.Label(linha1, text='Entrada', font=('Helvetica', 18), fg='#626262' ).grid(column=0, row=1, padx=(10,0), sticky='we')
+        tk.Label(linha1, text='Entrada', font=('Helvetica', 18), fg=Assets.COLOR['text'] ).grid(column=0, row=1, padx=(10,0), sticky='we')
 
         pagina_principal = tk.Label(linha1, image=self.__assets['home']['pp'], borderwidth=0)
         pagina_principal.grid(column=1, row=0, padx=40)
         pagina_principal.bind("<Button-1>", lambda e: self.prato_principal())
-        tk.Label(linha1, text='Prato Principal', font=('Helvetica', 18), fg='#626262' ).grid(column=1, row=1, padx=40, sticky='we')
+        tk.Label(linha1, text='Prato Principal', font=('Helvetica', 18), fg=Assets.COLOR['text'] ).grid(column=1, row=1, padx=40, sticky='we')
 
         bebidas = tk.Label(linha1, image=self.__assets['home']['bebidas'], borderwidth=0)
         bebidas.grid(column=2, row=0, padx=(0,10))
         bebidas.bind("<Button-1>", lambda e: self.bebidas())
-        tk.Label(linha1, text='Bebidas', font=('Helvetica', 18), fg='#626262' ).grid(column=2, row=1, padx=(0,10), sticky='we')
+        tk.Label(linha1, text='Bebidas', font=('Helvetica', 18), fg=Assets.COLOR['text'] ).grid(column=2, row=1, padx=(0,10), sticky='we')
 
         linha2 = addFrame(homeF, {'background':Assets.COLOR['orange']}, {'fill':'x', 'pady':(20,10)})
         linha2.columnconfigure(0, weight=1)
@@ -354,17 +435,17 @@ class Cardapio:
         alcool = tk.Label(linha2, image=self.__assets['home']['alcool'], borderwidth=0, text='text' )
         alcool.grid(column=0, row=0, padx=(10,0))
         alcool.bind("<Button-1>", lambda e: self.alcool())
-        tk.Label(linha2, text='Bebidas Alcoólicas', font=('Helvetica', 18), fg='#626262' ).grid(column=0, row=1, padx=(10,0), sticky='we')
+        tk.Label(linha2, text='Bebidas Alcoólicas', font=('Helvetica', 18), fg=Assets.COLOR['text'] ).grid(column=0, row=1, padx=(10,0), sticky='we')
 
         sobremesa = tk.Label(linha2, image=self.__assets['home']['sobremesa'], borderwidth=0)
         sobremesa.grid(column=1, row=0, padx=40)
-        sobremesa.bind("<Button-1>", lambda e: print('yo5'))
-        tk.Label(linha2, text='Sobremesas', font=('Helvetica', 18), fg='#626262' ).grid(column=1, row=1, padx=40, sticky='we')
+        sobremesa.bind("<Button-1>", lambda e: self.sobremesa())
+        tk.Label(linha2, text='Sobremesas', font=('Helvetica', 18), fg=Assets.COLOR['text'] ).grid(column=1, row=1, padx=40, sticky='we')
 
         chef = tk.Label(linha2, image=self.__assets['home']['chef'], borderwidth=0)
         chef.grid(column=2, row=0, padx=(0,10))
-        chef.bind("<Button-1>", lambda e: print('yo6'))
-        tk.Label(linha2, text='Menu do Chef', font=('Helvetica', 18), fg='#626262' ).grid(column=2, row=1, padx=(0,10), sticky='we')
+        chef.bind("<Button-1>", lambda e: self.chef())
+        tk.Label(linha2, text='Menu do Chef', font=('Helvetica', 18), fg=Assets.COLOR['text'] ).grid(column=2, row=1, padx=(0,10), sticky='we')
 
     def login(self):
         if(self.raiseFrame('login', 'fLogin')):
