@@ -54,7 +54,7 @@ def forgetChildren(object: tk.Tk | tk.Frame):
 def addProdFrame(frame: tk.Tk | tk.Frame, name: str, price:float, img: tk.PhotoImage, cart: tk.PhotoImage, kargs :dict= {}) -> tk.Label:
     """Adds the Product frame and it contents. Returns the 'add to cart' Label for later binding"""
     pFrame = tk.Frame(frame, width=389, height=314, background='white')
-    pFrame.pack(**kargs)
+    pFrame.grid(**kargs)
 
     pImgFrame = tk.Frame(pFrame)
     pImgFrame.pack(anchor='n')
@@ -91,6 +91,9 @@ class Cardapio:
                 'iBanner':tk.PhotoImage(file=Assets.LOGIN['banner']),
                 'iCart':tk.PhotoImage(file=Assets.LOGIN['cartI']),
                 'iFeijoada':tk.PhotoImage(file=Assets.LOGIN['feijoada']),
+            },
+            'cart':{
+                'addCart':tk.PhotoImage(file=Assets.CART)
             }
         }
 
@@ -147,12 +150,33 @@ class Cardapio:
         addLabel(self.__assets['entrada']['fEntrada'], {'font':Assets.FONT_G, 'text':f'Olá, {self.user} e abaixo as opções de entrada:', 'background':'#edb3b0', 'fg':'#626262'},
                                 {'fill':'x', 'padx':150, 'anchor':'center'})
         
-        self.e_assets = Assets.getPhotoImagesFromCat(category='entrada')
+        self.__assets['entrada'].update(Assets.getPhotoImagesFromCat(category='entrada'))
 
-        self.pT1 = self.e_assets[Assets.ENTRADA[0]['name']]
-        self.pTC = tk.PhotoImage(file=Assets.CART)#'Texto de Teste Grande e Maior que deveria' Assets.ENTRADA[0]['name']
-        self.PTestC = addProdFrame(self.__assets['entrada']['fEntrada'], Assets.ENTRADA[0]['name'], Assets.ENTRADA[0]['price'], self.pT1, self.pTC, {'anchor':'center'})
-        #hEntrada = addFrame(self.content, {'background':'#F9B97D', 'width':1267, 'height':668}, {'anchor':'n', 'pady':20})
+        productF = addFrame(self.__assets['entrada']['fEntrada'], {'background':Assets.COLOR['orange'], 'width':1267, 'height':618}, {'anchor':'n', 'pady':20})
+
+        linha1 = addFrame(productF, {'background':Assets.COLOR['orange']}, {'fill':'x', 'pady':10, 'padx':10})
+        linha1.columnconfigure(0, weight=1)
+        linha1.columnconfigure(1, weight=1)
+        linha1.columnconfigure(2, weight=1)
+
+        linha2 = addFrame(productF, {'background':Assets.COLOR['orange']}, {'fill':'x', 'pady':10, 'padx':10})
+        linha2.columnconfigure(0, weight=1)
+        linha2.columnconfigure(1, weight=1)
+        linha2.columnconfigure(2, weight=1)
+
+        index = -1
+        for i in range(3):
+            index += 1
+            nameA = Assets.ENTRADA[index]['name']
+            padding = 40 if i == 1 else 0
+
+            labelA = addProdFrame(linha1, nameA, Assets.ENTRADA[index]['price'], self.__assets['entrada'][nameA], self.__assets['cart']['addCart'], {'column':i, 'row':0,'padx':padding})
+            labelA.bind('<Button-1>', lambda e: print(f'Prod: {Assets.ENTRADA[index]['name']}'))
+
+            index += 1
+            nameB = Assets.ENTRADA[index]['name']
+            labelB = addProdFrame(linha2, nameB, Assets.ENTRADA[index]['price'], self.__assets['entrada'][nameB], self.__assets['cart']['addCart'], {'column':i, 'row':0,'padx':padding})
+            labelB.bind('<Button-1>', lambda e: print(f'Prod: {Assets.ENTRADA[index]['name']}'))
 
     def home(self):
         self.raiseFrame('home', 'fHome')
@@ -177,14 +201,9 @@ class Cardapio:
         #Add new elements
         addLabel(self.__assets['home']['fHome'], {'font':Assets.FONT_G, 'text':f'Olá, {self.user} e abaixo as opções do restaurante, as opções possíveis são:', 'background':'#edb3b0',     'fg':'#626262'}, {'fill':'x', 'padx':150, 'anchor':'center'})
 
-        holderHome = addFrame(self.__assets['home']['fHome'], {'background':'#F9B97D', 'width':1267, 'height':618}, {'anchor':'n', 'pady':20})
-        holderHome.columnconfigure(0, weight=1)
-        holderHome.columnconfigure(1, weight=1)
-        holderHome.columnconfigure(2, weight=1)
-        holderHome.rowconfigure(0, weight=1)
-        holderHome.rowconfigure(1, weight=1)
+        homeF = addFrame(self.__assets['home']['fHome'], {'background':Assets.COLOR['orange'], 'width':1267, 'height':618}, {'anchor':'n', 'pady':20})
 
-        linha1 = addFrame(holderHome, {'background':'#F9B97D'}, {'fill':'x', 'pady':(10,0)})
+        linha1 = addFrame(homeF, {'background':Assets.COLOR['orange']}, {'fill':'x', 'pady':(10,0)})
         linha1.columnconfigure(0, weight=1)
         linha1.columnconfigure(1, weight=1)
         linha1.columnconfigure(2, weight=1)
@@ -205,7 +224,7 @@ class Cardapio:
         bebidas.bind("<Button-1>", lambda e: print('yo3'))
         tk.Label(linha1, text='Bebidas', font=('Helvetica', 18), fg='#626262' ).grid(column=2, row=1, padx=(0,10), sticky='we')
 
-        linha2 = addFrame(holderHome, {'background':'#F9B97D'}, {'fill':'x', 'pady':(20,10)})
+        linha2 = addFrame(homeF, {'background':Assets.COLOR['orange']}, {'fill':'x', 'pady':(20,10)})
         linha2.columnconfigure(0, weight=1)
         linha2.columnconfigure(1, weight=1)
         linha2.columnconfigure(2, weight=1)
@@ -278,4 +297,3 @@ def validateCad(object: Cardapio, uEntry:tk.Entry, pEntry:tk.Entry, cpEntry:tk.E
 
 if __name__ == '__main__':
     Cardapio()
-

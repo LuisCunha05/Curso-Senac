@@ -7,7 +7,8 @@ class Assets:
         'bg':'#edb3b0',
         'nav':'#f2c6c4',
         'text':'#626262',
-        'green':'#4CAF50'
+        'green':'#4CAF50',
+        'orange':'#F9B97D'
     } 
 
     FONT_S = ('Helvetica', 13)
