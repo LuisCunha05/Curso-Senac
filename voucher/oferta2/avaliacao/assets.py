@@ -4,7 +4,7 @@ from tkinter import PhotoImage
 class Assets:
 
     COLOR = {
-        'bg':'#edb3b0',
+        'bg':'#add8e6',#add8e6 edb3b0
         'nav':'#f2c6c4',
         'text':'#626262',
         'green':'#4CAF50',
