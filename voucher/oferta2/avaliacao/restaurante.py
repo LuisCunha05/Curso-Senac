@@ -13,7 +13,7 @@ from typing import Tuple
 
 def setGeometry(master:tk.Tk, scale:float = 0.7, width:int = None, height:int = None,x:int = None, y:int = None, resizable:bool = True):
     """Sets the window size and put it at center of the screen, by default uses 70% of the screen.
-    If WIDTH or HEIGHT are given than uses this values instead."""
+    If WIDTH or HEIGHT were given than uses this values instead."""
     width = width if width else int(master.winfo_screenwidth() * scale)
     height = height if height else int(master.winfo_screenheight() * scale)
     x = x if x else int((master.winfo_screenwidth() - width) / 2)
@@ -96,25 +96,34 @@ class Cardapio:
             }
         }
 
-        #Header config self.__assets['login']['fHeader']
-        #header = tk.Frame(self.root, background=Assets.COLOR['nav'], height=150, borderwidth=0, )
-        #header.grid(column=0, row=0, sticky='ew')
+        self.addOrRepackHeader()
 
-        header = addFrame(self.root, {'background':Assets.COLOR['nav']}, { 'fill':'x', 'anchor':'n'})
-        self.__assets['login']['bHome'] = addLabel(header, {'image':self.__assets['login']['iHouse'], 'borderwidth':0}, {'padx':(150,0), 'side':'left'})
-        self.__assets['login']['bHome'].pack_forget()
-        self._banner = addLabel(header, {'image':self.__assets['login']['iBanner'], 'borderwidth':0, 'background':'#f2c6c4'}, {'fill':'x', 'side':'left', 'anchor':'n', 'expand':True})
-        self._cartB = addLabel(header, {'image':self.__assets['login']['iCart'], 'borderwidth':0}, {'padx':(0,150), 'side':'right', 'anchor':'e'})
-        self._cartB.pack_forget()
-
-        #self.content = tk.Frame(self.root, background=Assets.COLOR['bg'], borderwidth=0)
-        #self.content.grid(column=0, row=1, sticky='nsew')
         self.content = addFrame(self.root, {'background':Assets.COLOR['bg']}, {'fill':'both', 'expand':True })
         self.content.columnconfigure(0, weight=1)
         self.content.rowconfigure(0, weight=1)
 
         self.login()
         self.root.mainloop()
+
+    def addOrRepackHeader(self):
+        try:
+            if(self.__assets['login']['lHome'] and self.__assets['login']['lCart']):
+                self.__assets['login']['lBanner'].pack_forget()
+                self.__assets['login']['lHome'].pack(padx=(150,0), side='left')
+                self.__assets['login']['lHome'].bind('<Button-1>', lambda e: self.home())
+                self.__assets['login']['lBanner'].pack(fill='x', side='left', anchor='n', expand=True)
+                self.__assets['login']['lCart'].pack(padx=(0,150), side='right', anchor='e')
+                return
+        except KeyError as e:
+            print(f'Gracefully handled {e}')
+            pass
+
+        header = addFrame(self.root, {'background':Assets.COLOR['nav']}, { 'fill':'x', 'anchor':'n'})
+        self.__assets['login']['lHome'] = addLabel(header, {'image':self.__assets['login']['iHouse'], 'borderwidth':0}, {'padx':(150,0), 'side':'left'})
+        self.__assets['login']['lHome'].pack_forget()
+        self.__assets['login']['lBanner'] = addLabel(header, {'image':self.__assets['login']['iBanner'], 'borderwidth':0, 'background':'#f2c6c4'}, {'fill':'x', 'side':'left', 'anchor':'n', 'expand':True})
+        self.__assets['login']['lCart'] = addLabel(header, {'image':self.__assets['login']['iCart'], 'borderwidth':0}, {'padx':(0,150), 'side':'right', 'anchor':'e'})
+        self.__assets['login']['lCart'].pack_forget()
 
     def entrada(self):
         try: #Tries to Raise the Page into view if already exists, otherwise proceeds to create it
@@ -125,7 +134,7 @@ class Cardapio:
         except KeyError as e:
             print(f'Gracefully handled {e}')
             pass
-        #forgetChildren(self.content)
+
         self.__assets.update({'entrada':{}})
 
         self.__assets['entrada']['fEntrada'] = tk.Frame(self.content, background=Assets.COLOR['bg'])
@@ -162,12 +171,7 @@ class Cardapio:
             }
         })
 
-        #Repack the header in correct order
-        if(not self.__assets['login']['bHome'].winfo_viewable()):
-            self.__assets['login']['bHome'].pack(padx=(150,0), side='left')
-            self.__assets['login']['bHome'].bind('<Button-1>', lambda e: self.home())
-            self._banner.pack(fill='x', side='left', anchor='n', expand=True)
-            self._cartB.pack(padx=(0,150), side='right', anchor='e')
+        self.addOrRepackHeader() #Repack header to add Home button and Cart icon
 
         self.__assets['home']['fHome'] = tk.Frame(self.content, background=Assets.COLOR['bg'])
         self.__assets['home']['fHome'].grid(column=0, row=0, sticky='nsew')
@@ -278,7 +282,6 @@ def validateCad(object: Cardapio, uEntry:tk.Entry, pEntry:tk.Entry, cpEntry:tk.E
     pEntry.delete(0, 'end')
     cpEntry.delete(0, 'end')
     object.root.focus()
-    object._banner.pack_forget()
     object.home()
     #messagebox.showinfo('Cadastrado', 'Cadrastro realizado com sucesso!')
 
