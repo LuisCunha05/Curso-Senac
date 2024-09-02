@@ -109,15 +109,15 @@ class Cardapio:
     #-----------------------------------------------------------------------------------------------#
     #                                             Methods                                           #
     #-----------------------------------------------------------------------------------------------#
-    def raiseFrame(self, key1: str, key2: str):
+    def raiseFrame(self, key1: str, key2: str) -> bool:
         """Tries to Raise the Frame into view if already exists, otherwise catches the exception"""
         try:
             if(self.__assets[key1][key2]):
                 self.__assets[key1][key2].tkraise()
-            return
+            return True
         except KeyError as e:
             print(f'Gracefully handled {e}')
-            pass
+            return False
 
     def addOrRepackHeader(self):
         try:
@@ -140,7 +140,8 @@ class Cardapio:
         self.__assets['login']['lCart'].pack_forget()
 
     def entrada(self):
-        self.raiseFrame('entrada', 'fEntrada') #
+        if(self.raiseFrame('entrada', 'fEntrada')):
+            return
 
         self.__assets.update({'entrada':{}})
 
@@ -179,7 +180,8 @@ class Cardapio:
             labelB.bind('<Button-1>', lambda e: print(f'Prod: {Assets.ENTRADA[index]['name']}'))
 
     def home(self):
-        self.raiseFrame('home', 'fHome')
+        if(self.raiseFrame('home', 'fHome')):
+            return
 
         #Loading Assets
         self.__assets.update({
@@ -245,7 +247,8 @@ class Cardapio:
         tk.Label(linha2, text='Menu do Chef', font=('Helvetica', 18), fg='#626262' ).grid(column=2, row=1, padx=(0,10), sticky='we')
 
     def login(self):
-        self.raiseFrame('login', 'fLogin')
+        if(self.raiseFrame('login', 'fLogin')):
+            return
 
         self.__assets['login']['fLogin'] = tk.Frame(self.content, background=Assets.COLOR['bg'])
         self.__assets['login']['fLogin'].grid(column=0, row=0, sticky='nsew')
