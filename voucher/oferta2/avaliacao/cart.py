@@ -14,8 +14,10 @@ class Cart:
 
     def sub(self, name:str, quantity:int = 1) -> int:
         if name in self.data:
-            if self.data[name]['quantity'] > 0:
-                self.data[name]['quantity'] -= quantity
+            self.data[name]['quantity'] -= quantity
+            if(self.data[name]['quantity'] <= 0):
+                del self.data[name]
+                return 0
             return self.data[name]['quantity']
         else:
             print(f"{name} not in data.")

@@ -52,35 +52,6 @@ def forgetChildren(object: tk.Tk | tk.Frame):
     for child in object.winfo_children():
         child.pack_forget()
 
-def addProdFrame(frame: tk.Tk | tk.Frame, name: str, price:float, img: tk.PhotoImage, cart: tk.PhotoImage, cartClass: Cart, kargs :dict= {}) -> tk.Label:
-    """Adds the Product frame and it contents. Returns the 'add to cart' Label for later binding"""
-    pFrame = tk.Frame(frame, width=389, height=314, background='white')
-    pFrame.grid(**kargs)
-
-    pImgFrame = tk.Frame(pFrame)
-    pImgFrame.pack(anchor='n')
-
-    tk.Label(pImgFrame, image=img, borderwidth=0).pack()
-
-    pTextFrame = tk.Frame(pFrame, background='white')
-    pTextFrame.pack(fill='x', padx=4, pady=4)
-
-    tk.Label(pTextFrame, text=name, font=Assets.FONT_S, background='white', foreground=Assets.COLOR['text'], justify='left', anchor='w', wraplength=205).pack(side='left', fill='x', anchor='w', expand=1)
-
-    pAddCart = tk.Label(pTextFrame, image=cart, borderwidth=0, cursor='plus')
-    pAddCart.pack(side='right')
-
-    pAddCart.bind('<Button-1>', lambda e: cartClass.add(name, 1, price) )
-
-    tk.Label(pTextFrame, text=f'R${price:.2f}', font=Assets.FONT_S, background='white', foreground=Assets.COLOR['text'], justify='right').pack(side='right')
-
-def addProdCart(frame:tk.Frame, name: str, quantity:int, price:float):
-    
-    linha = tk.Frame(frame, background='white', height=50, width=600, borderwidth=1, highlightthickness=1, highlightcolor='black')
-    linha.pack(fill='x', pady=(10,0), padx=10)
-
-    tk.Label(linha, text=name, background='white', foreground=Assets.COLOR['text'], font=Assets.FONT_M).pack(side='left', expand=True, fill='x')
-
 class Cardapio:
     
     def __init__(self) -> None:
@@ -100,7 +71,7 @@ class Cardapio:
                 'iFeijoada':tk.PhotoImage(file=Assets.LOGIN['feijoada']),
             },
             'cart':{
-                'addCart':tk.PhotoImage(file=Assets.CART)
+                'addCart':tk.PhotoImage(file=Assets.CART['add_cart'])
             }
         }
 
@@ -147,25 +118,125 @@ class Cardapio:
         self.__assets['login']['lHome'] = addLabel(header, {'image':self.__assets['login']['iHouse'], 'borderwidth':0, 'cursor':'cross'}, {'padx':(150,0), 'side':'left'})
         self.__assets['login']['lBanner'] = addLabel(header, {'image':self.__assets['login']['iBanner'], 'borderwidth':0, 'background':'#f2c6c4'}, {'fill':'x', 'side':'left', 'anchor':'n', 'expand':True})
         self.__assets['login']['lCart'] = addLabel(header, {'image':self.__assets['login']['iCart'], 'borderwidth':0}, {'padx':(0,150), 'side':'right', 'anchor':'e'})
-        self.__assets['login']['lCartQuant'] = addLabel(header, {'text':self.cart.getTotalAmount(), 'borderwidth':0, 'font':Assets.FONT_G, 'background':Assets.COLOR['nav']}, {'side':'right', 'anchor':'e', 'after':self.__assets['login']['lCart']})
+        self.__assets['login']['lCartQuant'] = addLabel(header, {'text':self.cart.getTotalAmount(), 'width':7,'borderwidth':0, 'font':Assets.FONT_G, 'background':Assets.COLOR['nav']}, {'side':'right', 'anchor':'e', 'after':self.__assets['login']['lCart']})
         self.__assets['login']['lHome'].pack_forget()
         self.__assets['login']['lCart'].pack_forget()
         self.__assets['login']['lCartQuant'].pack_forget()
 
+    def addProdFrame(self, frame: tk.Tk | tk.Frame, name: str, price:float, img: tk.PhotoImage, cart: tk.PhotoImage, kargs :dict= {}) -> tk.Label:
+        """Adds the Product frame and it contents. Returns the 'add to cart' Label for later binding"""
+        pFrame = tk.Frame(frame, width=389, height=314, background='white')
+        pFrame.grid(**kargs)
+
+        pImgFrame = tk.Frame(pFrame)
+        pImgFrame.pack(anchor='n')
+
+        tk.Label(pImgFrame, image=img, borderwidth=0).pack()
+
+        pTextFrame = tk.Frame(pFrame, background='white')
+        pTextFrame.pack(fill='x', padx=4, pady=4)
+
+        tk.Label(pTextFrame, text=name, font=Assets.FONT_S, background='white', foreground=Assets.COLOR['text'], justify='left', anchor='w', wraplength=205).pack(side='left', fill='x', anchor='w', expand=1)
+
+        pAddCart = tk.Label(pTextFrame, image=cart, borderwidth=0, cursor='plus')
+        pAddCart.pack(side='right')
+
+        pAddCart.bind('<Button-1>', lambda e: [self.cart.add(name, 1, price), self.updateCartAmount()] )
+
+        tk.Label(pTextFrame, text=f'R${price:.2f}', font=Assets.FONT_S, background='white', foreground=Assets.COLOR['text'], justify='right').pack(side='right')
+
+    def updateCartAmount(self):
+        self.__assets['login']['lCartQuant'].configure(text=self.cart.getTotalAmount())
+
+    def addProdCart(self, frame:tk.Frame, name: str, quantity:int, price:float) -> tk.Label:
+        def increase():
+            """Increases the product's Label amount and updates the total cart amount"""
+            nonlocal name, price
+
+            amount = self.cart.add(name, 1)
+            priceL.configure(text=f'R${price * amount:6.2f}')
+            amountL.configure(text=f'QTD: {amount:2}')
+            self.updateCartAmount()
+            self.updateTotalCart()
+
+        def decrease():
+            """Decreases the product's Label amount and updates the total cart amount"""
+            nonlocal name, price
+
+            amount = self.cart.sub(name, 1)
+            if(amount == 0):
+                linha.destroy()
+                self.updateCartAmount()
+                self.updateTotalCart()
+                return
+            priceL.configure(text=f'R${price * amount:6.2f}')
+            amountL.configure(text=f'QTD: {amount:2}')
+            self.updateCartAmount()
+            self.updateTotalCart()
+
+
+        linha = tk.Frame(frame, background='white', height=50, borderwidth=0, highlightthickness=2, highlightcolor='black')
+        linha.pack(fill='x', pady=5, padx=10)
+
+        nameL = tk.Label(linha, text=name, background='white', foreground=Assets.COLOR['text'], font=Assets.FONT_M, anchor='w')
+        nameL.pack(side='left', fill='x')
+
+        priceL = tk.Label(linha, text=f'R${price:6.2f}', font=Assets.FONT_M, background='white', width=9, foreground=Assets.COLOR['text'])
+        priceL.pack(side='right', after=nameL)
+
+        plusL = tk.Label(linha, image=self.__assets['cart']['plus'], border=0)
+        plusL.pack(side='right', after=priceL)
+        plusL.bind('<Button-1>', lambda e: increase())
+
+        amountL = tk.Label(linha, text=f'QTD: {quantity:2}', font=Assets.FONT_M, background='white', width=7, foreground=Assets.COLOR['text'])
+        amountL.pack(side='right', after=plusL)
+
+        minusL = tk.Label(linha, image=self.__assets['cart']['minus'], border=0)
+        minusL.pack(side='right', after=amountL)
+        minusL.bind('<Button-1>', lambda e: decrease())
+
+    def addCartTotal(self, frame:tk.Frame) -> tk.Label:
+        linha = tk.Frame(frame, background='white', height=50, borderwidth=0, highlightthickness=2, highlightcolor='black')
+        linha.pack(fill='x', pady=5, padx=10)
+
+        totalL = tk.Label(linha, text='Total de Produtos', background='white', foreground=Assets.COLOR['text'], font=Assets.FONT_M, anchor='w')
+        totalL.pack(side='left', fill='x')
+
+        self.__assets['cart']['lAmount'] = tk.Label(linha, text=f'QTD: {self.cart.getTotalAmount():2}', font=Assets.FONT_M, background='white', width=7, foreground=Assets.COLOR['text'])
+        self.__assets['cart']['lPrice'] = tk.Label(linha, text=f'Total: R${self.cart.getTotalValue():8.2f}', font=Assets.FONT_M, background='white', width=15, foreground=Assets.COLOR['text'])
+        
+        self.__assets['cart']['lAmount'].pack(side='right', after=totalL)
+        self.__assets['cart']['lPrice'].pack(side='right', after=self.__assets['cart']['lAmount'])
+
+    def updateTotalCart(self):
+        self.__assets['cart']['lPrice'].configure(text=f'Total: R${self.cart.getTotalValue():8.2f}')
+        self.__assets['cart']['lAmount'].configure(text=f'QTD: {self.cart.getTotalAmount():2}')
+
     def shoppingCart(self):
         if(self.raiseFrame('cart', 'fCart')):
+            for child in self.__assets['cart']['fLista'].winfo_children(): #Detroy all children inside the list
+                child.destroy()
+            for item in self.cart.data: #Recreate list of products to add new ones
+                self.addProdCart(self.__assets['cart']['fLista'], item, self.cart.data[item]['quantity'], self.cart.data[item]['price'])
             return
 
-        self.__assets['cart']['fCart'] = tk.Frame(self.content, background=Assets.COLOR['bg'])
+        self.__assets['cart']['plus'] = tk.PhotoImage(file=Assets.CART['plus'])
+        self.__assets['cart']['minus'] = tk.PhotoImage(file=Assets.CART['minus'])
+
+        self.__assets['cart']['fCart'] = tk.Frame(self.content, background=Assets.COLOR['bg'])#
         self.__assets['cart']['fCart'].grid(column=0, row=0, sticky='nsew')
 
         addLabel(self.__assets['cart']['fCart'], {'font':Assets.FONT_G, 'text':f'Olá, {self.user} aqui estão os produtos escolhidos:', 'background':Assets.COLOR['bg'], 'fg':Assets.COLOR['text']},
                                 {'fill':'x', 'padx':150, 'anchor':'center'})
 
-        listaF = addFrame(self.__assets['cart']['fCart'], {'background':Assets.COLOR['gray'], 'width':600}, {'anchor':'n'})
+        self.__assets['cart']['fLista'] = addFrame(self.__assets['cart']['fCart'], {'background':Assets.COLOR['gray']}, {'anchor':'n', 'fill':'x', 'padx':500})
 
         for item in self.cart.data:
-            addProdCart(listaF, item, self.cart.data[item]['quantity'], self.cart.data[item]['price'])
+            self.addProdCart(self.__assets['cart']['fLista'], item, self.cart.data[item]['quantity'], self.cart.data[item]['price'])
+        
+        self.addCartTotal(self.__assets['cart']['fLista']) #adds the total amount line
+
+        tk.Button( self.__assets['cart']['fCart'], text='Finalizar Compra', font=Assets.FONT_G, foreground='white', background=Assets.COLOR['green'], relief='groove', border=0, command=print('Done')).pack(pady=20)
 
     def entrada(self):
         if(self.raiseFrame('entrada', 'fEntrada')):
@@ -198,13 +269,12 @@ class Cardapio:
             nameA = Assets.ENTRADA[index]['name']
             padding = 40 if i == 1 else 0
 
-            addProdFrame(linha1, nameA, Assets.ENTRADA[index]['price'], self.__assets['entrada'][nameA], self.__assets['cart']['addCart'], self.cart, {'column':i, 'row':0,'padx':padding})
-            #labelA.bind('<Button-1>', lambda e: print(f'Prod: {Assets.ENTRADA[index]['name']}'))
+            self.addProdFrame(linha1, nameA, Assets.ENTRADA[index]['price'], self.__assets['entrada'][nameA], self.__assets['cart']['addCart'], {'column':i, 'row':0,'padx':padding})
 
             index += 1
             nameB = Assets.ENTRADA[index]['name']
-            addProdFrame(linha2, nameB, Assets.ENTRADA[index]['price'], self.__assets['entrada'][nameB], self.__assets['cart']['addCart'], self.cart, {'column':i, 'row':0,'padx':padding})
-            #labelB.bind('<Button-1>', lambda e: print(f'Prod: {Assets.ENTRADA[index]['name']}'))
+            self.addProdFrame(linha2, nameB, Assets.ENTRADA[index]['price'], self.__assets['entrada'][nameB], self.__assets['cart']['addCart'], {'column':i, 'row':0,'padx':padding})
+
 
     def bebidas(self):
         if(self.raiseFrame('bebidas', 'fBebidas')):
@@ -238,13 +308,11 @@ class Cardapio:
             nameA = Assets.BEBIDAS[index]['name']
             padding = 40 if i == 1 else 0
 
-            addProdFrame(linha1, nameA, Assets.BEBIDAS[index]['price'], self.__assets['bebidas'][nameA], self.__assets['cart']['addCart'], self.cart, {'column':i, 'row':0,'padx':padding})
-            #labelA.bind('<Button-1>', lambda e: print(f'Prod: {Assets.BEBIDAS[index]['name']}'))
+            self.addProdFrame(linha1, nameA, Assets.BEBIDAS[index]['price'], self.__assets['bebidas'][nameA], self.__assets['cart']['addCart'], {'column':i, 'row':0,'padx':padding})
 
             index += 1
             nameB = Assets.BEBIDAS[index]['name']
-            addProdFrame(linha2, nameB, Assets.BEBIDAS[index]['price'], self.__assets['bebidas'][nameB], self.__assets['cart']['addCart'], self.cart, {'column':i, 'row':0,'padx':padding})
-            #labelB.bind('<Button-1>', lambda e: print(f'Prod: {Assets.BEBIDAS[index]['name']}'))
+            self.addProdFrame(linha2, nameB, Assets.BEBIDAS[index]['price'], self.__assets['bebidas'][nameB], self.__assets['cart']['addCart'], {'column':i, 'row':0,'padx':padding})
 
     def prato_principal(self):
         if(self.raiseFrame('prato_principal', 'fPrato_principal')):
@@ -278,13 +346,11 @@ class Cardapio:
             nameA = Assets.PRINCIPAL[index]['name']
             padding = 40 if i == 1 else 0
 
-            addProdFrame(linha1, nameA, Assets.PRINCIPAL[index]['price'], self.__assets['prato_principal'][nameA], self.__assets['cart']['addCart'], self.cart, {'column':i, 'row':0,'padx':padding})
-            #labelA.bind('<Button-1>', lambda e: print(f'Prod: {Assets.PRINCIPAL[index]['name']}'))
+            self.addProdFrame(linha1, nameA, Assets.PRINCIPAL[index]['price'], self.__assets['prato_principal'][nameA], self.__assets['cart']['addCart'], {'column':i, 'row':0,'padx':padding})
 
             index += 1
             nameB = Assets.PRINCIPAL[index]['name']
-            addProdFrame(linha2, nameB, Assets.PRINCIPAL[index]['price'], self.__assets['prato_principal'][nameB], self.__assets['cart']['addCart'], self.cart, {'column':i, 'row':0,'padx':padding})
-            #labelB.bind('<Button-1>', lambda e: print(f'Prod: {Assets.PRINCIPAL[index]['name']}'))
+            self.addProdFrame(linha2, nameB, Assets.PRINCIPAL[index]['price'], self.__assets['prato_principal'][nameB], self.__assets['cart']['addCart'], {'column':i, 'row':0,'padx':padding})
 
     def alcool(self):
         if(self.raiseFrame('alcool', 'fAlcool')):
@@ -318,13 +384,11 @@ class Cardapio:
             nameA = Assets.ALCOOL[index]['name']
             padding = 40 if i == 1 else 0
 
-            addProdFrame(linha1, nameA, Assets.ALCOOL[index]['price'], self.__assets['alcool'][nameA], self.__assets['cart']['addCart'], self.cart, {'column':i, 'row':0,'padx':padding})
-            #labelA.bind('<Button-1>', lambda e: print(f'Prod: {Assets.ALCOOL[index]['name']}'))
+            self.addProdFrame(linha1, nameA, Assets.ALCOOL[index]['price'], self.__assets['alcool'][nameA], self.__assets['cart']['addCart'], {'column':i, 'row':0,'padx':padding})
 
             index += 1
             nameB = Assets.ALCOOL[index]['name']
-            addProdFrame(linha2, nameB, Assets.ALCOOL[index]['price'], self.__assets['alcool'][nameB], self.__assets['cart']['addCart'], self.cart, {'column':i, 'row':0,'padx':padding})
-            #labelB.bind('<Button-1>', lambda e: print(f'Prod: {Assets.ALCOOL[index]['name']}'))
+            self.addProdFrame(linha2, nameB, Assets.ALCOOL[index]['price'], self.__assets['alcool'][nameB], self.__assets['cart']['addCart'], {'column':i, 'row':0,'padx':padding})
 
     def sobremesa(self):
         if(self.raiseFrame('sobremesa', 'fSobremesa')):
@@ -358,13 +422,11 @@ class Cardapio:
             nameA = Assets.SOBREMESA[index]['name']
             padding = 40 if i == 1 else 0
 
-            addProdFrame(linha1, nameA, Assets.SOBREMESA[index]['price'], self.__assets['sobremesa'][nameA], self.__assets['cart']['addCart'], self.cart, {'column':i, 'row':0,'padx':padding})
-            #labelA.bind('<Button-1>', lambda e: print(f'Prod: {Assets.SOBREMESA[index]['name']}'))
+            self.addProdFrame(linha1, nameA, Assets.SOBREMESA[index]['price'], self.__assets['sobremesa'][nameA], self.__assets['cart']['addCart'], {'column':i, 'row':0,'padx':padding})
 
             index += 1
             nameB = Assets.SOBREMESA[index]['name']
-            addProdFrame(linha2, nameB, Assets.SOBREMESA[index]['price'], self.__assets['sobremesa'][nameB], self.__assets['cart']['addCart'], self.cart, {'column':i, 'row':0,'padx':padding})
-            #labelB.bind('<Button-1>', lambda e: print(f'Prod: {Assets.SOBREMESA[index]['name']}'))
+            self.addProdFrame(linha2, nameB, Assets.SOBREMESA[index]['price'], self.__assets['sobremesa'][nameB], self.__assets['cart']['addCart'], {'column':i, 'row':0,'padx':padding})
 
     def chef(self):
         if(self.raiseFrame('chef', 'fChef')):
@@ -398,13 +460,11 @@ class Cardapio:
             nameA = Assets.CHEF[index]['name']
             padding = 40 if i == 1 else 0
 
-            addProdFrame(linha1, nameA, Assets.CHEF[index]['price'], self.__assets['chef'][nameA], self.__assets['cart']['addCart'], self.cart, {'column':i, 'row':0,'padx':padding})
-            #labelA.bind('<Button-1>', lambda e: print(f'Prod: {Assets.CHEF[index]['name']}'))
+            self.addProdFrame(linha1, nameA, Assets.CHEF[index]['price'], self.__assets['chef'][nameA], self.__assets['cart']['addCart'], {'column':i, 'row':0,'padx':padding})
 
             index += 1
             nameB = Assets.CHEF[index]['name']
-            addProdFrame(linha2, nameB, Assets.CHEF[index]['price'], self.__assets['chef'][nameB], self.__assets['cart']['addCart'], self.cart, {'column':i, 'row':0,'padx':padding})
-            #labelB.bind('<Button-1>', lambda e: print(f'Prod: {Assets.CHEF[index]['name']}'))
+            self.addProdFrame(linha2, nameB, Assets.CHEF[index]['price'], self.__assets['chef'][nameB], self.__assets['cart']['addCart'], {'column':i, 'row':0,'padx':padding})
 
     def home(self):
         if(self.raiseFrame('home', 'fHome')):

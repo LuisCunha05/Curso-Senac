@@ -32,7 +32,11 @@ class Assets:
         'chef':'assets\\home\\chef.png'
     }
 
-    CART = 'assets\\cart\\add_cart.png'
+    CART = {
+        'add_cart':'assets\\cart\\add_cart.png',
+        'plus':'assets\\cart\\plus.png',
+        'minus':'assets\\cart\\minus.png'
+    }
 
     ALCOOL = [
         {'name':'Cerveja', 'price':30.90, 'img':'assets\\alcool\\beer.png'},
