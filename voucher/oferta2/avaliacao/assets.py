@@ -8,10 +8,11 @@ class Assets:
         'nav':'#f2c6c4',
         'text':'#626262',
         'green':'#4CAF50',
-        'orange':'#F9B97D'
+        'orange':'#F9B97D',
+        'gray':'#969696'
     } 
 
-    FONT_S = ('Helvetica', 13)
+    FONT_S = ('Helvetica', 16)
     FONT_M = ('Helvetica', 20)
     FONT_G = ('Helvetica', 24)
 
@@ -34,57 +35,57 @@ class Assets:
     CART = 'assets\\cart\\add_cart.png'
 
     ALCOOL = [
-        {'name':'Cerveja', 'price':1, 'img':'assets\\alcool\\beer.png'},
-        {'name':'Jack Daniels', 'price':1, 'img':'assets\\alcool\\jack.png'},
-        {'name':'Martini', 'price':1, 'img':'assets\\alcool\\liquor.png'},
-        {'name':'Rúm', 'price':1, 'img':'assets\\alcool\\martini.png'},
-        {'name':'Vinho', 'price':1, 'img':'assets\\alcool\\rum.png'},
-        {'name':'Licor', 'price':1, 'img':'assets\\alcool\\wines.png'}
+        {'name':'Cerveja', 'price':30.90, 'img':'assets\\alcool\\beer.png'},
+        {'name':'Jack Daniels', 'price':42.90, 'img':'assets\\alcool\\jack.png'},
+        {'name':'Martini', 'price':34.90, 'img':'assets\\alcool\\liquor.png'},
+        {'name':'Rúm', 'price':40.90, 'img':'assets\\alcool\\martini.png'},
+        {'name':'Vinho', 'price':38.90, 'img':'assets\\alcool\\rum.png'},
+        {'name':'Licor', 'price':33.90, 'img':'assets\\alcool\\wines.png'}
     ]
 
     BEBIDAS = [
-        {'name':'Suco de Cenoura', 'price':1, 'img':'assets\\bebidas\\cenoura.png'},
-        {'name':'Suco de Goiaba', 'price':1, 'img':'assets\\bebidas\\goiaba.png'},
-        {'name':'Suco de Kiwi', 'price':1, 'img':'assets\\bebidas\\kiwi.png'},
-        {'name':'Suco de Laranja', 'price':1, 'img':'assets\\bebidas\\laranja.png'},
-        {'name':'Suco de Manga', 'price':1, 'img':'assets\\bebidas\\manga.png'},
-        {'name':'Suco de Repolho', 'price':1, 'img':'assets\\bebidas\\repolho.png'}
+        {'name':'Suco de Cenoura', 'price':8.90, 'img':'assets\\bebidas\\cenoura.png'},
+        {'name':'Suco de Goiaba', 'price':12.90, 'img':'assets\\bebidas\\goiaba.png'},
+        {'name':'Suco de Kiwi', 'price':14.90, 'img':'assets\\bebidas\\kiwi.png'},
+        {'name':'Suco de Laranja', 'price':6.90, 'img':'assets\\bebidas\\laranja.png'},
+        {'name':'Suco de Manga', 'price':9.90, 'img':'assets\\bebidas\\manga.png'},
+        {'name':'Suco de Repolho', 'price':7.90, 'img':'assets\\bebidas\\repolho.png'}
     ]
 
     CHEF = [
-        {'name':'Bacalhau', 'price':1, 'img':'assets\\chef\\bacalhau.png'},
-        {'name':'Frango Frito', 'price':1, 'img':'assets\\chef\\frango.png'},
-        {'name':'Lasanha', 'price':1, 'img':'assets\\chef\\lasanha.png'},
-        {'name':'Nhoque', 'price':1, 'img':'assets\\chef\\nhoque.png'},
-        {'name':'Ratatouille', 'price':1, 'img':'assets\\chef\\ratatouille.png'},
-        {'name':'Strogonoff', 'price':1, 'img':'assets\\chef\\strogonoff.png'}
+        {'name':'Bacalhau', 'price':55.90, 'img':'assets\\chef\\bacalhau.png'},
+        {'name':'Frango Frito', 'price':24.90, 'img':'assets\\chef\\frango.png'},
+        {'name':'Lasanha', 'price':24.90, 'img':'assets\\chef\\lasanha.png'},
+        {'name':'Nhoque', 'price':22.90, 'img':'assets\\chef\\nhoque.png'},
+        {'name':'Ratatouille', 'price':31.90, 'img':'assets\\chef\\ratatouille.png'},
+        {'name':'Strogonoff', 'price':27.90, 'img':'assets\\chef\\strogonoff.png'}
     ]
 
     ENTRADA = [
-        {'name':'Brusquetas', 'price':1, 'img':'assets\\entrada\\brusquetas.png'},
-        {'name':'Canapes', 'price':1, 'img':'assets\\entrada\\canapes.png'},
-        {'name':'Ceviche', 'price':1, 'img':'assets\\entrada\\ceviche.png'},
-        {'name':'Fondue', 'price':1, 'img':'assets\\entrada\\fondue.png'},
-        {'name':'Guacamole', 'price':1, 'img':'assets\\entrada\\guacamole.png'},
-        {'name':'Quibe', 'price':1, 'img':'assets\\entrada\\quibe.png'}
+        {'name':'Brusquetas', 'price':15.90, 'img':'assets\\entrada\\brusquetas.png'},
+        {'name':'Canapes', 'price':17.90, 'img':'assets\\entrada\\canapes.png'},
+        {'name':'Ceviche', 'price':19.90, 'img':'assets\\entrada\\ceviche.png'},
+        {'name':'Fondue', 'price':29.90, 'img':'assets\\entrada\\fondue.png'},
+        {'name':'Guacamole', 'price':24.90, 'img':'assets\\entrada\\guacamole.png'},
+        {'name':'Quibe', 'price':13.90, 'img':'assets\\entrada\\quibe.png'}
     ]
 
     PRINCIPAL = [
-        {'name':'Steak', 'price':1, 'img':'assets\\prato_principal\\bife.png'},
-        {'name':'Macarrão', 'price':1, 'img':'assets\\prato_principal\\macarrao.png'},
-        {'name':'Pasta', 'price':1, 'img':'assets\\prato_principal\\pasta.png'},
-        {'name':'Pizza de Calabresa', 'price':1, 'img':'assets\\prato_principal\\pizza.png'},
-        {'name':'Salmão Assado', 'price':1, 'img':'assets\\prato_principal\\salmao.png'},
-        {'name':'Sopa de Lentilha', 'price':1, 'img':'assets\\prato_principal\\sopa_lentilha.png'}
+        {'name':'Steak', 'price':27.90, 'img':'assets\\prato_principal\\bife.png'},
+        {'name':'Macarrão', 'price':20.90, 'img':'assets\\prato_principal\\macarrao.png'},
+        {'name':'Pasta', 'price':25.90, 'img':'assets\\prato_principal\\pasta.png'},
+        {'name':'Pizza de Calabresa', 'price':35.90, 'img':'assets\\prato_principal\\pizza.png'},
+        {'name':'Salmão Assado', 'price':44.90, 'img':'assets\\prato_principal\\salmao.png'},
+        {'name':'Sopa de Lentilha', 'price':22.90, 'img':'assets\\prato_principal\\sopa_lentilha.png'}
     ]
 
     SOBREMESA = [
-        {'name':'Cookies', 'price':1, 'img':'assets\\sobremesa\\cookies.png'},
-        {'name':'Creme Brulee', 'price':1, 'img':'assets\\sobremesa\\creme_brulee.png'},
-        {'name':'Muffins', 'price':1, 'img':'assets\\sobremesa\\muffins.png'},
-        {'name':'Rocambole', 'price':1, 'img':'assets\\sobremesa\\rocambole.png'},
-        {'name':'Sorvete', 'price':1, 'img':'assets\\sobremesa\\sorvete.png'},
-        {'name':'Torta de Maçã', 'price':1, 'img':'assets\\sobremesa\\torta_maca.png'}
+        {'name':'Cookies', 'price':3.90, 'img':'assets\\sobremesa\\cookies.png'},
+        {'name':'Creme Brulee', 'price':5.90, 'img':'assets\\sobremesa\\creme_brulee.png'},
+        {'name':'Muffins', 'price':7.90, 'img':'assets\\sobremesa\\muffins.png'},
+        {'name':'Rocambole', 'price':12.90, 'img':'assets\\sobremesa\\rocambole.png'},
+        {'name':'Sorvete', 'price':6.90, 'img':'assets\\sobremesa\\sorvete.png'},
+        {'name':'Torta de Maçã', 'price':10.90, 'img':'assets\\sobremesa\\torta_maca.png'}
     ]
 
     def __init__(self) -> None:
