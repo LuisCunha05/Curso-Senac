@@ -82,8 +82,8 @@ class Cardapio:
         self.content = addFrame(self.root, {'background':Assets.COLOR['bg']}, {'fill':'both', 'expand':True })
         self.content.columnconfigure(0, weight=1)
         self.content.rowconfigure(0, weight=1)
-
         self.login()
+
         self.root.mainloop()
 
     #-----------------------------------------------------------------------------------------------#
@@ -98,6 +98,14 @@ class Cardapio:
         except KeyError as e:
             print(f'Gracefully handled {e}')
             return False
+        
+    def reStart(self):
+        print(self.content)
+        if(self.content):
+            self.addOrRepackHeader()
+            self.content.pack(fill='both', expand=True)
+            self.__assets['obrigado']['fObrigado'].destroy()
+            self.cart.clearAll()
 
     def addOrRepackHeader(self):
         try:
@@ -108,17 +116,17 @@ class Cardapio:
                 self.__assets['login']['lBanner'].pack(fill='x', side='left', anchor='n', expand=True)
                 self.__assets['login']['lCart'].pack(padx=(0,150), side='right', anchor='e')
                 self.__assets['login']['lCart'].bind('<Button-1>', lambda e: self.shoppingCart())
-                self.__assets['login']['lCartQuant'].pack(side='right', anchor='e', after=self.__assets['login']['lCart'])
+                self.__assets['login']['lCartQuant'].pack(side='right', anchor='e')
                 return
         except KeyError as e:
             print(f'Gracefully handled {e}')
             pass
 
-        header = addFrame(self.root, {'background':Assets.COLOR['nav']}, { 'fill':'x', 'anchor':'n'})
-        self.__assets['login']['lHome'] = addLabel(header, {'image':self.__assets['login']['iHouse'], 'borderwidth':0, 'cursor':'cross'}, {'padx':(150,0), 'side':'left'})
-        self.__assets['login']['lBanner'] = addLabel(header, {'image':self.__assets['login']['iBanner'], 'borderwidth':0, 'background':'#f2c6c4'}, {'fill':'x', 'side':'left', 'anchor':'n', 'expand':True})
-        self.__assets['login']['lCart'] = addLabel(header, {'image':self.__assets['login']['iCart'], 'borderwidth':0}, {'padx':(0,150), 'side':'right', 'anchor':'e'})
-        self.__assets['login']['lCartQuant'] = addLabel(header, {'text':self.cart.getTotalAmount(), 'width':7,'borderwidth':0, 'font':Assets.FONT_G, 'background':Assets.COLOR['nav']}, {'side':'right', 'anchor':'e', 'after':self.__assets['login']['lCart']})
+        self.__assets['login']['fHeader'] = addFrame(self.root, {'background':Assets.COLOR['nav']}, { 'fill':'x', 'anchor':'n'})
+        self.__assets['login']['lHome'] = addLabel(self.__assets['login']['fHeader'], {'image':self.__assets['login']['iHouse'], 'borderwidth':0, 'cursor':'cross'}, {'padx':(150,0), 'side':'left'})
+        self.__assets['login']['lBanner'] = addLabel(self.__assets['login']['fHeader'], {'image':self.__assets['login']['iBanner'], 'borderwidth':0, 'background':'#f2c6c4'}, {'fill':'x', 'side':'left', 'anchor':'n', 'expand':True})
+        self.__assets['login']['lCart'] = addLabel(self.__assets['login']['fHeader'], {'image':self.__assets['login']['iCart'], 'borderwidth':0}, {'padx':(0,150), 'side':'right', 'anchor':'e'})
+        self.__assets['login']['lCartQuant'] = addLabel(self.__assets['login']['fHeader'], {'text':self.cart.getTotalAmount(), 'width':2,'borderwidth':0, 'font':Assets.FONT_G, 'background':Assets.COLOR['nav']}, {'side':'right', 'anchor':'e', 'after':self.__assets['login']['lCart']})
         self.__assets['login']['lHome'].pack_forget()
         self.__assets['login']['lCart'].pack_forget()
         self.__assets['login']['lCartQuant'].pack_forget()
@@ -236,7 +244,33 @@ class Cardapio:
         
         self.addCartTotal(self.__assets['cart']['fLista']) #adds the total amount line
 
-        tk.Button( self.__assets['cart']['fCart'], text='Finalizar Compra', font=Assets.FONT_G, foreground='white', background=Assets.COLOR['green'], relief='groove', border=0, command=print('Done')).pack(pady=20)
+        tk.Button( self.__assets['cart']['fCart'], text='Finalizar Compra', font=Assets.FONT_G, foreground='white', background=Assets.COLOR['green'], relief='groove', border=0, command=self.obrigado).pack(pady=20)
+
+    def obrigado(self):
+        self.__assets.update({'obrigado':{}})
+
+        self.__assets['obrigado']['gif'] = [tk.PhotoImage(file='assets\\obrigado.gif',format = f'gif -index {i}') for i in range(33)]
+
+        for child in self.root.winfo_children():
+            child.pack_forget()
+
+        self.__assets['obrigado']['fObrigado'] = tk.Frame(self.root, background=Assets.COLOR['bg'])
+        self.__assets['obrigado']['fObrigado'].pack(fill='both', expand=True)
+
+        self.__assets['obrigado']['counter'] = 0
+        self.__assets['obrigado']['lGif'] = tk.Label(self.__assets['obrigado']['fObrigado'], image=self.__assets['obrigado']['gif'][0], border=0)
+        self.__assets['obrigado']['lGif'].pack(anchor='center', pady=(150, 20))
+        self.__assets['obrigado']['lGif'].after(30, self.runGif)
+        #tk.Button( self.__assets['obrigado']['fObrigado'], text='Ir para Login', font=Assets.FONT_G, foreground='white', background=Assets.COLOR['green'], relief='groove', border=0, command= self.reStart).pack(anchor='center')
+
+    #@classmethod
+    def runGif(self):
+        count = self.__assets['obrigado']['counter']
+        self.__assets['obrigado']['lGif'].configure(image=self.__assets['obrigado']['gif'][count])
+        self.__assets['obrigado']['lGif'].after(30, self.runGif)
+        self.__assets['obrigado']['counter'] += 1
+        if count == 32:
+            self.__assets['obrigado']['counter'] = 0
 
     def entrada(self):
         if(self.raiseFrame('entrada', 'fEntrada')):
@@ -566,18 +600,18 @@ def validateCad(object: Cardapio, uEntry:tk.Entry, pEntry:tk.Entry, cpEntry:tk.E
     password = pEntry.get()
     cpassword = cpEntry.get()
 
-    #if(user == '' or len(user) < 5):
-    #    messagebox.showerror('Login Incorreto!', 'O login é muito curto!')
-    #    return
-    #elif(password == '' or len(password) < 6):
-    #    messagebox.showerror('Senha Invalida!', 'A senha é muito curta!')
-    #    return
-    #elif(user == password):
-    #    messagebox.showwarning('Senha Invalida!', 'A senha não pode ser igual ao login!')
-    #    return
-    #elif(password != cpassword):
-    #    messagebox.showerror('Senha Incorreta!', 'As senhas são diferentes!')
-    #    return
+    if(user == '' or len(user) < 5):
+        messagebox.showerror('Login Incorreto!', 'O login é muito curto!')
+        return
+    elif(password == '' or len(password) < 6):
+        messagebox.showerror('Senha Invalida!', 'A senha é muito curta!')
+        return
+    elif(user == password):
+        messagebox.showwarning('Senha Invalida!', 'A senha não pode ser igual ao login!')
+        return
+    elif(password != cpassword):
+        messagebox.showerror('Senha Incorreta!', 'As senhas são diferentes!')
+        return
 
     uEntry.delete(0, 'end')
     pEntry.delete(0, 'end')
