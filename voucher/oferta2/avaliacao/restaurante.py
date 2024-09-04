@@ -62,7 +62,34 @@ class Cardapio:
         self.root.state('zoomed')
         self.root.configure(background='purple')
 
-        #Loading Assets
+        self.start()
+
+        self.root.mainloop()
+
+    #-----------------------------------------------------------------------------------------------#
+    #                                             Methods                                           #
+    #-----------------------------------------------------------------------------------------------#
+    def raiseFrame(self, key1: str, key2: str) -> bool:
+        """Tries to Raise the Frame into view if already exists, otherwise catches the exception"""
+        try:
+            if(self.__assets[key1][key2]):
+                self.__assets[key1][key2].tkraise()
+            return True
+        except KeyError as e:
+            print(f'Gracefully handled {e}')
+            return False
+        
+    def start(self):
+        #remove old stuff
+        for child in self.root.winfo_children():
+            child.destroy()
+        try:
+            if(self.__assets):
+                del self.__assets
+                del self.cart
+        except AttributeError as e:
+            print(f'yo {e}')
+
         self.__assets = {
             'login':{
                 'iHouse':tk.PhotoImage(file=Assets.LOGIN['house']),
@@ -83,29 +110,6 @@ class Cardapio:
         self.content.columnconfigure(0, weight=1)
         self.content.rowconfigure(0, weight=1)
         self.login()
-
-        self.root.mainloop()
-
-    #-----------------------------------------------------------------------------------------------#
-    #                                             Methods                                           #
-    #-----------------------------------------------------------------------------------------------#
-    def raiseFrame(self, key1: str, key2: str) -> bool:
-        """Tries to Raise the Frame into view if already exists, otherwise catches the exception"""
-        try:
-            if(self.__assets[key1][key2]):
-                self.__assets[key1][key2].tkraise()
-            return True
-        except KeyError as e:
-            print(f'Gracefully handled {e}')
-            return False
-        
-    def reStart(self):
-        print(self.content)
-        if(self.content):
-            self.addOrRepackHeader()
-            self.content.pack(fill='both', expand=True)
-            self.__assets['obrigado']['fObrigado'].destroy()
-            self.cart.clearAll()
 
     def addOrRepackHeader(self):
         try:
@@ -258,16 +262,20 @@ class Cardapio:
         self.__assets['obrigado']['fObrigado'].pack(fill='both', expand=True)
 
         self.__assets['obrigado']['counter'] = 0
-        self.__assets['obrigado']['lGif'] = tk.Label(self.__assets['obrigado']['fObrigado'], image=self.__assets['obrigado']['gif'][0], border=0)
-        self.__assets['obrigado']['lGif'].pack(anchor='center', pady=(150, 20))
-        self.__assets['obrigado']['lGif'].after(30, self.runGif)
-        #tk.Button( self.__assets['obrigado']['fObrigado'], text='Ir para Login', font=Assets.FONT_G, foreground='white', background=Assets.COLOR['green'], relief='groove', border=0, command= self.reStart).pack(anchor='center')
+        self.__assets['obrigado']['lGif'] = []
+        for index, img in enumerate(self.__assets['obrigado']['gif']):
+            self.__assets['obrigado']['lGif'].append(tk.Label(self.__assets['obrigado']['fObrigado'], image=img, border=0))
+            self.__assets['obrigado']['lGif'][index].place(relx=0.5, rely=0.6, anchor='s')
+
+        self.__assets['obrigado']['lGif'][0].tkraise()
+        self.__assets['obrigado']['lGif'][0].after(30, self.runGif)
+        tk.Button( self.__assets['obrigado']['fObrigado'], text='Ir para Login', font=Assets.FONT_G, foreground='white', background=Assets.COLOR['green'], relief='groove', border=0, command= self.start).place(relx=0.5, rely=0.7, anchor='n')
 
     #@classmethod
     def runGif(self):
         count = self.__assets['obrigado']['counter']
-        self.__assets['obrigado']['lGif'].configure(image=self.__assets['obrigado']['gif'][count])
-        self.__assets['obrigado']['lGif'].after(30, self.runGif)
+        self.__assets['obrigado']['lGif'][count].tkraise()
+        self.__assets['obrigado']['lGif'][count].after(30, self.runGif)
         self.__assets['obrigado']['counter'] += 1
         if count == 32:
             self.__assets['obrigado']['counter'] = 0
