@@ -6,9 +6,10 @@ Cada botão que a pessoa clicar deve redirecionar a tela para o campo com opçõ
 import tkinter as tk
 from assets import Assets
 from cart import Cart
+from scrollableframe import VerticalScrolledFrame
 from tkinter import messagebox
-#from collections import abc as t
-from typing import Tuple
+
+
 
 
 
@@ -209,7 +210,7 @@ class Cardapio:
 
     def addCartTotal(self, frame:tk.Frame) -> tk.Label:
         linha = tk.Frame(frame, background='white', height=50, borderwidth=0, highlightthickness=2, highlightcolor='black')
-        linha.pack(fill='x', pady=5, padx=10)
+        linha.pack(anchor='n', fill='x',pady=10, padx=500)
 
         totalL = tk.Label(linha, text='Total de Produtos', background='white', foreground=Assets.COLOR['text'], font=Assets.FONT_M, anchor='w')
         totalL.pack(side='left', fill='x')
@@ -226,27 +227,29 @@ class Cardapio:
 
     def shoppingCart(self):
         if(self.raiseFrame('cart', 'fCart')):
-            for child in self.__assets['cart']['fLista'].winfo_children(): #Detroy all children inside the list
+            for child in self.__assets['cart']['fLista'].interior.winfo_children(): #Detroy all children inside the list
                 child.destroy()
             for item in self.cart.data: #Recreate list of products to add new ones
-                self.addProdCart(self.__assets['cart']['fLista'], item, self.cart.data[item]['quantity'], self.cart.data[item]['price'])
+                self.addProdCart(self.__assets['cart']['fLista'].interior, item, self.cart.data[item]['quantity'], self.cart.data[item]['price'])
             return
 
         self.__assets['cart']['plus'] = tk.PhotoImage(file=Assets.CART['plus'])
         self.__assets['cart']['minus'] = tk.PhotoImage(file=Assets.CART['minus'])
 
-        self.__assets['cart']['fCart'] = tk.Frame(self.content, background=Assets.COLOR['bg'])#
+        self.__assets['cart']['fCart'] = tk.Frame(self.content, background=Assets.COLOR['bg'])
         self.__assets['cart']['fCart'].grid(column=0, row=0, sticky='nsew')
 
         addLabel(self.__assets['cart']['fCart'], {'font':Assets.FONT_G, 'text':f'Olá, {self.user} aqui estão os produtos escolhidos:', 'background':Assets.COLOR['bg'], 'fg':Assets.COLOR['text']},
                                 {'fill':'x', 'padx':150, 'anchor':'center'})
 
-        self.__assets['cart']['fLista'] = addFrame(self.__assets['cart']['fCart'], {'background':Assets.COLOR['gray']}, {'anchor':'n', 'fill':'x', 'padx':500})
+        self.__assets['cart']['fLista'] = VerticalScrolledFrame(self.__assets['cart']['fCart'], height=900)
+        self.__assets['cart']['fLista'].pack(anchor='n', fill='x', padx=500)
+        #addFrame(self.__assets['cart']['fCart'], {'background':Assets.COLOR['gray']}, {'anchor':'n', 'fill':'x', 'padx':500})
 
         for item in self.cart.data:
-            self.addProdCart(self.__assets['cart']['fLista'], item, self.cart.data[item]['quantity'], self.cart.data[item]['price'])
+            self.addProdCart(self.__assets['cart']['fLista'].interior, item, self.cart.data[item]['quantity'], self.cart.data[item]['price'])
         
-        self.addCartTotal(self.__assets['cart']['fLista']) #adds the total amount line
+        self.addCartTotal(self.__assets['cart']['fCart']) #adds the total amount line
 
         tk.Button( self.__assets['cart']['fCart'], text='Finalizar Compra', font=Assets.FONT_G, foreground='white', background=Assets.COLOR['green'], relief='groove', border=0, command=self.obrigado).pack(pady=20)
 
@@ -271,7 +274,6 @@ class Cardapio:
         self.__assets['obrigado']['lGif'][0].after(30, self.runGif)
         tk.Button( self.__assets['obrigado']['fObrigado'], text='Ir para Login', font=Assets.FONT_G, foreground='white', background=Assets.COLOR['green'], relief='groove', border=0, command= self.start).place(relx=0.5, rely=0.7, anchor='n')
 
-    #@classmethod
     def runGif(self):
         count = self.__assets['obrigado']['counter']
         self.__assets['obrigado']['lGif'][count].tkraise()
@@ -316,7 +318,6 @@ class Cardapio:
             index += 1
             nameB = Assets.ENTRADA[index]['name']
             self.addProdFrame(linha2, nameB, Assets.ENTRADA[index]['price'], self.__assets['entrada'][nameB], self.__assets['cart']['addCart'], {'column':i, 'row':0,'padx':padding})
-
 
     def bebidas(self):
         if(self.raiseFrame('bebidas', 'fBebidas')):
