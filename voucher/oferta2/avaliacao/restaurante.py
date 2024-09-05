@@ -77,7 +77,7 @@ class Cardapio:
                 self.__assets[key1][key2].tkraise()
             return True
         except KeyError as e:
-            print(f'Gracefully handled {e}')
+            #print(f'Gracefully handled {e}')
             return False
         
     def start(self):
@@ -124,7 +124,7 @@ class Cardapio:
                 self.__assets['login']['lCartQuant'].pack(side='right', anchor='e')
                 return
         except KeyError as e:
-            print(f'Gracefully handled {e}')
+            #print(f'Gracefully handled {e}')
             pass
 
         self.__assets['login']['fHeader'] = addFrame(self.root, {'background':Assets.COLOR['nav']}, { 'fill':'x', 'anchor':'n'})
@@ -511,7 +511,6 @@ class Cardapio:
 
     def home(self):
         if(self.raiseFrame('home', 'fHome')):
-            self.cart.show()
             return
 
         #Loading Assets
