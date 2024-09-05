@@ -1,2 +1,2 @@
-# Python Dump
- Random python code
+# Curso Senac
+Alguns códigos aleatórios e uns apps em Python
