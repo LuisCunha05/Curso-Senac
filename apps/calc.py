@@ -38,12 +38,14 @@ class Pyculator:
             return self.get
         self.addSymbol(char)
 
-        
-        
+
     def addNumber(self, char:str) -> str:
         if(char == 'C'):
             self.unsetCleanable()
             return self.setNumber('0')
+        elif(char == '='):
+            return self.setNumber(eval(self.getExpression() + self.getNumber()))
+
         elif(self.getNumber() == '0' or self.getCleanable()):
             self.unsetCleanable()
             if(char == '.'):
@@ -51,6 +53,7 @@ class Pyculator:
             return self.setNumber(char)
         elif(char  == '.' and '.' in self.getNumber() or float(self.getNumber() + char) > self.MAX_INT or len(self.getNumber() + char) > len(str(self.MAX_INT))):
             char = self.EMPTY
+        
 
         return self.addToNumber(char)
     
@@ -70,8 +73,6 @@ class Pyculator:
                     char = self.EMPTY
             case '🞶':
                 char = '*'
-            case '=':
-                print(eval(self.getExpression()))
         result = self.getNumber() + char if char != self.EMPTY else self.EMPTY
         return self.addToExpression(result)
 
@@ -212,7 +213,7 @@ class PyculatorGUI(Pyculator):
             ('7',   2, 0, True), ('8',   2, 1, True), ('9',  2, 2, True),('-',  2, 3, False),
             ('4',   3, 0, True), ('5',   3, 1, True), ('6',  3, 2, True),('🞶', 3, 3, False),
             ('1',   4, 0, True), ('2',   4, 1, True), ('3',  4, 2, True),('/',  4, 3, False),
-            ('+/-', 5, 0, False), ('0',   5, 1, True), ('.',  5, 2, True),('=',  5, 3, False),
+            ('+/-', 5, 0, False), ('0',   5, 1, True), ('.',  5, 2, True),('=',  5, 3, True),
         ]
 
         for char, row, col, isnum in botoes_num:
