@@ -20,79 +20,155 @@ def setGeometry(master:tk.Tk, width:int = None, height:int = None,x:int = None, 
     master.resizable(resizable, resizable)
 
 class Pyculator:
+    EMPTY = ''
     __symbols = ['+', '-', '/', '*', '.']
     MAX_INT = 9223372036854775807
     def __init__(self) -> None:
-        self.expression: str = ''
-        self.number: str = '0'
-        self._parent_open: int = 0
-        self._parent_close: int = 0
+        self.__expression: str = self.EMPTY
+        self.__number: str = '0'
+        self.__openP: int = 0
+        self.__closeP: int = 0
+        self.__clearNumber: bool = False
     
     def addChar(self, char: str) -> str:
         """Adds a character to the Calculation string. CANNOT add a new symbol if the last character is a symbol"""
 
         if(char.isnumeric() or char == '.'):
-            self.addChar(char)
-        
+            self.addNumber(char)
+            return self.get
+        self.addSymbol(char)
 
-        #lastChar = self.getLastChar()
-        #lastNum = getLastNumber(self.expression)
+        
         
     def addNumber(self, char:str) -> str:
-        
-        if(not self.getLastChar().isnumeric()):
-            self.number = char
-            return char
-        if(float(self.number) > self.MAX_INT):
-            char = ''
-        self.number += char
-        return self.number
+        if(char == 'C'):
+            self.unsetCleanable()
+            return self.setNumber('0')
+        elif(self.getNumber() == '0' or self.getCleanable()):
+            self.unsetCleanable()
+            if(char == '.'):
+                char = '0.'
+            return self.setNumber(char)
+        elif(char  == '.' and '.' in self.getNumber() or float(self.getNumber() + char) > self.MAX_INT or len(self.getNumber() + char) > len(str(self.MAX_INT))):
+            char = self.EMPTY
+
+        return self.addToNumber(char)
     
-    def clear(self) -> str:
-        self.number = '0'
-        return self.number
-    
-    def getNumber(self) -> str:
-        return self.number
-    
-    def setNumber(self, num: str) -> str:
-        self.number = num
-        return self.number
-    
+    def addSymbol(self, char: str) -> str:
+        self.setCleanable()
+        match(char):
+            case 'CE':
+                return self.clearExpression()
+            case '(':
+                self.addOpenParenthesis()
+                if(self.getExpression() != self.EMPTY):
+                    char = '*('
+            case ')':
+                if(self.getCloseParenthesis() < self.getOpenParenthesis()):
+                    self.addCloseParenthesis()
+                else:
+                    char = self.EMPTY
+            case '🞶':
+                char = '*'
+            case '=':
+                print(eval(self.getExpression()))
+        result = self.getNumber() + char if char != self.EMPTY else self.EMPTY
+        return self.addToExpression(result)
+
     def getLastChar(self) -> str:
-        return self.expression[-1]
+        return self.__expression[-1]
 
     def getLastDigit(self) -> str:
-        return self.number[-1]
+        return self.__number[-1]
+    
+    def clear(self) -> str:
+        return self.setNumber('0')
+    
+    def clearExpression(self) -> str:
+        return self.setExpression(self.EMPTY)
 
     def backSpace(self) -> str:
         match(self.getLastChar()):
             case '(':
-                self._parent_open -= 1
+                self.removeOpenParenthesis()
             case ')':
-                self._parent_close -= 1
+                self.removeCloseParenthesis()
 
-        self.expression = '0' if self.expression[:-1] == '' else self.expression[:-1]
-        return self.expression
+        self.__expression = '0' if self.__expression[:-1] == self.EMPTY else self.__expression[:-1]
+        return self.__expression
+    
+    def getNumber(self) -> str:
+        return self.__number
+    
+    def setNumber(self, num: str) -> str:
+        self.__number = num
+        return self.__number
+    
+    def addToNumber(self, char: str) -> str:
+        self.__number += char
+        return self.__number
+    
+    def getExpression(self) -> str:
+        return self.__expression
+    
+    def setExpression(self, char: str) -> str:
+        self.__expression = char
+        return self.__expression
+    
+    def addToExpression(self, char:str) -> str:
+        self.__expression += char
+        return self.__expression
+    
+    def getOpenParenthesis(self):
+        return self.__openP
+
+    def addOpenParenthesis(self):
+        self.__openP += 1
+
+    def removeOpenParenthesis(self):
+        if(self.__openP > 0):
+            self.__openP -= 1
+
+    def getCloseParenthesis(self):
+        return self.__closeP
+
+    def addCloseParenthesis(self):
+        self.__closeP += 1
+
+    def removeCloseParenthesis(self):
+        if(self.__closeP > 0):
+            self.__closeP -= 1
+    
+    def setCleanable(self):
+        """Sets the Number field to be reseted in the next number input"""
+        self.__clearNumber = True
+    
+    def unsetCleanable(self):
+        """Unsets the Number field to be reseted in the next number input"""
+        self.__clearNumber = False
+    
+    def getCleanable(self) -> bool:
+        """Get current Number field status for reseting"""
+        return self.__clearNumber
 
 
 
 class PyculatorGUI(Pyculator):
     __FontS = ('Arial', 16)
-    __BgColor = '#4d4d4d'
-
+    __ColorLG = '#4d4d4d'
+    __ColorDG = '#282828'
     def __init__(self) -> None:
         super().__init__()
 
         self.root = tk.Tk()
         setGeometry(self.root, 400, 500,None,None, False)
         self.root.title('Pyculator')
-        self.root.configure(background='#282828')
+        self.root.configure(background=self.__ColorDG)
 
         self._stringExp = tk.StringVar()
-        self._stringExp.set(self.expression)
+        self._stringExp.set(self.getExpression())
         self._stringNumber = tk.StringVar()
-        self._stringNumber.set(self.number)
+        self._stringNumber.set(self.getNumber())
 
         #Label Expression
         tk.Label(
@@ -102,7 +178,7 @@ class PyculatorGUI(Pyculator):
             height=3,
             highlightthickness=1,
             highlightbackground='gray',
-            background='#282828',
+            background=self.__ColorDG,
             fg='white',
             justify='right',
             wraplength=368,
@@ -116,7 +192,7 @@ class PyculatorGUI(Pyculator):
             height=1,
             highlightthickness=1,
             highlightbackground='gray',
-            background='#282828',
+            background=self.__ColorDG,
             fg='white',
             justify='right',
             wraplength=368,
@@ -131,22 +207,23 @@ class PyculatorGUI(Pyculator):
 
         #Numbers
         botoes_num = [
-            ('C', 0, 0), ('CE', 0, 1), ('🡐', 0, 2),('(', 0, 3),
-            (')', 1, 0), ('x^y', 1, 1), ('√', 1, 2),('+', 1, 3),
-            ('7', 2, 0), ('8', 2, 1), ('9', 2, 2),('-', 2, 3),
-            ('4', 3, 0), ('5', 3, 1), ('6', 3, 2),('🞶', 3, 3),
-            ('1', 4, 0), ('2', 4, 1), ('3', 4, 2),('/', 4, 3),
-            ('+/-', 5, 0), ('0', 5, 1), ('.', 5, 2),('=', 5, 3),
+            ('C',   0, 0, True),  ('CE',  0, 1, False), ('🡐', 0, 2, False),('(',  0, 3, False),
+            (')',   1, 0, False),  ('x^y', 1, 1, False), ('√',  1, 2, False),('+',  1, 3, False),
+            ('7',   2, 0, True), ('8',   2, 1, True), ('9',  2, 2, True),('-',  2, 3, False),
+            ('4',   3, 0, True), ('5',   3, 1, True), ('6',  3, 2, True),('🞶', 3, 3, False),
+            ('1',   4, 0, True), ('2',   4, 1, True), ('3',  4, 2, True),('/',  4, 3, False),
+            ('+/-', 5, 0, False), ('0',   5, 1, True), ('.',  5, 2, True),('=',  5, 3, False),
         ]
 
-        for char, row, col in botoes_num:
+        for char, row, col, isnum in botoes_num:
             tk.Button(
                 self.btn_frame,
                 text=char,
-                command= lambda x = char: self._stringNumber.set(self.addChar(x)),
+                command= lambda x = char, var=isnum: self._stringNumber.set(self.addNumber(x)) if var else self._stringExp.set(self.addSymbol(x)),
                 font=self.__FontS,
-                background=self.__BgColor if char != '=' else '#007fff',
-                fg='white'
+                background=self.__ColorLG if char != '=' else '#007fff',
+                fg='white',
+                relief='groove'
             ).grid(row=row, column=col, sticky='we')
 
         self.root.mainloop()
