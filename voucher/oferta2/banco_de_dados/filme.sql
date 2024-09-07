@@ -20,3 +20,7 @@ INSERT INTO filme (titulo, genero, diretor) VALUES
 ('Inception', 'Ficção Científica', 'Christopher Nolan'),
 ('O Exorcista', 'Terror', 'William Friedkin'),
 ('Hereditário', 'Terror', 'Ari Aster');
+
+SELECT * from filme;-- 1
+alter Table filme ADD protagonista VARCHAR(50);-- 2
+UPDATE filme set protagonista = ELT(N, 'Max e Furiosa', 'John Wick', 'Seth e Evan', 'Mia Allen', 'Ash', 'Oskar Schindler', 'Michael Corleone', 'K', 'Dom Cobb', 'Regan e Padre Damien', 'Annie Graham') where N in (1,2,3,4,5,6,7,8,9,10);
