@@ -23,4 +23,26 @@ INSERT INTO filme (titulo, genero, diretor) VALUES
 
 SELECT * from filme;-- 1
 alter Table filme ADD protagonista VARCHAR(50);-- 2
-UPDATE filme set protagonista = ELT(N, 'Max e Furiosa', 'John Wick', 'Seth e Evan', 'Mia Allen', 'Ash', 'Oskar Schindler', 'Michael Corleone', 'K', 'Dom Cobb', 'Regan e Padre Damien', 'Annie Graham') where N in (1,2,3,4,5,6,7,8,9,10);
+UPDATE filme set protagonista = ELT(
+    id_filme,
+    'Max e Furiosa',
+    'John Wick',
+    'Seth e Evan',
+    'Mia Allen',
+    'Ash', 'Oskar Schindler',
+    'Michael Corleone',
+    'K', 'Dom Cobb',
+    'Regan e Padre Damien',
+    'Annie Graham'
+) where id_filme in (1,2,3,4,5,6,7,8,9,10);-- 3
+
+alter Table filme MODIFY COLUMN diretor VARCHAR(150);-- 4
+UPDATE filme SET diretor='Stevão Rei' where id_filme=5;-- 5
+update filme set diretor='Some Dude' where id_filme=2 or id_filme=7;-- 7
+update filme set titulo='O Poderoso Chefinho' where id_filme=6; --8
+DELETE FROM filme where id_filme=3;-- 9
+SELECT * FROM filme WHERE genero != 'Drama'; -- 10
+SELECT * FROM filme WHERE genero = 'Suspense'; -- 11
+DESCRIBE filme;
+
+TRUNCATE filme;
