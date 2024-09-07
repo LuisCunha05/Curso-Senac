@@ -162,7 +162,7 @@ class PyculatorGUI(Pyculator):
         super().__init__()
 
         self.root = tk.Tk()
-        setGeometry(self.root, 400, 500,None,None, False)
+        setGeometry(self.root, 350, 480,None,None, False)
         self.root.title('Pyculator')
         self.root.configure(background=self.__ColorDG)
 
@@ -208,15 +208,15 @@ class PyculatorGUI(Pyculator):
 
         #Numbers
         botoes_num = [
-            ('C',   0, 0, True),  ('CE',  0, 1, False), ('🡐', 0, 2, False),('(',  0, 3, False),
-            (')',   1, 0, False),  ('x^y', 1, 1, False), ('√',  1, 2, False),('+',  1, 3, False),
-            ('7',   2, 0, True), ('8',   2, 1, True), ('9',  2, 2, True),('-',  2, 3, False),
-            ('4',   3, 0, True), ('5',   3, 1, True), ('6',  3, 2, True),('🞶', 3, 3, False),
-            ('1',   4, 0, True), ('2',   4, 1, True), ('3',  4, 2, True),('/',  4, 3, False),
-            ('+/-', 5, 0, False), ('0',   5, 1, True), ('.',  5, 2, True),('=',  5, 3, True),
+            ('C',   0, True), ('CE',  1, False), ('🡐', 2, False),('(',  3, False),
+            (')',   0, False),('x^y', 1, False), ('√',  2, False),('+',  3, False),
+            ('7',   0, True), ('8',   1, True),  ('9',  2, True),('-',  3, False),
+            ('4',   0, True), ('5',   1, True),  ('6',  2, True),('🞶', 3, False),
+            ('1',   0, True), ('2',   1, True),  ('3',  2, True),('/',  3, False),
+            ('+/-', 0, False),('0',   1, True),  ('.',  2, True),('=',  3, True),
         ]
-
-        for char, row, col, isnum in botoes_num:
+        row = 0
+        for char, col, isnum in botoes_num:
             tk.Button(
                 self.btn_frame,
                 text=char,
@@ -226,6 +226,8 @@ class PyculatorGUI(Pyculator):
                 fg='white',
                 relief='groove'
             ).grid(row=row, column=col, sticky='we')
+
+            if(col == 3): row += 1
 
         self.root.mainloop()
 
