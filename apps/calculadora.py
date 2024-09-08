@@ -174,7 +174,10 @@ class PyculatorGUI():
         self._stringNumber = tk.StringVar()
         self._stringNumber.set(self.calculator.getNumber())
 
-        tk.Button(self.root, text='Científica', font=self.__FontM, foreground='white', command=self.science, relief='flat', border=0, background=self.__ColorDG).pack(padx=10, pady=(10, 0), anchor='w')
+        self.frameButton = tk.Frame(self.root, background=self.__ColorDG)
+        self.frameButton.pack(fill='x', pady=10)
+
+        
 
         #Label Expression
         tk.Label(
@@ -205,28 +208,37 @@ class PyculatorGUI():
             anchor='se'
         ).pack(padx=10, pady=(1,15), fill='x')
         
-        
+        self.frameMain = tk.Frame(self.root, background=self.__ColorDG)
+        self.frameMain.pack(fill='both', expand=True, padx=10, pady=(0,10))
 
-        self.science()
+        self.padrao()
 
         self.root.mainloop()
     
     def science(self):
         if(hasattr(self, 'frameScience')):
             self.frameScience.tkraise()
+            self.buttonScience.pack_forget()
+            self.buttonPadrao.pack(padx=10, anchor='w')
             return
+        
+        if(self.buttonScience.winfo_viewable()):
+            self.buttonScience.pack_forget()
+        
+        self.buttonPadrao = tk.Button(self.frameButton, text='Padrão', font=self.__FontM, foreground='white', command=self.padrao, relief='flat', border=0, background=self.__ColorLG)
+        self.buttonPadrao.pack(padx=10, anchor='w')
 
-        self.frameScience = tk.Frame(self.root, background=self.__ColorDG)
+        self.frameScience = tk.Frame(self.frameMain, background=self.__ColorDG)
         for i in range(4):
             self.frameScience.columnconfigure(i, weight=1)
-        self.frameScience.pack(padx=10, pady=10, fill='x')
+        self.frameScience.place(relx=0.5, rely=0.5, anchor='center', relheight=1, relwidth=1)
 
         botoes_num = [
             ('C',   0, True), ('CE',  1, False), ('🡐', 2, False),('(',  3, False),
-            (')',   0, False),('x^y', 1, False), ('√',  2, False),('+',  3, False),
-            ('7',   0, True), ('8',   1, True),  ('9',  2, True),('-',  3, False),
-            ('4',   0, True), ('5',   1, True),  ('6',  2, True),('🞶', 3, False),
-            ('1',   0, True), ('2',   1, True),  ('3',  2, True),('/',  3, False),
+            (')',   0, False),('x^y', 1, False), ('√',  2, False),('/',  3, False),
+            ('7',   0, True), ('8',   1, True),  ('9',  2, True),('🞶',  3, False),
+            ('4',   0, True), ('5',   1, True),  ('6',  2, True),('-', 3, False),
+            ('1',   0, True), ('2',   1, True),  ('3',  2, True),('+',  3, False),
             ('+/-', 0, False),('0',   1, True),  ('.',  2, True),('=',  3, True),
         ]
 
@@ -247,19 +259,24 @@ class PyculatorGUI():
     def padrao(self):
         if(hasattr(self, 'framePadrao')):
             self.framePadrao.tkraise()
+            self.buttonPadrao.pack_forget()
+            self.buttonScience.pack(padx=10, anchor='w')
             return
 
-        self.framePadrao = tk.Frame(self.root, background=self.__ColorDG)
+        self.buttonScience = tk.Button(self.frameButton, text='Científica', font=self.__FontM, foreground='white', command=self.science, relief='flat', border=0, background=self.__ColorLG)
+        self.buttonScience.pack(padx=10, anchor='w')
+
+        self.framePadrao = tk.Frame(self.frameMain, background=self.__ColorDG)
         for i in range(4):
             self.framePadrao.columnconfigure(i, weight=1)
-        self.framePadrao.pack(padx=10, pady=10, fill='x')
+        self.framePadrao.place(relx=0.5, rely=0.5, anchor='center', relheight=1, relwidth=1)
 
         botoes_num = [
-            ('C',   0, True), ('CE',  1, False), ('🡐', 2, False),('(',  3, False),
-            (')',   0, False),('x^y', 1, False), ('√',  2, False),('+',  3, False),
-            ('7',   0, True), ('8',   1, True),  ('9',  2, True),('-',  3, False),
-            ('4',   0, True), ('5',   1, True),  ('6',  2, True),('🞶', 3, False),
-            ('1',   0, True), ('2',   1, True),  ('3',  2, True),('/',  3, False),
+            ('C',   0, True), ('CE',  1, False), ('🡐', 2, False),('!',  3, False),
+            ('1/x',   0, False),('x²', 1, False), ('√',  2, False),('/',  3, False),
+            ('7',   0, True), ('8',   1, True),  ('9',  2, True),('🞶',  3, False),
+            ('4',   0, True), ('5',   1, True),  ('6',  2, True),('-', 3, False),
+            ('1',   0, True), ('2',   1, True),  ('3',  2, True),('+',  3, False),
             ('+/-', 0, False),('0',   1, True),  ('.',  2, True),('=',  3, True),
         ]
 
