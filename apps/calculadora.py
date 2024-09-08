@@ -155,9 +155,10 @@ class Pyculator:
 
 
 class PyculatorGUI(Pyculator):
-    __FontS = ('Arial', 16)
+    __FontM = ('Arial', 16)
     __ColorLG = '#4d4d4d'
     __ColorDG = '#282828'
+
     def __init__(self) -> None:
         super().__init__()
 
@@ -170,6 +171,8 @@ class PyculatorGUI(Pyculator):
         self._stringExp.set(self.getExpression())
         self._stringNumber = tk.StringVar()
         self._stringNumber.set(self.getNumber())
+
+        tk.Button(self.root, text='Padrão', font=self.__FontM, foreground='white', relief='flat', border=0, background=self.__ColorDG).pack(padx=10, pady=(10, 0), anchor='w')
 
         #Label Expression
         tk.Label(
@@ -184,7 +187,7 @@ class PyculatorGUI(Pyculator):
             justify='right',
             wraplength=368,
             anchor='se'
-        ).pack(padx=15,pady=(15,1), fill='x')
+        ).pack(padx=10, pady=(10,1), fill='x')
         #Label Number
         tk.Label(
             self.root,
@@ -198,15 +201,19 @@ class PyculatorGUI(Pyculator):
             justify='right',
             wraplength=368,
             anchor='se'
-        ).pack(padx=15,pady=(1,15), fill='x')
-
+        ).pack(padx=10, pady=(1,15), fill='x')
+        
         #Numeric Frame
-        self.btn_frame = tk.Frame(self.root)
+        self.frameScience = tk.Frame(self.root, background=self.__ColorDG)
         for i in range(4):
-            self.btn_frame.columnconfigure(i, weight=1)
-        self.btn_frame.pack(padx=15, pady=15, fill='x')
+            self.frameScience.columnconfigure(i, weight=1)
+        self.frameScience.pack(padx=10, pady=10, fill='x')
 
-        #Numbers
+        self.science()
+
+        self.root.mainloop()
+    
+    def science(self):
         botoes_num = [
             ('C',   0, True), ('CE',  1, False), ('🡐', 2, False),('(',  3, False),
             (')',   0, False),('x^y', 1, False), ('√',  2, False),('+',  3, False),
@@ -215,21 +222,19 @@ class PyculatorGUI(Pyculator):
             ('1',   0, True), ('2',   1, True),  ('3',  2, True),('/',  3, False),
             ('+/-', 0, False),('0',   1, True),  ('.',  2, True),('=',  3, True),
         ]
-        row = 0
+        row = 4
         for char, col, isnum in botoes_num:
             tk.Button(
-                self.btn_frame,
+                self.frameScience,
                 text=char,
                 command= lambda x = char, var=isnum: self._stringNumber.set(self.addNumber(x)) if var else self._stringExp.set(self.addSymbol(x)),
-                font=self.__FontS,
+                font=self.__FontM,
                 background=self.__ColorLG if char != '=' else '#007fff',
                 fg='white',
                 relief='groove'
             ).grid(row=row, column=col, sticky='we')
 
             if(col == 3): row += 1
-
-        self.root.mainloop()
-
+            
 if __name__ == '__main__':
     PyculatorGUI()
