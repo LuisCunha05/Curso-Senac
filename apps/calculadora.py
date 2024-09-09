@@ -31,22 +31,20 @@ class Pyculator:
         self.__clearNumber: bool = False
     
     def addChar(self, char: str) -> str:
-        """Adds a character to the Calculation string. CANNOT add a new symbol if the last character is a symbol"""
 
         if(char.isnumeric() or char == '.'):
             self.addNumber(char)
-            return self.get
+            return
         self.addSymbol(char)
+        return
 
 
     def addNumber(self, char:str) -> str:
-        if(char == 'C'):
-            self.unsetCleanable()
-            return self.setNumber('0')
-        elif(char == '='):
-            return self.setNumber(eval(self.getExpression() + self.getNumber()))
+        if(self.__expression != '' and self.getLastChar() == '='):
+            self.clearExpression()
+            self.clear()
 
-        elif(self.getNumber() == '0' or self.getCleanable()):
+        if(self.getNumber() == '0' or self.getCleanable()):
             self.unsetCleanable()
             if(char == '.'):
                 char = '0.'
@@ -58,8 +56,20 @@ class Pyculator:
         return self.addToNumber(char)
     
     def addSymbol(self, char: str) -> str:
-        self.setCleanable()
+        if(self.getCleanable()):
+            self.clearExpression()
+            self.unsetCleanable()
+
         match(char):
+            case 'C':
+                self.unsetCleanable()
+                return self.setNumber('0')
+            case '=':
+                self.addToExpression(self.getNumber())
+                self.setNumber(str(eval(self.getExpression())))
+                self.addToExpression('=')
+                self.setCleanable()
+                return
             case 'CE':
                 return self.clearExpression()
             case '(':
@@ -73,6 +83,7 @@ class Pyculator:
                     char = self.EMPTY
             case '🞶':
                 char = '*'
+        self.setCleanable()
         result = self.getNumber() + char if char != self.EMPTY else self.EMPTY
         return self.addToExpression(result)
 
@@ -160,8 +171,6 @@ class PyculatorGUI():
     __ColorDG = '#282828'
 
     def __init__(self) -> None:
-        super().__init__()
-
         self.root = tk.Tk()
         setGeometry(self.root, 350, 480,None,None, False)
         self.root.title('Pyculator')
@@ -247,7 +256,7 @@ class PyculatorGUI():
             tk.Button(
                 self.frameScience,
                 text=char,
-                command= lambda x = char, var=isnum: self._stringNumber.set(self.calculator.addNumber(x)) if var else self._stringExp.set(self.addSymbol(x)),
+                command= lambda x = char, var=isnum: [self.calculator.addChar(x), self.root.after(3, self.updateLabels())],
                 font=self.__FontM,
                 background=self.__ColorLG if char != '=' else '#007fff',
                 fg='white',
@@ -285,7 +294,7 @@ class PyculatorGUI():
             tk.Button(
                 self.framePadrao,
                 text=char,
-                command= lambda x = char, var=isnum: self._stringNumber.set(self.calculator.addNumber(x)) if var else self._stringExp.set(self.addSymbol(x)),
+                command= lambda x = char, var=isnum: [self.calculator.addChar(x), self.root.after(3, self.updateLabels())],
                 font=self.__FontM,
                 background=self.__ColorLG if char != '=' else '#007fff',
                 fg='white',
@@ -293,6 +302,10 @@ class PyculatorGUI():
             ).grid(row=row, column=col, sticky='we')
 
             if(col == 3): row += 1
+
+    def updateLabels(self):
+        self._stringNumber.set(self.calculator.getNumber())
+        self._stringExp.set(self.calculator.getExpression())
 
 if __name__ == '__main__':
     PyculatorGUI()
