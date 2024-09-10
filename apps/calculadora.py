@@ -70,6 +70,9 @@ class Pyculator:
                 self.addToExpression('=')
                 self.setCleanable()
                 return
+            case '🡐':
+                self.backSpace()
+                return
             case 'CE':
                 return self.clearExpression()
             case '(':
@@ -100,15 +103,16 @@ class Pyculator:
         return self.setExpression(self.EMPTY)
 
     def backSpace(self) -> str:
-        match(self.getLastChar()):
+        match(self.getExpression() != self.EMPTY and self.getLastChar()):
             case '(':
                 self.removeOpenParenthesis()
             case ')':
                 self.removeCloseParenthesis()
 
-        self.__expression = '0' if self.__expression[:-1] == self.EMPTY else self.__expression[:-1]
-        return self.__expression
-    
+        if(self.__expression[:-1] == self.EMPTY):
+            self.clearExpression()
+        self.setExpression(self.__expression[:-1])
+
     def getNumber(self) -> str:
         return self.__number
     
