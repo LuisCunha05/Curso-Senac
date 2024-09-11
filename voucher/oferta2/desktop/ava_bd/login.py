@@ -129,7 +129,17 @@ class LoginDB:
         cpassword = self.eCadConfword.get()
         uText = self.eCadText.get("1.0", "end-1c")
 
-        if(user == '' or len(user) < 5):
+        try:
+            self.cursor.execute(f"select id_user from usuario where login_user='{user}'")
+            exists = self.cursor.fetchone()
+        except:
+            messagebox.showerror('Algo deu errado!', f'O cadastro não pode ser finalizado!\nErro: {e}')
+            return
+        
+        if(exists):
+            messagebox.showerror('Usuário já existe!', 'O nome de usuário já existe!')
+            return
+        elif(user == '' or len(user) < 5):
             messagebox.showerror('Login Incorreto!', 'O login é muito curto!')
             return
         elif(password == '' or len(password) < 6):
