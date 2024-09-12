@@ -1,7 +1,10 @@
 
 import tkinter as tk
 from tkinter import messagebox
+from tkinter.colorchooser import askcolor
 import mysql.connector as sql
+import hashlib
+from dictqueue import DictQueue
 
 
 
@@ -25,21 +28,26 @@ class LoginDB:
         'password':'',
         'database':'login'
     }
+
     def __init__(self) -> None:
         self.main = tk.Tk()
-        setGeometry(self.main, scale=0.4, width=500)
+        setGeometry(self.main, scale=0.5, width=500)
         self.main.title('Login')
         #self.main.wm_attributes('-transparentcolor','purple')
-        if(self.USE_LOCAL_DB):
-            self.db = sql.connect(**self.configLocalDB)
-        else:
-            self.db = sql.connect(**self.configServerDB)
-        self.cursor = self.db.cursor()
 
+        self.frameQ = DictQueue()
 
         self.login()
 
         self.main.mainloop()
+
+    def connectDB(self):
+        if(self.USE_LOCAL_DB):
+            self.db = sql.connect(**self.configLocalDB)
+        else:
+            self.db = sql.connect(**self.configServerDB)
+
+        self.cursor = self.db.cursor()
 
     def login(self):
         if(hasattr(self, 'fLogin')):
@@ -61,6 +69,41 @@ class LoginDB:
         self.ePassword.config(show='*')
 
         tk.Button(self.fLogin, text='Entrar', foreground='white', background=self.colorBT, font=self.fontG, border=0, relief='groove', command=self.validateLogin).pack(pady=20)
+
+    def generateUserPage(self):
+        try:
+            self.frameQ.get(self.lastUser)['frame'].tkraise()
+            return
+        except KeyError as e:
+            print(e)
+            pass
+
+        #Get user info
+        try:
+            self.connectDB()
+        except Exception as e:
+            print(f'Não foi possivel conectar ao banco de dados.\nErro: {e}')
+            return
+        
+        print('creating')
+        self.cursor.execute(f'SELECT color,texto from usuario where login_user="{self.lastUser}"')
+        color, text = self.cursor.fetchone()
+        self.db.disconnect()
+
+        #Create elements
+        self.frameQ.put(self.lastUser, {'frame':tk.Frame(self.main, background=color)})
+        frame = self.frameQ.get(self.lastUser)['frame']
+        frame.place(relheight=1, relwidth=1)
+
+        invColor = getInverseColor(color)
+        fontColor = getFontColor(invColor)
+        tk.Frame().winfo_reqheight
+        tk.Label(frame, text=f'Bem Vindo, {self.lastUser}!', font=fontColor, foreground=fontColor, background=invColor).pack(pady=20)
+
+        tk.Label(frame, text=f'{text}', font=self.fontM, foreground=fontColor, background=invColor, wraplength=400, height=6).pack(pady=(0,20), fill='x', padx=50)
+
+        tk.Button(frame, text='Sair', foreground=fontColor, background=invColor, font=self.fontG, border=0, relief='groove', command=self.login).pack(side='bottom', pady=20)
+
 
     def cadastro(self):
         if(hasattr(self, 'fCadastro')):
@@ -90,23 +133,35 @@ class LoginDB:
         self.eCadConfword.config(show='*')
 
         #Texto do Usuário
-        tk.Label(self.fCadastro, text='Digite uma mensagem!', font=self.fontG, foreground='white', background=self.colorBG, anchor='w', justify='left').pack(padx=100, fill='x')
+        tk.Label(self.fCadastro, text='Digite uma mensagem!', font=self.fontM, foreground='white', background=self.colorBG, anchor='w', justify='left').pack(padx=100, fill='x')
         self.eCadText = tk.Text(self.fCadastro, font=self.fontM, foreground='white', background='gray', height=3)
         self.eCadText.pack(padx=100, fill='x')
 
+        #Escolher cor
+        def saveColor():
+            self.color = askcolor()
+            self.color = self.color[1] if self.color[1] else '#000000'
+            print(self.color)
+
+        tk.Label(self.fCadastro, text='Escolha uma Cor', font=self.fontM, foreground='white', background=self.colorBG, anchor='center', justify='left').pack(padx=100, fill='x', pady=(10, 0))
+        tk.Button(self.fCadastro, text='Escolher', foreground='white', background='#a3b8c8', font=self.fontG, border=0, relief='groove', command=saveColor).pack()
+
+        #Finalizar cadastro
         tk.Button(self.fCadastro, text='Cadastrar', foreground='white', background=self.colorBT, font=self.fontG, border=0, relief='groove', command=self.validateCad).pack(pady=20)
 
     def validateLogin(self):
         user = self.eUser.get()
-        password = self.ePassword.get()
+        password = toSHA256(self.ePassword.get())
+
+        self.connectDB()
 
         self.cursor.execute(f"select id_user from usuario where login_user='{user}'")
-        userID = self.cursor.fetchall()
+        userID = self.cursor.fetchone()
 
         try:
-            userID= userID[0][0]
-        except IndexError:
-            print('no index logger')
+            userID = userID[0]
+        except TypeError:
+            print('no user')
 
         if(not userID):
             messagebox.showerror('Login Inexistente !', 'Login não encontrado!')
@@ -114,13 +169,26 @@ class LoginDB:
                 self.cadastro()
             return
         
-        self.cursor.execute(f"select IF((SELECT senha from usuario where id_user={userID}) = SHA2('{password}', 256), 1, 0)")
-        senha = self.cursor.fetchall()
-        senha= senha[0][0]
+        #self.cursor.execute(f"SELECT senha from usuario where id_user={userID}")
+        #senhasha = self.cursor.fetchone()
+        #print(senhasha)
+        #print(password)
+
+        self.cursor.execute(f"select IF((SELECT senha from usuario where id_user={userID}) = '{password}', 1, 0)")
+        senha = self.cursor.fetchone()
+        senha = senha[0]
+
         if(not senha):
-            messagebox.showerror('Senha Incorreta!', 'Senha Incorreta!')
+            messagebox.showerror('Senha Incorreta!', 'Senha Incorreta!\nTente Novamente!')
             return
-        print('yooooooooooooooo')
+        
+        self.db.disconnect()
+
+        self.eUser.delete(0, 'end')
+        self.ePassword.delete(0, 'end')
+        self.main.focus()
+        self.lastUser = user
+        self.generateUserPage()
 
     def validateCad(self):
         #object.user = utk.Entry.get()
@@ -128,6 +196,8 @@ class LoginDB:
         password = self.eCadPassword.get()
         cpassword = self.eCadConfword.get()
         uText = self.eCadText.get("1.0", "end-1c")
+
+        self.connectDB()
 
         try:
             self.cursor.execute(f"select id_user from usuario where login_user='{user}'")
@@ -139,10 +209,10 @@ class LoginDB:
         if(exists):
             messagebox.showerror('Usuário já existe!', 'O nome de usuário já existe!')
             return
-        elif(user == '' or len(user) < 5):
+        elif(len(user) < 5):
             messagebox.showerror('Login Incorreto!', 'O login é muito curto!')
             return
-        elif(password == '' or len(password) < 6):
+        elif(len(password) < 6):
             messagebox.showerror('Senha Invalida!', 'A senha é muito curta!')
             return
         elif(user == password):
@@ -156,13 +226,15 @@ class LoginDB:
             return
 
         try:
-            self.cursor.execute(f"insert into usuario values (NULL, '{user}', SHA2('{password}', 256), '{uText}')")
+            self.cursor.execute(f"insert into usuario values (NULL, '{user}', '{toSHA256( password)}', '{self.color}', '{uText}')")
             self.db.commit()
             messagebox.showinfo('Cadastrado', 'Cadrastro realizado com sucesso!\nClique para voltar ao a página do Login')
             self.login()
         except Exception as e:
             messagebox.showerror('Algo deu errado!', f'O cadastro não pode ser finalizado!\nErro: {e}')
             return
+
+        self.db.disconnect()
 
         self.eCadUser.delete(0, 'end')
         self.eCadPassword.delete(0, 'end')
@@ -181,6 +253,34 @@ def setGeometry(master:tk.Tk, scale:float = 0.7, width:int = None, height:int = 
     master.geometry(f'{width}x{height}+{x}+{y}')
     master.resizable(resizable, resizable)
 
+def toSHA256(string: str) -> str:
+    """Returns the Hash of the given string using SHA256"""
+    return hashlib.sha256(string.encode()).hexdigest()
+
+def getFontColor(color: str) -> str:
+    color = color[1:]
+
+    red = int(color[0:2], 16)
+    green = int(color[2:4], 16)
+    blue = int(color[4:6], 16)
+
+    if (red*0.299 + green*0.587 + blue*0.114) > 150: #186
+        return '#000000'
+    else:
+        return '#ffffff'
+    
+def getInverseColor(color: str) -> str:
+    color = color[1:]
+    
+    red = int(color[0:2], 16)
+    green = int(color[2:4], 16)
+    blue = int(color[4:6], 16)
+
+    red = 255 - red
+    green = 255 - green
+    blue = 255 - blue
+
+    return f'#{red:02x}{green:02x}{blue:02x}'
 
 if(__name__ == '__main__'):
     LoginDB()
