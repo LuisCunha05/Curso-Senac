@@ -45,11 +45,13 @@ class LoginDB:
         self.main.mainloop()
 
     def connectDB(self):
-        if(self.USE_LOCAL_DB):
-            self.db = sql.connect(**self.configLocalDB)
-        else:
-            self.db = sql.connect(**self.configServerDB)
-
+        try:
+            if(self.USE_LOCAL_DB):
+                self.db = sql.connect(**self.configLocalDB)
+            else:
+                self.db = sql.connect(**self.configServerDB)
+        except Exception as e:
+            print(f'Não foi possivel conectar ao bando de dados\nErro: {e}')
         self.cursor = self.db.cursor()
 
     def login(self):
@@ -72,6 +74,15 @@ class LoginDB:
         self.ePassword.config(show='*')
 
         tk.Button(self.fLogin, text='Entrar', foreground='white', background=self.colorBT, font=self.fontG, border=0, relief='groove', command=self.validateLogin).pack(pady=20)
+
+        self.check = tk.IntVar()
+        tk.Checkbutton(self.fLogin, text='Usar Banco de Dados Local',variable=self.check, command=self.changeDB, background=self.colorBG, foreground='black', font=self.fontM).pack(pady=20)
+
+    def changeDB(self):
+        if(self.check.get()):
+            self.USE_LOCAL_DB = True
+        else:
+            self.USE_LOCAL_DB = False
 
     def generateUserPage(self):
         try:
