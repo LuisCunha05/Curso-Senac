@@ -1,7 +1,9 @@
 
 import tkinter as tk
+import io
 from tkinter import messagebox
 from tkinter.colorchooser import askcolor
+from tkinter import filedialog as fd
 import mysql.connector as sql
 import hashlib
 from dictqueue import DictQueue
@@ -14,7 +16,7 @@ class LoginDB:
     colorBG = '#AF9BEF'
     colorBT = '#4CAF50'
 
-    USE_LOCAL_DB = True # Change this depending on environment 
+    USE_LOCAL_DB = False # Change this depending on environment 
 
     configServerDB = {
         'host':'10.28.2.34',
@@ -31,7 +33,8 @@ class LoginDB:
 
     def __init__(self) -> None:
         self.main = tk.Tk()
-        setGeometry(self.main, scale=0.5, width=500)
+        #setGeometry(self.main, scale=0.5, width=500)
+        self.main.state('zoomed')
         self.main.title('Login')
         #self.main.wm_attributes('-transparentcolor','purple')
 
@@ -59,13 +62,13 @@ class LoginDB:
 
         tk.Label(self.fLogin, text='Bem Vindo!', font=self.fontG, foreground='white', background=self.colorBG).pack(pady=20)
 
-        tk.Label(self.fLogin, text='Usuário', font=self.fontG, foreground='white', background=self.colorBG, anchor='w', justify='left').pack(padx=100, fill='x')
+        tk.Label(self.fLogin, text='Usuário', font=self.fontG, foreground='white', background=self.colorBG, anchor='w', justify='left').pack(padx=700, fill='x')
         self.eUser = tk.Entry(self.fLogin, font=self.fontM, foreground='gray')
-        self.eUser.pack(padx=100, fill='x')
+        self.eUser.pack(padx=700, fill='x')
 
-        tk.Label(self.fLogin, text='Senha', font=self.fontG, foreground='white', background=self.colorBG, anchor='w', justify='left').pack(padx=100, fill='x')
+        tk.Label(self.fLogin, text='Senha', font=self.fontG, foreground='white', background=self.colorBG, anchor='w', justify='left').pack(padx=700, fill='x')
         self.ePassword = tk.Entry(self.fLogin, font=self.fontM, foreground='gray')
-        self.ePassword.pack(padx=100, fill='x')
+        self.ePassword.pack(padx=700, fill='x')
         self.ePassword.config(show='*')
 
         tk.Button(self.fLogin, text='Entrar', foreground='white', background=self.colorBT, font=self.fontG, border=0, relief='groove', command=self.validateLogin).pack(pady=20)
@@ -85,9 +88,8 @@ class LoginDB:
             print(f'Não foi possivel conectar ao banco de dados.\nErro: {e}')
             return
         
-        print('creating')
-        self.cursor.execute(f'SELECT color,texto from usuario where login_user="{self.lastUser}"')
-        color, text = self.cursor.fetchone()
+        self.cursor.execute(f'SELECT color,texto,img from usuario where login_user="{self.lastUser}"')
+        color, text, blob = self.cursor.fetchone()
         self.db.disconnect()
 
         #Create elements
@@ -97,10 +99,14 @@ class LoginDB:
 
         invColor = getInverseColor(color)
         fontColor = getFontColor(invColor)
-        tk.Frame().winfo_reqheight
+
         tk.Label(frame, text=f'Bem Vindo, {self.lastUser}!', font=fontColor, foreground=fontColor, background=invColor).pack(pady=20)
 
-        tk.Label(frame, text=f'{text}', font=self.fontM, foreground=fontColor, background=invColor, wraplength=400, height=6).pack(pady=(0,20), fill='x', padx=50)
+        tk.Label(frame, text=f'{text}', font=self.fontM, foreground=fontColor, background=invColor, wraplength=400, height=6).pack(pady=(0,20), fill='x', padx=700)
+
+        if(blob):
+            self.frameQ.put(self.lastUser, {'img':tk.PhotoImage(data=blob, format='png')})
+            tk.Label(frame, image=self.frameQ.get(self.lastUser)['img'], height=400, width=400).pack(pady=(10,0))
 
         tk.Button(frame, text='Sair', foreground=fontColor, background=invColor, font=self.fontG, border=0, relief='groove', command=self.login).pack(side='bottom', pady=20)
 
@@ -113,38 +119,42 @@ class LoginDB:
         self.fCadastro = tk.Frame(self.main, background='purple')
         self.fCadastro.place(relheight=1, relwidth=1)
 
-        tk.Label(self.fCadastro, text='Novo Usuário', font=self.fontG, foreground='white', background=self.colorBG).pack(pady=20)
+        tk.Label(self.fCadastro, text='Novo Usuário', font=self.fontG, foreground='white', background='purple').pack(pady=20)
 
         #Usuário
-        tk.Label(self.fCadastro, text='Usuário', font=self.fontG, foreground='white', background=self.colorBG, anchor='w', justify='left').pack(padx=100, fill='x')
+        tk.Label(self.fCadastro, text='Usuário', font=self.fontG, foreground='white', background='purple', anchor='w', justify='left').pack(padx=700, fill='x')
         self.eCadUser = tk.Entry(self.fCadastro, font=self.fontM, foreground='gray')
-        self.eCadUser.pack(padx=100, fill='x')
+        self.eCadUser.pack(padx=700, fill='x')
 
         #Senha
-        tk.Label(self.fCadastro, text='Senha', font=self.fontG, foreground='white', background=self.colorBG, anchor='w', justify='left').pack(padx=100, fill='x')
+        tk.Label(self.fCadastro, text='Senha', font=self.fontG, foreground='white', background='purple', anchor='w', justify='left').pack(padx=700, fill='x')
         self.eCadPassword = tk.Entry(self.fCadastro, font=self.fontM, foreground='gray')
-        self.eCadPassword.pack(padx=100, fill='x')
+        self.eCadPassword.pack(padx=700, fill='x')
         self.eCadPassword.config(show='*')
 
         #Confirmar Senha
-        tk.Label(self.fCadastro, text='Confirmar Senha', font=self.fontG, foreground='white', background=self.colorBG, anchor='w', justify='left').pack(padx=100, fill='x')
+        tk.Label(self.fCadastro, text='Confirmar Senha', font=self.fontG, foreground='white', background='purple', anchor='w', justify='left').pack(padx=700, fill='x')
         self.eCadConfword = tk.Entry(self.fCadastro, font=self.fontM, foreground='gray')
-        self.eCadConfword.pack(padx=100, fill='x')
+        self.eCadConfword.pack(padx=700, fill='x')
         self.eCadConfword.config(show='*')
 
         #Texto do Usuário
-        tk.Label(self.fCadastro, text='Digite uma mensagem!', font=self.fontM, foreground='white', background=self.colorBG, anchor='w', justify='left').pack(padx=100, fill='x')
+        tk.Label(self.fCadastro, text='Digite uma mensagem!', font=self.fontM, foreground='white', background='purple', anchor='w', justify='left').pack(padx=700, fill='x')
         self.eCadText = tk.Text(self.fCadastro, font=self.fontM, foreground='white', background='gray', height=3)
-        self.eCadText.pack(padx=100, fill='x')
+        self.eCadText.pack(padx=700, fill='x')
 
         #Escolher cor
         def saveColor():
             self.color = askcolor()
             self.color = self.color[1] if self.color[1] else '#000000'
-            print(self.color)
 
-        tk.Label(self.fCadastro, text='Escolha uma Cor', font=self.fontM, foreground='white', background=self.colorBG, anchor='center', justify='left').pack(padx=100, fill='x', pady=(10, 0))
+        tk.Label(self.fCadastro, text='Escolha uma Cor', font=self.fontM, foreground='white', background='purple', anchor='center', justify='left').pack(padx=700, fill='x', pady=(10, 0))
         tk.Button(self.fCadastro, text='Escolher', foreground='white', background='#a3b8c8', font=self.fontG, border=0, relief='groove', command=saveColor).pack()
+
+        #Escolher Imagem
+        tk.Label(self.fCadastro, text='Escolha uma Imagem', font=self.fontM, foreground='white', background='purple', anchor='center', justify='left').pack(padx=700, fill='x', pady=(10, 0))
+        tk.Button(self.fCadastro, text='Escolher', foreground='white', background='#a3ffc8', font=self.fontG, border=0, relief='groove', command=self.select_file).pack()
+
 
         #Finalizar cadastro
         tk.Button(self.fCadastro, text='Cadastrar', foreground='white', background=self.colorBT, font=self.fontG, border=0, relief='groove', command=self.validateCad).pack(pady=20)
@@ -226,7 +236,8 @@ class LoginDB:
             return
 
         try:
-            self.cursor.execute(f"insert into usuario values (NULL, '{user}', '{toSHA256( password)}', '{self.color}', '{uText}')")
+            q = "insert into usuario values (NULL, %s, %s, %s, %s, %s)"
+            self.cursor.execute(q, (user, toSHA256(password), self.color, uText, binaryDataFromFile(self.path)))
             self.db.commit()
             messagebox.showinfo('Cadastrado', 'Cadrastro realizado com sucesso!\nClique para voltar ao a página do Login')
             self.login()
@@ -241,6 +252,29 @@ class LoginDB:
         self.eCadConfword.delete(0, 'end')
         self.eCadText.delete("1.0", "end-1c")
         self.main.focus()
+
+    def select_file(self):
+        filetypes = (
+            ('Images', '*.png'),
+            ('All files', '*.*')
+        )
+
+        filename = fd.askopenfilename(
+            title='Open a file',
+            initialdir='/',
+            filetypes=filetypes)
+
+        self.path = filename
+
+def binaryDataFromFile(path: str) -> bytes:
+    """Convert image to binary data"""
+    if(path == ''):
+        return None
+
+    with open(path, 'rb') as file:
+        binaryData = file.read()
+
+    return binaryData
 
 def setGeometry(master:tk.Tk, scale:float = 0.7, width:int = None, height:int = None,x:int = None, y:int = None, resizable:bool = True):
     """Sets the window size and put it at center of the screen, by default uses 70% of the screen.
