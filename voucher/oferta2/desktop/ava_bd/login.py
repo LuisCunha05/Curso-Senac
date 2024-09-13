@@ -50,9 +50,9 @@ class LoginDB:
                 self.db = sql.connect(**self.configLocalDB)
             else:
                 self.db = sql.connect(**self.configServerDB)
+            self.cursor = self.db.cursor()
         except Exception as e:
             print(f'Não foi possivel conectar ao bando de dados\nErro: {e}')
-        self.cursor = self.db.cursor()
 
     def login(self):
         if(hasattr(self, 'fLogin')):
