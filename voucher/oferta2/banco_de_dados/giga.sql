@@ -219,3 +219,108 @@ CREATE table ordem_servico(
     Foreign Key (id_peca) REFERENCES peca(id_peca),
     Foreign Key (id_pessoa) REFERENCES pessoa(id_pessoa)
 );
+
+-- Inserir dados na tabela cidade
+INSERT INTO cidade (nome_cidade) VALUES ('São Paulo');
+INSERT INTO cidade (nome_cidade) VALUES ('Rio de Janeiro');
+INSERT INTO cidade (nome_cidade) VALUES ('Belo Horizonte');
+
+-- Inserir dados na tabela endereco
+INSERT INTO endereco (id_cidade, bairro, rua, numero) VALUES (1, 'Jardins', 'Avenida Paulista', 1578);
+INSERT INTO endereco (id_cidade, bairro, rua, numero) VALUES (2, 'Copacabana', 'Avenida Atlântica', 2000);
+INSERT INTO endereco (id_cidade, bairro, rua, numero) VALUES (3, 'Savassi', 'Rua Antônio de Albuquerque', 300);
+
+-- Inserir dados na tabela raca
+INSERT INTO raca (tipo) VALUES ('Labrador');
+INSERT INTO raca (tipo) VALUES ('Poodle');
+INSERT INTO raca (tipo) VALUES ('Bulldog');
+
+-- Inserir dados na tabela perfil
+INSERT INTO perfil (id_raca, idade, tipo_sangue) VALUES (1, 5, 'A+');
+INSERT INTO perfil (id_raca, idade, tipo_sangue) VALUES (2, 3, 'B-');
+INSERT INTO perfil (id_raca, idade, tipo_sangue) VALUES (3, 4, 'O+');
+
+-- Inserir dados na tabela status_icms
+INSERT INTO status_icms (tipo) VALUES ('Aprovado');
+INSERT INTO status_icms (tipo) VALUES ('Pendente');
+INSERT INTO status_icms (tipo) VALUES ('Rejeitado');
+
+-- Inserir dados na tabela reg_tributacao
+INSERT INTO reg_tributacao (tipo) VALUES ('Simples Nacional');
+INSERT INTO reg_tributacao (tipo) VALUES ('Lucro Presumido');
+INSERT INTO reg_tributacao (tipo) VALUES ('Lucro Real');
+
+-- Inserir dados na tabela contato
+INSERT INTO contato (numero, whatsapp, fax, instagram, email) VALUES ('123456789', '987654321', '555-0001', '@exemplo', 'contato@exemplo.com');
+INSERT INTO contato (numero, whatsapp, fax, instagram, email) VALUES ('234567890', '876543210', '555-0002', '@outra', 'outra@exemplo.com');
+
+-- Inserir dados na tabela vendedor
+INSERT INTO vendedor (nome, telefone, cnpj, email) VALUES ('João da Silva', '11-98765-4321', '12.345.678/0001-90', 'joao.silva@vendas.com');
+INSERT INTO vendedor (nome, telefone, cnpj, email) VALUES ('Maria Oliveira', '21-99876-5432', '23.456.789/0001-01', 'maria.oliveira@vendas.com');
+
+-- Inserir dados na tabela extra
+INSERT INTO extra (cor_favorita, altura, tamanho_pe) VALUES ('Azul', 1.75, 40.0);
+INSERT INTO extra (cor_favorita, altura, tamanho_pe) VALUES ('Verde', 1.68, 38.0);
+
+-- Inserir dados na tabela sexo
+INSERT INTO sexo (tipo) VALUES ('Masculino');
+INSERT INTO sexo (tipo) VALUES ('Feminino');
+INSERT INTO sexo (tipo) VALUES ('Não-binário');
+
+-- Inserir dados na tabela frete_padrao
+INSERT INTO frete_padrao (tipo) VALUES ('Sedex');
+INSERT INTO frete_padrao (tipo) VALUES ('PAC');
+INSERT INTO frete_padrao (tipo) VALUES ('Frete Grátis');
+
+-- Inserir dados na tabela tabela_de_preco
+INSERT INTO tabela_de_preco (tipo) VALUES ('Atacado');
+INSERT INTO tabela_de_preco (tipo) VALUES ('Varejo');
+INSERT INTO tabela_de_preco (tipo) VALUES ('Promocional');
+
+-- Inserir dados na tabela status_cadastro
+INSERT INTO status_cadastro (tipo) VALUES ('Ativo');
+INSERT INTO status_cadastro (tipo) VALUES ('Inativo');
+INSERT INTO status_cadastro (tipo) VALUES ('Pendente');
+
+-- Inserir dados na tabela dados_adicionais
+INSERT INTO dados_adicionais (status_civil, tem_filho, id_endereco) VALUES ('Solteiro', 'n', 1);
+INSERT INTO dados_adicionais (status_civil, tem_filho, id_endereco) VALUES ('Casado', 's', 2);
+INSERT INTO dados_adicionais (status_civil, tem_filho, id_endereco) VALUES ('Divorciado', 'n', 3);
+
+-- Inserir dados na tabela clientes_relacionados
+INSERT INTO clientes_relacionados (data_criancao, id_outra_pessoa) VALUES ('2024-01-15', 1);
+INSERT INTO clientes_relacionados (data_criancao, id_outra_pessoa) VALUES ('2024-02-20', 2);
+INSERT INTO clientes_relacionados (data_criancao, id_outra_pessoa) VALUES ('2024-03-10', 3);
+
+-- Inserir dados na tabela financeiro
+INSERT INTO financeiro (conta, banco, operacao) VALUES ('123456-7', 'Banco do Brasil', 'Crédito');
+INSERT INTO financeiro (conta, banco, operacao) VALUES ('234567-8', 'Bradesco', 'Débito');
+INSERT INTO financeiro (conta, banco, operacao) VALUES ('345678-9', 'Itaú', 'Transferência');
+
+-- Inserir dados na tabela tipo_user
+INSERT INTO tipo_user (tipo) VALUES ('Administrador');
+INSERT INTO tipo_user (tipo) VALUES ('Usuário');
+INSERT INTO tipo_user (tipo) VALUES ('Gerente');
+
+-- Inserir dados na tabela login_usr
+INSERT INTO login_usr (id_tipo_user, email, senha) VALUES (1, 'admin@exemplo.com', 'senhaAdmin123');
+INSERT INTO login_usr (id_tipo_user, email, senha) VALUES (2, 'usuario@exemplo.com', 'senhaUsuario456');
+INSERT INTO login_usr (id_tipo_user, email, senha) VALUES (3, 'gerente@exemplo.com', 'senhaGerente789');
+
+-- Inserir dados na tabela peca
+INSERT INTO peca (ci, ordem, codigo, status_, custo_unitario, custo_total, variante, descricao, qtd_base, qtd, qt_fix_variavel) 
+VALUES ('CI001', 'Ordem1', 'C1234', 'Novo', 150.00, 1500.00, 'Variante1', 'Descrição da peça 1', 10, 20, 5);
+INSERT INTO peca (ci, ordem, codigo, status_, custo_unitario, custo_total, variante, descricao, qtd_base, qtd, qt_fix_variavel) 
+VALUES ('CI002', 'Ordem2', 'C5678', 'Usado', 100.00, 1000.00, 'Variante2', 'Descrição da peça 2', 15, 30, 10);
+
+-- Inserir dados na tabela nota_fiscal
+INSERT INTO nota_fiscal (id_tabela_de_preco, id_vendedor, desconto, frete, aprovacao_cliente, hora_aprovacao, data_previsao, data_vencimento) 
+VALUES (1, 1, 50.00, 20.00, 'Aprovado', '14:30:00', '2024-09-20', '2024-09-30');
+INSERT INTO nota_fiscal (id_tabela_de_preco, id_vendedor, desconto, frete, aprovacao_cliente, hora_aprovacao, data_previsao, data_vencimento) 
+VALUES (2, 2, 30.00, 15.00, 'Pendente', '10:00:00', '2024-09-25', '2024-10-05');
+
+-- Inserir dados na tabela produtos_nf
+INSERT INTO produtos_nf (id_nf, id_peca, quantidade) VALUES (1, 1, 5);
+INSERT INTO produtos_nf (id_nf, id_peca, quantidade) VALUES (1, 2, 10);
+INSERT INTO produtos_nf (id_nf, id_peca, quantidade) VALUES (2, 1, 3);
+
