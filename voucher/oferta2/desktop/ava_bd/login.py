@@ -9,7 +9,6 @@ import hashlib
 from dictqueue import DictQueue
 
 
-
 class LoginDB:
     fontM = ('Helvetica', 14)
     fontG = ('Helvetica', 18)
@@ -44,15 +43,18 @@ class LoginDB:
 
         self.main.mainloop()
 
-    def connectDB(self):
+    def connectDB(self) -> bool:
+        """Returns True is connection is made successfuly and false otherwise"""
         try:
             if(self.USE_LOCAL_DB):
                 self.db = sql.connect(**self.configLocalDB)
             else:
                 self.db = sql.connect(**self.configServerDB)
             self.cursor = self.db.cursor()
+            return True
         except Exception as e:
             print(f'Não foi possivel conectar ao bando de dados\nErro: {e}')
+            return False
 
     def login(self):
         if(hasattr(self, 'fLogin')):
@@ -93,10 +95,7 @@ class LoginDB:
             pass
 
         #Get user info
-        try:
-            self.connectDB()
-        except Exception as e:
-            print(f'Não foi possivel conectar ao banco de dados.\nErro: {e}')
+        if(not self.connectDB()):
             return
         
         self.cursor.execute(f'SELECT color,texto,img from usuario where login_user="{self.lastUser}"')
@@ -174,7 +173,8 @@ class LoginDB:
         user = self.eUser.get()
         password = toSHA256(self.ePassword.get())
 
-        self.connectDB()
+        if(not self.connectDB()):
+            return
 
         self.cursor.execute(f"select id_user from usuario where login_user='{user}'")
         userID = self.cursor.fetchone()
@@ -218,7 +218,8 @@ class LoginDB:
         cpassword = self.eCadConfword.get()
         uText = self.eCadText.get("1.0", "end-1c")
 
-        self.connectDB()
+        if(not self.connectDB()):
+            return
 
         try:
             self.cursor.execute(f"select id_user from usuario where login_user='{user}'")
