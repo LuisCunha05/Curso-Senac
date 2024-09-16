@@ -312,6 +312,8 @@ INSERT INTO peca (ci, ordem, codigo, status_, custo_unitario, custo_total, varia
 VALUES ('CI001', 'Ordem1', 'C1234', 'Novo', 150.00, 1500.00, 'Variante1', 'Descrição da peça 1', 10, 20, 5);
 INSERT INTO peca (ci, ordem, codigo, status_, custo_unitario, custo_total, variante, descricao, qtd_base, qtd, qt_fix_variavel) 
 VALUES ('CI002', 'Ordem2', 'C5678', 'Usado', 100.00, 1000.00, 'Variante2', 'Descrição da peça 2', 15, 30, 10);
+INSERT INTO peca (ci, ordem, codigo, status_, custo_unitario, custo_total, variante, descricao, qtd_base, qtd, qt_fix_variavel) 
+VALUES ('CI003', 'Ordem3', 'C6666', 'Novo', 45.00, 500.00, 'Variante1', 'Descrição da peça 3', 25, 50, 15);
 
 -- Inserir dados na tabela nota_fiscal
 INSERT INTO nota_fiscal (id_tabela_de_preco, id_vendedor, desconto, frete, aprovacao_cliente, hora_aprovacao, data_previsao, data_vencimento) 
@@ -323,4 +325,66 @@ VALUES (2, 2, 30.00, 15.00, 'Pendente', '10:00:00', '2024-09-25', '2024-10-05');
 INSERT INTO produtos_nf (id_nf, id_peca, quantidade) VALUES (1, 1, 5);
 INSERT INTO produtos_nf (id_nf, id_peca, quantidade) VALUES (1, 2, 10);
 INSERT INTO produtos_nf (id_nf, id_peca, quantidade) VALUES (2, 1, 3);
+
+INSERT INTO pessoa (
+    nome, ramal, rg, email, email_loja_virtual,
+    email_danf, email_comercial, email_cobranca,
+    inscricao_estadual, telefone_comercial, telefone_celular, cpf, transportadora1, transportadora2,
+    inscricao_sufra, linha_pef, cnpj, imagem, data_nascimento,
+    carga_tributaria, aliquota,
+    id_sexo, id_tabela_de_preco, id_frete_padrao,
+    id_status_cadastro, id_status, id_reg_tributacao,
+    id_dados_adicionais, id_endereco, id_perfil,
+    id_contato, id_vendedor, id_extra,
+    id_financeiro, id_clientes_relacionados, fornecedor
+) VALUES
+(
+    'Ana Souza', '1234', '12.345.678', 'ana.souza@example.com', 'loja.ana@example.com',
+    'danf.ana@example.com', 'comercial.ana@example.com', 'cobranca.ana@example.com',
+    '12345678', '(11) 1234-5678', '(11) 98765-4321', '123.456.789-00', 'TransLog', 'FastTrans',
+    '1234-56', 'Linha PEF 1', '12.345.678/0001-99', 'imagem_ana.jpg', '1980-05-15',
+    18.5, 12.0,
+    1, 1, 1,
+    1, 1, 1,
+    1, 1, 1,
+    1, 1, 1,
+    1, 1, 's'
+),
+(
+    'Pedro Oliveira', '5678', '87.654.321', 'pedro.oliveira@example.com', 'loja.pedro@example.com',
+    'danf.pedro@example.com', 'comercial.pedro@example.com', 'cobranca.pedro@example.com',
+    '87654321', '(21) 2345-6789', '(21) 91234-5678', '987.654.321-00', 'LogTrans', 'SpeedTrans',
+    '5678-90', 'Linha PEF 2', '98.765.432/0001-88', 'imagem_pedro.jpg', '1990-08-20',
+    15.0, 10.0,
+    2, 2, 2,
+    2, 2, 2,
+    2, 2, 2,
+    2, 2, 2,
+    2, 2, 'n'
+),
+(
+    'Maria Costa', '9101', '23.456.789', 'maria.costa@example.com', 'loja.maria@example.com',
+    'danf.maria@example.com', 'comercial.maria@example.com', 'cobranca.maria@example.com',
+    '34567890', '(31) 3456-7890', '(31) 93456-7890', '345.678.901-00', 'TransWorld', 'QuickTrans',
+    '9101-23', 'Linha PEF 3', '34.567.890/0001-77', 'imagem_maria.jpg', '1975-12-10',
+    20.0, 15.0,
+    3, 3, 3,
+    3, 3, 3,
+    3, 3, 3,
+    3, 3, 3,
+    3, 3, 's'
+);
+
+INSERT INTO ordem_servico (
+    id_nf, id_peca, id_pessoa, execucao, servico, data_emissao
+) VALUES
+(
+    1, 1, 1, 'Executado', 'Reparação', '2024-09-01'
+),
+(
+    2, 2, 2, 'Pendente', 'Manutenção', '2024-09-05'
+),
+(
+    3, 3, 3, 'Executado', 'Instalação', '2024-09-10'
+);
 

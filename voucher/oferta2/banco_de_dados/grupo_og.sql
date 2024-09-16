@@ -48,7 +48,7 @@ CREATE TABLE cadastro_clientes(
     telefone_cell varchar(15)not null,
     fax int,
     cpf varchar(11) not null primary key,
-    rg int(7) not null,
+    rg int(7) not null, -- precisa ser unique
     insc_estadual int not null,
     insc_suframa int not null,
     data_nasc date not null,
@@ -83,7 +83,7 @@ CREATE TABLE vendedor(
     ramal int(4),
     telefone_cell varchar(15)not null,
     fax int,
-    cnpj varchar(55) not null,
+    cnpj varchar(55) not null, -- Precisa ser Unique, sem PK
     insc_estadual int not null,
     insc_suframa int not null,
     transportadora varchar(255) not null,
@@ -111,22 +111,21 @@ CREATE TABLE stats(
 
 
 create table pecas(
-cod_peca int auto_increment,
-descricao varchar (250),
+cod_peca int primary key auto_increment,
+descricao varchar (250), -- Not null
 variante varchar(250),
 p_s int,
 qtd_base int,
 qtde int,
 UM int,
 custo_unitario int,
-custo_total int,
+custo_total int, -- not null
 qtd_fix_var int,
 ordem int,
 c_i int,
 origem int,
-status varchar(55) not null,
-
-Foreign key (status) REFERENCES stats(status)
+id_status int not null,
+Foreign key (id_status) REFERENCES stats(id_status)
 );
 
 
@@ -137,7 +136,7 @@ CREATE TABLE ordem_serv(
     previsao date,
     descricao varchar(255),
     execucao varchar(55),
-    servico varchar(55) not null,
+    servico varchar(55) not null, -- Sem id peça ou FK
     variante varchar(55),
     quantidade decimal not null,
     valor decimal,
@@ -147,7 +146,7 @@ CREATE TABLE ordem_serv(
 );
 
 CREATE TABLE nota_fiscal(
-    doc int,
+    doc int, -- sem FK
     sequencia int not null,
     emissao date not null,
     vencimento date,
@@ -160,7 +159,7 @@ CREATE TABLE nota_fiscal(
     nome_vendedor varchar(55),
     historico text,
     faturamento decimal,
-    cpf varchar(11),
+    cpf varchar(11), -- not null
     end_entrega varchar(55),
     idtabela_preco int,
     transportadora int,
