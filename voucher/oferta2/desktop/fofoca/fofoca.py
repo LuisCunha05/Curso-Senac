@@ -1,3 +1,7 @@
+"""Crie um modelo usando Tkinter, com banco de dados, que terá 3 tipos de acesso: admin, cliente, famoso. O admin é obrigado a logar para poder criar as fofocas, o cliente não é obrigado a logar e pode só seguir a navegação pela página sem realizar o login, o famoso deve fazer o login para reportar alguma fofoca sobre ele, que ele não tenha gostado.
+O login do cliente serve somente para acumular pontos pela sua leitura frequente de fofocas.
+Cada fofoca criada deve conter: 3 imagens e um textos."""
+
 import tkinter as tk
 import urllib.request
 import hashlib
@@ -41,7 +45,7 @@ class Fofoca:
         self.fHeader = tk.Frame(self.main, background=self.colorBB)
         self.fHeader.place(relwidth=0.8, height=50, anchor='n', rely=0.02, relx=0.5)
 
-        self.bEntrar = tk.Button(self.fHeader, text='Entrar', foreground='white', background=self.colorBB, font=getFont('Courier New', 14), border=0, relief='groove', command=self.placePoints)
+        self.bEntrar = tk.Button(self.fHeader, text='Entrar', foreground='white', background=self.colorBB, font=getFont('Courier New', 14), border=0, relief='groove', command=self.login)
         self.bEntrar.place(relx=0, rely=0.5, anchor='w', relheight=1)
 
         tk.Label(self.fHeader, text='Fofoca.com', foreground='white', background=self.colorBB, font=getFont('Courier New', 32)).place(relx=0.5, rely=0.5, anchor='center')
@@ -74,21 +78,21 @@ class Fofoca:
         self.fLogin = tk.Frame(self.main, background=self.colorBG)
         self.fLogin.place(relheight=1, relwidth=1)
 
-        tk.Label(self.fLogin, text='Bem Vindo!', font=self.fontG, foreground='white', background=self.colorBG).pack(pady=20)
+        holder = tk.Frame(self.fLogin, background='green')
+        holder.place(relx=0.5, rely=0.4, width=400, anchor='center')
 
-        tk.Label(self.fLogin, text='Usuário', font=self.fontG, foreground='white', background=self.colorBG, anchor='w', justify='left').pack(padx=700, fill='x')
-        self.eUser = tk.Entry(self.fLogin, font=self.fontM, foreground='gray')
-        self.eUser.pack(padx=700, fill='x')
+        tk.Label(holder, text='Bem Vindo!', font=getFont('Courier New'), foreground='white', background=self.colorBG).pack(pady=20)
 
-        tk.Label(self.fLogin, text='Senha', font=self.fontG, foreground='white', background=self.colorBG, anchor='w', justify='left').pack(padx=700, fill='x')
-        self.ePassword = tk.Entry(self.fLogin, font=self.fontM, foreground='gray')
-        self.ePassword.pack(padx=700, fill='x')
+        tk.Label(holder, text='Usuário', font=getFont('Courier New'), foreground='white', background=self.colorBG, anchor='w', justify='left').pack(padx=20, fill='x')
+        self.eUser = tk.Entry(holder, font=getFont('Courier New', 14), foreground='gray')
+        self.eUser.pack(padx=20, fill='x')
+
+        tk.Label(holder, text='Senha', font=getFont('Courier New'), foreground='white', background=self.colorBG, anchor='w', justify='left').pack(padx=20, fill='x')
+        self.ePassword = tk.Entry(holder, font=getFont('Courier New', 14), foreground='gray')
+        self.ePassword.pack(padx=20, fill='x')
         self.ePassword.config(show='*')
 
-        tk.Button(self.fLogin, text='Entrar', foreground='white', background=self.colorBT, font=self.fontG, border=0, relief='groove', command=self.validateLogin).pack(pady=20)
-
-        self.check = tk.IntVar()
-        tk.Checkbutton(self.fLogin, text='Usar Banco de Dados Local',variable=self.check, command=self.changeDB, background=self.colorBG, foreground='black', font=self.fontM).pack(pady=20)
+        tk.Button(holder, text='Entrar', foreground='white', background=self.colorBT, font=getFont('Courier New'), border=0, relief='groove', command=self.validateLogin).pack(pady=20)
 
     def validateLogin(self):
         user = self.eUser.get()
