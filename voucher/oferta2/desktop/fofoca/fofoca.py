@@ -18,13 +18,13 @@ class Fofoca:
         'host':'10.28.2.34',
         'user':'suporte',
         'password':'suporte',
-        'database':'login'
+        'database':'fofoca'
     }
     configLocalDB = {
         'host':'127.0.0.1',
         'user':'root',
         'password':'',
-        'database':'login'
+        'database':'fofoca'
     }
 
     def __init__(self) -> None:
@@ -35,6 +35,8 @@ class Fofoca:
         self.main.configure(background='#d59890')
 
         self.USE_LOCAL_DB = False
+        
+        
 
         self.home()
 
@@ -70,9 +72,12 @@ class Fofoca:
         self.bAvancar = tk.Button(self.fFooter, text='Avançar', foreground='white', background=self.colorBB, font=getFont('Courier New', 14), border=0, relief='groove', command=self.placeReport)
         self.bAvancar.place(relx=1, rely=0.5, anchor='e', relheight=1)
 
+        self.USE_LOCAL_DB = messagebox.askyesno('Usar Database local?', 'Deseja usar a database local?')
+        self.main.focus_force() #This fixes a bug where entry doesn't work until windown re-gain focus
+
     def login(self):
         if(hasattr(self, 'fLogin')):
-            self.fLogin.tkraise()
+            self.fLogin.place(relheight=1, relwidth=1)
             return
 
         self.fLogin = tk.Frame(self.main, background=self.colorBG)
@@ -83,16 +88,32 @@ class Fofoca:
 
         tk.Label(holder, text='Bem Vindo!', font=getFont('Courier New'), foreground='white', background=self.colorBG).pack(pady=20)
 
+        #User
         tk.Label(holder, text='Usuário', font=getFont('Courier New'), foreground='white', background=self.colorBG, anchor='w', justify='left').pack(padx=20, fill='x')
         self.eUser = tk.Entry(holder, font=getFont('Courier New', 14), foreground='gray')
         self.eUser.pack(padx=20, fill='x')
 
+        #password
         tk.Label(holder, text='Senha', font=getFont('Courier New'), foreground='white', background=self.colorBG, anchor='w', justify='left').pack(padx=20, fill='x')
         self.ePassword = tk.Entry(holder, font=getFont('Courier New', 14), foreground='gray')
         self.ePassword.pack(padx=20, fill='x')
         self.ePassword.config(show='*')
 
-        tk.Button(holder, text='Entrar', foreground='white', background=self.colorBT, font=getFont('Courier New'), border=0, relief='groove', command=self.validateLogin).pack(pady=20)
+        def showOrHidePassword():
+            if(self.showPassword.get()):
+                self.ePassword.config(show='')
+                return
+            self.ePassword.config(show='*')
+
+        self.showPassword = tk.IntVar()
+        tk.Checkbutton(holder, text='Mostrar Senha',foreground='white', font=getFont('Courier New', 14), variable=self.showPassword, background='green', command=showOrHidePassword).pack(padx=20, anchor='w')
+
+        #Button
+        buttons = tk.Frame(holder, background='green')
+        buttons.pack(pady=20, padx=60, fill='x')
+        tk.Button(buttons, text='Entrar', foreground='white', background=self.colorBT, font=getFont('Courier New'), border=0, relief='groove', command=self.validateLogin).pack(side='right')
+
+        tk.Button(buttons, text='Voltar', foreground='white', background='red', font=getFont('Courier New'), border=0, relief='groove', command=self.fLogin.place_forget).pack(side='left')
 
     def validateLogin(self):
         user = self.eUser.get()
@@ -100,40 +121,46 @@ class Fofoca:
 
         if(not self.connectDB()):
             return
-
-        self.cursor.execute(f"select id_user from usuario where login_user='{user}'")
-        userID = self.cursor.fetchone()
-
         try:
-            userID = userID[0]
-        except TypeError:
-            print('no user')
+            self.cursor.execute("select id_user,passw,id_user_type from usuario where username = %(user)s", {'user':user})
+            data = self.cursor.fetchone()
+            print(data)
 
-        if(not userID):
-            messagebox.showerror('Login Inexistente!', 'Login não encontrado!')
-            #if(messagebox.askyesno('Deseja se cadastrar?', 'Deseja criar um novo usuário?')):
-            #    self.cadastro()
+            if(not data):
+                messagebox.showerror('Login Inexistente!', 'Login não encontrado!')
+                return
+            
+            userID, passwordDb, userType = data
+
+            if(passwordDb != password):
+                messagebox.showerror('Senha Incorreta!', 'Senha Incorreta!\nTente Novamente!')
+                return
+            
+            self.db.disconnect()
+        except Exception as e:
+            messagebox.showerror('Algo deu errado!', f'Algo deu errado!\nErro: {e}')
             return
-        
-        #self.cursor.execute(f"SELECT senha from usuario where id_user={userID}")
-        #senhasha = self.cursor.fetchone()
-        #print(senhasha)
-        #print(password)
-
-        self.cursor.execute(f"select IF((SELECT senha from usuario where id_user={userID}) = '{password}', 1, 0)")
-        senha = self.cursor.fetchone()
-        senha = senha[0]
-
-        if(not senha):
-            messagebox.showerror('Senha Incorreta!', 'Senha Incorreta!\nTente Novamente!')
-            return
-        
-        self.db.disconnect()
 
         self.eUser.delete(0, 'end')
         self.ePassword.delete(0, 'end')
         self.main.focus()
         self.lastUser = user
+        self.lastUserID = userID
+        self.lastUserType = userType
+
+        #handle ui changes based in the new logged user
+        self.forgetPoints()
+        self.forgetReport()
+        match(userType):
+            case 1:
+                print('Admin')
+            case 2:
+                self.placeReport()
+            case 3:
+                self.placePoints()
+
+        self.bEntrar.configure(text=user.capitalize())
+        self.fLogin.place_forget()
 
     def connectDB(self) -> bool:
         """Returns True is connection is made successfuly and false otherwise"""
