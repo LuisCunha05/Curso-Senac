@@ -1,5 +1,6 @@
-create database Atividade_BD;
-use Atividade_BD;
+-- Active: 1725663609565@@127.0.0.1@3306@login
+create database atividade_db;
+use atividade_db;
 
 
 
@@ -60,14 +61,12 @@ CREATE TABLE cadastro_clientes(
     idtabela_preco int,
     id_sit_cad int,
     idicms int,
-
     Foreign key (idsexo) REFERENCES sexo(idsexo),
     Foreign key (idrgtri) REFERENCES regime_tributação(idrgtri),
     Foreign key (idicms) REFERENCES icms(idicms),
     Foreign key (idmod_frete) REFERENCES modelo_frete_padrao(idmod_frete),
     Foreign key (idtabela_preco) REFERENCES tabela_de_preco(idtabela_preco),
-    Foreign key (id_sit_cad) REFERENCES sit_do_cadastro (id_sit_cad)
-
+    Foreign key (id_sit_cad) REFERENCES sit_do_cadastro(id_sit_cad)
 );
 
 CREATE TABLE vendedor(
