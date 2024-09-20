@@ -3,6 +3,7 @@ use game;
 
 describe venda;
 select * from venda;
+
 select count(*) from venda;
 select avg(Global_Sales) from venda;
 select * from venda where Global_Sales > (select avg(Global_Sales) from venda);
