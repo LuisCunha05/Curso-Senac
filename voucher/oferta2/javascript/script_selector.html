@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Script Selector</title>
+</head>
+<body>
+    <h1>Run JS File</h1>
+    <input type="file" id="fileInput" accept=".js">
+    <script>
+        document.getElementById('fileInput').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+
+            if (!file || file.type !== 'text/javascript'){
+                alert('Please select a valid JavaScript file.');
+                return;
+            }
+            const reference = document.getElementById('code')
+            //console.log(reference)
+
+            if(reference) {
+                reference.remove()
+                console.log('Removed last script block')
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const script = document.createElement('script');
+                script.id = 'code'
+                script.textContent = e.target.result;
+                //script.textContent = `(function() { ${e.target.result} })();`; 
+                document.body.appendChild(script);
+            };
+            reader.readAsText(file);
+        });
+    </script>
+</body>
+</html>
