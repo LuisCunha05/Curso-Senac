@@ -15,7 +15,8 @@ plt.pie(data.iloc[:, 1], labels=data.iloc[:, 0], explode=exp, autopct='%.2f%%', 
 
 plt.show()
 
-plt.bar(data.iloc[:, 0], data.iloc[:, 1])
+plt.bar(data.iloc[:, 0], data.iloc[:, 1], color='orange')
 plt.xticks(rotation=45, ha='right')
+plt.tight_layout()
 
 plt.show()
