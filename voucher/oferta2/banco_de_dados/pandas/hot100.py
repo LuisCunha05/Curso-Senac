@@ -40,7 +40,6 @@ plt.tight_layout()
 
 
 rooms = df.loc[:, ['population', 'housing_median_age']].sort_values('housing_median_age')
-#print(rooms[:])
 plt.subplot(3,2,3)
 plt.scatter(rooms.iloc[:, 1], rooms.iloc[:, 0], color='orange')
 plt.title('População por idade das casas')
@@ -54,19 +53,22 @@ plt.title('Renda por idade das casas')
 plt.tight_layout()
 
 
-bay = df.query('ocean_proximity == "NEAR BAY"')
-land = df.query('ocean_proximity != "NEAR BAY"')
+#BAY vs INLAND
+bay = df.query('ocean_proximity == "NEAR BAY" & housing_median_age <= 20')
+land = df.query('ocean_proximity != "NEAR BAY" & housing_median_age <= 20')
 
 pop_bay = bay.loc[:, ['population']]
 pop_land = land.loc[:, ['population']]
 
 
-bay_l = list(pop_bay.iloc[:, 0])
-land_l = list(pop_land.iloc[:, 0])
+bay_l = list(pop_bay.iloc[:, 0].astype(float))
+land_l = list(pop_land.iloc[:, 0].astype(float))
 
+data = [(sum(bay_l)), sum(land_l)]
+#print(data)
 
-# plt.subplot(3,2,4)
-# plt.scatter(income.iloc[:, 0], income.iloc[:, 1], color='orange')
-# plt.title('Renda por idade das casas')
-# plt.tight_layout()
+plt.subplot(3,2,5)
+plt.pie(data, autopct='%.2f%%', labels=['BAY', 'INLAND'], rotatelabels=True)
+plt.title('Divisão da População em terra e Prox. a Orla nos ultimos 20 anos')
+plt.tight_layout()
 plt.show()
