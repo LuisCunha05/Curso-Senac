@@ -25,7 +25,17 @@
             }
 
             const reader = new FileReader();
-            reader.onload = function(e) {
+
+            reader.onload = async function(e) {
+                // Espera o DOM carregar completamente antes de criar o elemento. thanks gpt
+                await new Promise(resolve => {
+                    if (document.readyState === 'complete') {
+                        resolve();
+                    } else {
+                        window.addEventListener('load', resolve);
+                    }
+                });
+
                 const script = document.createElement('script');
                 script.id = 'code'
                 script.textContent = e.target.result;
