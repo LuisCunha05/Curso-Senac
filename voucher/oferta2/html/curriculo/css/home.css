@@ -1,29 +1,4 @@
 
-body{
-    font-family: 'Courier New', Courier, monospace;
-}
-
-header{
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-around;
-    color: rgb(51, 50, 50);
-    background-color: azure;
-}
-
-.h_text{
-    width: 22rem;
-    font-size: 1.5rem;
-}
-
-.text_center {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
 .img_holder{
     display: flex;
     justify-content: center;
