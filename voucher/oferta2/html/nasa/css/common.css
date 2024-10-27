@@ -7,20 +7,21 @@ body{
 header{
     width: 100%;
     height: 54px;
-    padding: 16px;
+    padding-top: 16px;
+    padding-bottom: 16px;
     background-color: black;
 }
 
 .nav_container{
     display: grid;
     height: 100%;
-    grid-template-columns: repeat(7, 14.28%);
+    grid-template-columns: repeat(7, 14.2857%);
 }
 
 .nav_item{
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
 }
 
 .nav_text{
@@ -38,5 +39,5 @@ header{
     /* position: absolute;
     top: 45px;
     left: 50%; */
-    transform: translate(-50%, 0%);
+    transform: translate(0%, 0%);
 }
