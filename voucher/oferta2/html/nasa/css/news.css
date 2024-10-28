@@ -1,0 +1,23 @@
+
+#title_container{
+    color: white;
+    background-repeat: no-repeat;
+    height: 600px;
+    background-image: url("../img/news.webp");
+    background-size: cover;
+    overflow: hidden;
+
+
+}
+
+.text_center{
+    text-align: center;
+    
+}
+
+#title{
+    padding-left: 100px;
+    padding-top: 200px;
+    font-size: 9.5rem;
+
+}
