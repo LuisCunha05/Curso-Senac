@@ -41,10 +41,3 @@ header{
 .nav_text:hover{
     color: rgb(95, 95, 95);
 }
-
-#logo_link{
-    /* position: absolute;
-    top: 45px;
-    left: 50%; */
-    transform: translate(0%, 0%);
-}

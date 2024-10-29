@@ -12,42 +12,21 @@
 <body>
     <header>
         <nav class="nav_container">
-            
                 <a class="nav_text" href="index.html">Home</a>
-            
-            
                 <a class="nav_text" href="news.html">Novidades</a>
-            
-            
                 <a class="nav_text" href="space.html">Espaço</a>
-            
-            
                 <a id="logo_link" class="nav_text" href="index.html">
                     <img id="logo_nav" width="60" height="50" src="img/nasa_logo.svg" alt="Logo Nasa">
                 </a>
-            
-            
                 <a class="nav_text" href="weather.html">Clima e Terra</a>
-            
-            
                 <a class="nav_text" href="about.html">Sobre a Nasa</a>
-            
-            
                 <a class="nav_text" href="contact.html">Contato</a>
-            
         </nav>
     </header>
     <div id="title_container">
+        <div class="gradient"></div>
         <h1 id="title">Novidades</h1>
     </div>
-
-    <script>
-        globalThis.setInterval(() => {
-            const element = document.getElementById("logo_nav");
-            const rect = element.getBoundingClientRect();
-            console.log("X: " + rect.x + ", Y: " + rect.y);
-        }, 3000);
-    </script>
 </body>
 </html>
 

@@ -35,3 +35,7 @@ picture{
     text-align: justify;
     line-height: 1.35;
 }
+
+#day_img{
+    border-radius: 10px;
+}
