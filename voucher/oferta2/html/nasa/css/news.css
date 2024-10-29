@@ -1,3 +1,6 @@
+body::-webkit-scrollbar { /* hides scrollbar */
+    display: none;
+}
 
 #title_container{
     color: white;
@@ -11,21 +14,48 @@
 
 .text_center{
     text-align: center;
-    
 }
-.gradient{
-    width: 100%;
-    height: 600px;
-    background: linear-gradient(65.99deg, #000 0, transparent 99.04%);
-    position: absolute;
-    top: 87px;
-    z-index: 1;
-}
+
 #title{
     padding-left: 100px;
     padding-top: 200px;
     font-size: 9.5rem;
-    z-index: 2;
-    /* background: linear-gradient(65.99deg, #000 0, transparent 99.04%); */
+
 }
 
+.shadow{
+    border-image-source: linear-gradient(65.99deg, #000 0, transparent 99.04%);
+    border-image-slice: fill 1;
+}
+
+#second_title{
+    padding-left: 300px;
+    font-size: 5rem;
+}
+
+.grid_content{
+    padding-left: 275px;
+    padding-right: 275px;
+}
+
+.grid_item{
+    border-top: 1px #000 solid;
+}
+
+.inner_grid{
+    display: grid;
+    grid-template-columns: 1fr 2fr 2fr;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    text-align: center;
+}
+
+.sub_item{
+    align-self: center;
+}
+
+.sub_text{
+    height: 80px;
+}
+
+/* faça uma noticia curta falando sobre a marte ser da cor vermelha em no máximo 3 linhas */
