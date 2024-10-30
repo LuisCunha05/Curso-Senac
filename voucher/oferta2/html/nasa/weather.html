@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="pt-br">
     <head>
-        <title>Nasa</title>
+        <title>Nasa - Terra e Clima</title>
         <meta charset="utf-8">
         <meta content="text/html">
         <meta http-equiv="Content-Type">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="css/common.css">
-        <link rel="stylesheet" href="css/index.css">
+        <link rel="stylesheet" href="css/weather.css">
         <link rel="shortcut icon" href="img/nasa_icon.png">
     </head>
     <body>
@@ -24,24 +24,19 @@
                     <a class="nav_text" href="contact.html">Contato</a>
             </nav>
         </header>
-        <br>
-        <br>
-        <br>
-        <br>
-        <main>
-            <div class="grid_content">
-                <div class="text_container grid_item">
-                    <h1 id="title" class="text_main" >Image Of The Day</h1>
-                    <h3 id="subtitle" class="text_main" >Hubble Sees a Celestial Cannonball</h3>
-                    <p id="text" class="text_main" >
-                        The spiral galaxy in this NASA/ESA Hubble Space Telescope image is IC 3225. It looks remarkably as if it was launched from a cannon, speeding through space like a comet with a tail of gas streaming from its disk behind it.
-                    </p>
-                </div>
-                <picture id="grid_img" class="grid_item">
-                    <source media="(max-width:1920px)" srcset="img/day.webp">
-                    <img src="img/day.webp"  width="900" alt="Image of the day">
-                </picture>
+        <div id="title_container" class="shadow">
+            <h1 id="title">Terra</h1>
+        </div>
+        <main class="grid_content">
+            <div class="text_holder">
+                <h2 id="second_title" class="main_text" >The Ocean and Climate Change</h2>
+                <br>
+                <p id="text_content" class="main_text">
+                    With 70 percent of the planet covered in water, the seas are important drivers of the global climate. Yet increasing greenhouse gases from human activities are altering the ocean before our eyes.
+                </p>
             </div>
+            <img id="img_ocean" src="img/ocean_eyes.jpeg" alt="Oceanos">
+            
         </main>
     </body>
 </html>
