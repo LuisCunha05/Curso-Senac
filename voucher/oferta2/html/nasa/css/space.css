@@ -1,3 +1,28 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.img_holder{
+    max-width: 1600px;
+    margin: auto;
+    padding: 5px;
+    display: flex;
+    flex-wrap: wrap;
+}
+.img_container {
+    flex: 1 0 calc(33.33% - 10px);
+    margin: 5px;
+}
+
 .img_space{
     height: 337px;
+    width: 100%;
+    object-fit: cover;
+}
+
+#title_space{
+    font-weight: 400;
+    padding-left: 400px;
+    font-size: 5rem;
 }
