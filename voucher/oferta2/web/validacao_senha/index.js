@@ -28,9 +28,10 @@ function validateSenha2(){
  * @param {boolean} temporary Se a mensagem será removido após 2 segundos
  */
 function setInputMessage(text, color = 'black', index = 0, temporary = false){
-    document.getElementsByClassName('span_required')[index].textContent = text
-    document.getElementsByClassName('span_required')[index].style.display = 'block'
-    document.getElementsByClassName('span_required')[index].style.color = color
+    const element = document.getElementsByClassName('span_required')
+    element[index].textContent = text
+    element[index].style.display = 'block'
+    element[index].style.color = color
 
     if(temporary){
         const id_timeout = setTimeout(callback => {
