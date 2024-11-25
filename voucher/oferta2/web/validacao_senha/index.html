@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Validação</title>
+    <style>
+        .span_required{
+            display: none;
+            font-size: 0.9rem;
+            border: 12px black;
+        }
+    </style>
+</head>
+<body>
+    <h1>Configure sua senha:</h1>
+    <div class="input_val">
+        <input type="text" class="input_senha required" name="senha1" id="senha_1" oninput="validateSenha1()"> 
+        <br>
+        <span class="span_required">Senha inválida</span>
+        <input type="text" class="input_senha required" name="senha2" id="senha_2" oninput="validateSenha2()"> 
+        <br>
+        <span class="span_required">Senha inválida</span>
+    </div>
+    <script src="index.js"></script>
+</body>
+</html>

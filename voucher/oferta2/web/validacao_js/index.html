@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Validação</title>
+    <style>
+        .span_required{
+            display: none;
+            font-size: 0.9rem;
+            border: 12px black;
+        }
+    </style>
+</head>
+<body>
+    <h1>Digite seu email:</h1>
+    <div class="input_val">
+        <input type="text" class="input_email required" name="email" id="inputEmail" oninput="nameValidate()"> 
+        <br>
+        <span class="span_required">O nome deve ter 3 caracteres</span>
+    </div>
+    <script src="index.js"></script>
+</body>
+</html>
