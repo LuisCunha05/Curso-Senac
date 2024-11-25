@@ -2,7 +2,7 @@ window.onload = function (){
 
     FahToCel()
     calcularVenda()
-
+    realParaDolar()
 }
 
 /**
@@ -46,4 +46,15 @@ function calcularVenda(){
             Quantidade: ${pQuantidade}
             Preço: ${pPreco}
             Valor a pagar: ${(pPreco*pQuantidade*(1 - (pDesconto/100))).toFixed(2)}`)
+}
+
+function realParaDolar(){
+    let real, cotacao;
+
+    while(!real)
+        real = getNumber('Digite o valor em Real:')
+    while(!cotacao)
+        cotacao = getNumber('Digite a cotação do dolar:')
+
+    alert(`R$ ${real.toFixed(2)} em dolar: ${(real/cotacao).toFixed(2)}$`)
 }
