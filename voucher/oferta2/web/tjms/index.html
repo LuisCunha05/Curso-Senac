@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TJMS</title>
+    <style>
+        .span_required{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <label for="inputDoc">Número Documento:</label>
+        <input type="text" name="doc" id="inputDoc" placeholder="Digite número do Documento" class="input required" oninput="validateDoc()">
+        <span class="span_required">O número do Documento está fora do padrão.</span>
+        <br>
+        <label for="inputDoc2">Complemento:</label>
+        <input type="text" name="doc" id="inputDoc2" placeholder="Complemento" class="input required" oninput="validateDoc2()">
+        <span class="span_required">O número do Documento está fora do padrão</span>
+    </div>
+
+    <script>
+        const reg_doc = /^\d{7}\-\d{2}\.\d{4}$/
+        const reg_doc2 = /^\d{4}$/;
+        const inputs = document.getElementsByClassName('required');
+
+        function validateDoc(){
+            const inputs = document.getElementsByClassName('required');
+            
+            if(!reg_doc.test(inputs[0].value))
+                setInputMessage('O número do Documento está fora do padrão. Exemplo:1234567-12.1234', 'red', 0)
+            else
+                setInputMessage('Número validado', 'blue', 0, true)
+        
+        }
+
+        function validateDoc2(){
+            const inputs = document.getElementsByClassName('required');
+            
+            if(!reg_doc2.test(inputs[1].value))
+                setInputMessage('O número do Documento está fora do padrão. Exemplo: 1234', 'red', 1)
+            else
+                setInputMessage('Número validado', 'blue', 1, true)
+            
+        }
+        /**
+         * Altera menssagem do span e cor
+         * @param {string} text Menssagem a ser exibida
+         * @param {string} color Cor da menssagem
+         * @param {number} index Index da Classe a ser utilizada
+         * @param {boolean} temporary Se a mensagem será removido após 2 segundos
+         */
+        function setInputMessage(text, color = 'black', index = 0, temporary = false){
+            const element = document.getElementsByClassName('span_required')
+            element[index].textContent = text
+            element[index].style.display = 'block'
+            element[index].style.color = color
+
+            if(temporary){
+                const id_timeout = setTimeout(callback => {
+                    document.getElementsByClassName('span_required')[index].style.display = 'none'
+                    window.clearTimeout(id_timeout)
+                }, 2000)
+            }
+        }
+    </script>
+</body>
+</html>
