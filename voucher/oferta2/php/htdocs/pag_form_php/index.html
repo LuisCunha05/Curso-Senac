@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form</title>
+</head>
+<body>
+    <form method="post" action="action.php">
+        <fieldset id="pessoal">
+            <legend style="font-size: 1.5rem;">Dados Pessoais</legend>
+            <p>Nome <input type="text" name="input_nome" id="inputNome1"></p>
+            <p>Idade <input type="text" name="input_idade" id="inputIdade1"></p>
+        </fieldset>
+        <fieldset>
+            <legend style="font-size: 1.5rem;">Sistema Operacional Favorito</legend>
+            <input type="radio" name="sistema" id="opWin98" value="Windows98" checked>Windows 98
+            <input type="radio" name="sistema" id="opWinXP" value="WindowsXP">Windows Xp
+            <input type="radio" name="sistema" id="opWin7" value="Windows7">Windows 7
+        </fieldset>
+        <fieldset>
+            <legend style="font-size: 1.5rem;">Qual melhor Professor:</legend>
+            <label for="prof1">Ederson</label>
+            <input type="checkbox" name="prof[]" id="prof1" value="Ederson" checked>
+            <label for="prof2">Ederson Costa</label>
+            <input type="checkbox" name="prof[]" id="prof2" value="Ederson Costa">
+        </fieldset>
+        <input type="submit" value="Escrever">
+    </form>
+    <br>
+    <p></p>
+</body>
+</html>

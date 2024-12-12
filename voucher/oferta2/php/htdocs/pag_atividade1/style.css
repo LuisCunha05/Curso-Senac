@@ -1,0 +1,24 @@
+body, html{
+    margin: 0;
+    height: 100%;
+}
+
+p{
+    margin: 0;
+    margin-bottom: 10px;
+}
+
+.font_15{
+    font-size: 1.5rem;
+}
+.font_12{
+    font-size: 1.2rem;
+}
+
+.container_25pct{
+    width: 25%;
+}
+
+.no-padding{
+    padding: 0;
+}
