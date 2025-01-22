@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form id="form" method="post">
+        <label for="in1">Valor</label>
+        <input id="in1" type="text">
+        <button type="submit">Enviar</button>
+    </form>
+    <script>
+        const form = document.getElementById('form')
+        form.addEventListener('submit', (e) => {
+            e.preventDefault()
+            console.log(e.target.elements['in1'].value)
+            console.log(typeof e.target.elements['in1'].value);
+        })
+    </script>
+</body>
+</html>
