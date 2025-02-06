@@ -1,5 +1,6 @@
 const API_URL = 'https://pokeapi.co/api/v2/';
 const DEV = true;
+
 const endPoints = {
     pokemon: 'pokemon',
     type: 'type',
@@ -7,7 +8,7 @@ const endPoints = {
 };
 
 /**
- * @typedef {'pokemon' | 'type' | 'stat'} endPoints
+ * @typedef {'pokemon' | 'type' | 'stat'} endPointsType
  */
 
 const useApi = async (path) => {
@@ -36,7 +37,7 @@ const usePokemonApi = async (nameOrId) => {
     /**
      * Returns the ID from the complete API url and endPoint
      * @param {string} value
-     * @param {endPoints} endPoint
+     * @param {endPointsType} endPoint
      * @returns {number}
      */
     const getID = ( value, endPoint, ) => {
