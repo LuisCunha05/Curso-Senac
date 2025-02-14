@@ -118,6 +118,29 @@ html, body {
     position: relative;
 }
 
+.main{
+    max-width: 80%;
+    margin: auto;
+    padding: 200px 0;
+}
+
+.main_img{
+    float: left;
+}
+
+.slider_controls{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.slider_button{
+    display: block;
+    min-width: 128px;
+    max-width: 320px;
+    padding: 8px;
+    background-color: #318000;
+}
+
 
 @media (min-width:1024px) {
     .nav_label{
