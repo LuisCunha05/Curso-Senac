@@ -55,6 +55,11 @@ html, body {
     overflow: hidden;
 }
 
+.boby_content{
+    display: flex;
+    flex-direction: column;
+}
+
 .nav_container{
     width: 30%;
     position: relative;
@@ -91,6 +96,7 @@ html, body {
     border-radius: 30px 60px 30px 60px;
 }
 .slider {
+    min-height: 50dvh;
     max-width: 100%;
     overflow: hidden;
     position: relative;
@@ -137,13 +143,16 @@ html, body {
 }
 
 .main{
-    max-width: 80%;
-    margin: auto;
-    padding: 200px 0;
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-top: 24px;
+    padding: 0 10%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
     gap: 16px;
+    overflow-y: scroll;
 }
 
 .footer{
@@ -153,8 +162,15 @@ html, body {
     color: #FFF;
 }
 
+.main_title{
+    text-align: center;
+    margin-bottom: 16px;
+}
+
 .main_img{
     height: 200px;
+    width: 200px;
+    flex-shrink: 0;
 }
 
 @media (min-width:1024px) {
