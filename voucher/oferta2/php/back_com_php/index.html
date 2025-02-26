@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="./style.css">
+        <title>Cadastro</title>
+    </head>
+    <body>
+        <main class="main_container">
+            <form action="./form.php" method="post">
+                <fieldset>
+                    <legend>Cadastro para ir a marte e não voltar</legend>
+                    <div class="input_holder">
+                        <label for="iNome">Nome:</label>
+                        <input type="text" name="nome" id="iNome">
+                    </div>
+                    <div class="input_holder">
+                        <label for="iEmail">E-mail:</label>
+                        <input type="email" name="email" id="iEmail">
+                    </div>
+                    <div class="input_holder">
+                        <label for="iSenha">Senha:</label>
+                        <input type="text" name="senha" id="iSenha">
+                    </div>
+                    <div class="input_holder">
+                        <label for="iDate">Data de nascimento:</label>
+                        <input type="date" name="data" id="iDate">
+                    </div>
+                    <div class="input_holder">
+                        <p>Sexo:</p>
+                        <div class="input_select_holder">
+                            <div class="select_holder">
+                                <label for="iSexo1">Masculino</label>
+                                <input type="radio" value="Masculino" name="sexo" id="iSexo1">
+                            </div>
+                            <div class="select_holder">
+                                <label for="iSexo2">Femenino</label>
+                                <input type="radio" value="Femenino" name="sexo" id="iSexo2">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input_holder">
+                        <label for="iCpf">CPF:</label>
+                        <input type="text" name="cpf" id="iCpf">
+                    </div>
+                    <div class="input_holder">
+                        <label for="iRg">RG:</label>
+                        <input type="text" name="rg" id="iRg">
+                    </div>
+                    <div class="input_holder">
+                        <label for="iIdade">Idade:</label>
+                        <input type="number" name="idade" id="iIdade">
+                    </div>
+                    <div class="input_holder">
+                        <label for="iEndereco">Endereço:</label>
+                        <input type="text" name="endereco" id="iEndereco">
+                    </div>
+                    <div class="input_holder">
+                        <label for="iCidade">Cidade:</label>
+                        <input type="text" name="cidade" id="iCidade">
+                    </div>
+                    <div class="input_holder">
+                        <label for="iEstado">Estado:</label>
+                        <select id="iEstado" name="estado">
+                            <option value="" selected disabled style="display: none;">Selecione um estado</option>
+                            <option value="AC">Acre</option>
+                            <option value="AL">Alagoas</option>
+                            <option value="AP">Amapá</option>
+                            <option value="AM">Amazonas</option>
+                            <option value="BA">Bahia</option>
+                            <option value="CE">Ceará</option>
+                            <option value="DF">Distrito Federal</option>
+                            <option value="ES">Espírito Santo</option>
+                            <option value="GO">Goiás</option>
+                            <option value="MA">Maranhão</option>
+                            <option value="MT">Mato Grosso</option>
+                            <option value="MS">Mato Grosso do Sul</option>
+                            <option value="MG">Minas Gerais</option>
+                            <option value="PA">Pará</option>
+                            <option value="PB">Paraíba</option>
+                            <option value="PR">Paraná</option>
+                            <option value="PE">Pernambuco</option>
+                            <option value="PI">Piauí</option>
+                            <option value="RJ">Rio de Janeiro</option>
+                            <option value="RN">Rio Grande do Norte</option>
+                            <option value="RS">Rio Grande do Sul</option>
+                            <option value="RO">Rondônia</option>
+                            <option value="RR">Roraima</option>
+                            <option value="SC">Santa Catarina</option>
+                            <option value="SP">São Paulo</option>
+                            <option value="SE">Sergipe</option>
+                            <option value="TO">Tocantins</option>
+                        </select>
+                    </div>
+                    <div class="input_holder">
+                        <label for="iCelular">Celular:</label>
+                        <input type="text" name="celular" id="iCelular">
+                    </div>
+                    <div class="termos_holder">
+                        <span><a href="http://www.pudim.com.br/" target="_blank" rel="noopener noreferrer">Termos de Uso</a>: </span>
+                        <div class="select_holder">
+                            <input type="checkbox" name="termos" id="iTermos">
+                            <label for="iTermos">Li e aceito os termos</label>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </main>
+        <script src="./script.js"></script>
+    </body>
+</html>
