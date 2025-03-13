@@ -24,7 +24,7 @@ class NameChangerApp extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            // ClipOval(child: Image(image: NetworkImage('https://static.vecteezy.com/system/resources/previews/033/501/239/non_2x/ai-generative-cartoon-portrait-of-a-person-on-transparent-background-png.png'),fit: BoxFit.cover, width: 120, height: 120,)),
+            ClipOval(child: Image(image: NetworkImage('https://static.vecteezy.com/system/resources/previews/033/501/239/non_2x/ai-generative-cartoon-portrait-of-a-person-on-transparent-background-png.png'),fit: BoxFit.cover, width: 120, height: 120,)),
             NameChanger(listaName: ['Elaias', 'Jão', 'Cadú', 'Luís', 'Junin'])
           ],
         ),

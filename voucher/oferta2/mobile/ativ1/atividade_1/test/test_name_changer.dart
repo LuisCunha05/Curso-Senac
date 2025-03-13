@@ -22,6 +22,6 @@ void main() {
     await tester.pump();
 
     // Verify that our counter has incremented.
-    expect(find.text('Elias'), findsNothing);
+    expect(find.text('Elias'), findsOne);
   });
 }
