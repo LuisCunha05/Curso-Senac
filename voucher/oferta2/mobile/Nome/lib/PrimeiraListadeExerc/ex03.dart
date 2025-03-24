@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
  
 class TaxiCalculator extends StatefulWidget {
+  const TaxiCalculator({super.key});
+
   @override
   _TaxiCalculatorState createState() => _TaxiCalculatorState();
 }
@@ -84,12 +86,12 @@ class _TaxiCalculatorState extends State<TaxiCalculator> {
                   FilledButton(
                     onPressed: _converter,
                     style: ButtonStyle(
-                      shape: MaterialStateProperty.all(
+                      shape: WidgetStateProperty.all(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
                       ),
-                      padding: MaterialStateProperty.all(
+                      padding: WidgetStateProperty.all(
                           const EdgeInsets.symmetric(horizontal: 40, vertical: 15)),
                     ),
                     child: const Text('CALCULAR'),

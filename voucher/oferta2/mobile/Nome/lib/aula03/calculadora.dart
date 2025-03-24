@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class Calculadora extends StatefulWidget {
+  const Calculadora({super.key});
+
   @override
   _CalculadoraState createState() => _CalculadoraState();
 }

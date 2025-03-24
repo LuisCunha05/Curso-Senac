@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
               double.infinity, // Faz o container ocupar toda a largura da tela
           height:
               double.infinity, // Faz o container ocupar toda a altura da tela
-          child: Column(
+          child: const Column(
             mainAxisAlignment: MainAxisAlignment.center, // Centraliza os textos
             crossAxisAlignment:
                 CrossAxisAlignment.start, // Alinha os textos à esquerda

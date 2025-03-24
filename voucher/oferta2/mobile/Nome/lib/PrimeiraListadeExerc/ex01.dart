@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
  
 class Calcular extends StatefulWidget {
+  const Calcular({super.key});
+
   @override
   _CalcularState createState() => _CalcularState();
 }
@@ -28,7 +30,7 @@ class _CalcularState extends State<Calcular> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Conversão de Metros para Centímetros'),
+          title: const Text('Conversão de Metros para Centímetros'),
         ),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -36,12 +38,12 @@ class _CalcularState extends State<Calcular> {
             children: [
               TextField(
                 controller: _controller1,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Digite a medida em metros:',
                 ),
                 keyboardType: TextInputType.number,
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -49,21 +51,21 @@ class _CalcularState extends State<Calcular> {
                   FilledButton(
                     onPressed: _converter,
                     style: ButtonStyle(
-                      shape: MaterialStateProperty.all(
+                      shape: WidgetStateProperty.all(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
                       ),
-                      padding: MaterialStateProperty.all(
-                          EdgeInsets.symmetric(horizontal: 40, vertical: 15)),
+                      padding: WidgetStateProperty.all(
+                          const EdgeInsets.symmetric(horizontal: 40, vertical: 15)),
                     ),
-                    child: Text('CONVERTER'),
+                    child: const Text('CONVERTER'),
                   ),
                 ],
               ),
               Container(
-                padding: EdgeInsets.all(16),
-                margin: EdgeInsets.only(top: 20),
+                padding: const EdgeInsets.all(16),
+                margin: const EdgeInsets.only(top: 20),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
                 ),
@@ -72,7 +74,7 @@ class _CalcularState extends State<Calcular> {
                     _resultado.isEmpty
                         ? 'O Resultado aparecerá aqui'
                         : _resultado,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 20,
                       color: Color(0xff000000),
                     ),

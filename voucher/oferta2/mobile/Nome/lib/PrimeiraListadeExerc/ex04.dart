@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
  
 class BikeVendor extends StatefulWidget {
+  const BikeVendor({super.key});
+
   @override
   _BikeVendorState createState() => _BikeVendorState();
 }
@@ -83,12 +85,12 @@ class _BikeVendorState extends State<BikeVendor> {
                   FilledButton(
                     onPressed: _converter,
                     style: ButtonStyle(
-                      shape: MaterialStateProperty.all(
+                      shape: WidgetStateProperty.all(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
                       ),
-                      padding: MaterialStateProperty.all(
+                      padding: WidgetStateProperty.all(
                           const EdgeInsets.symmetric(horizontal: 40, vertical: 15)),
                     ),
                     child: const Text('CALCULAR'),

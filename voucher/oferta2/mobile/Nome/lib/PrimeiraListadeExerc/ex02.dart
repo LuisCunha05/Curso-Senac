@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
  
 class Poupanca extends StatefulWidget {
+  const Poupanca({super.key});
+
   @override
   _PoupancaState createState() => _PoupancaState();
 }
@@ -50,12 +52,12 @@ class _PoupancaState extends State<Poupanca> {
                   FilledButton(
                     onPressed: _converter,
                     style: ButtonStyle(
-                      shape: MaterialStateProperty.all(
+                      shape: WidgetStateProperty.all(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
                       ),
-                      padding: MaterialStateProperty.all(
+                      padding: WidgetStateProperty.all(
                           const EdgeInsets.symmetric(horizontal: 40, vertical: 15)),
                     ),
                     child: const Text('CALCULAR'),
