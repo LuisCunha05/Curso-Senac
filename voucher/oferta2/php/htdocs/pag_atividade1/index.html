@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Formulário</title>
+</head>
+<body>
+    <form action="action.php" method="post">
+        <fieldset id="pessoal">
+            <legend class="font_15">Dados Pessoais</legend>
+            <div class="container_25pct">
+                <p>Nome <input type="text" name="input_nome" id="iNome"></p>
+                <p>RG <input type="text" name="input_rg" id="iRg"></p>
+                <p>CPF <input type="text" name="input_cpf" id="iCpf"></p>
+                <p>Endereço <input type="text" name="input_endereco" id="iEndereco"></p>
+                <p>Idade <input type="number" name="input_idade" id="iIdade" min="1" max="120" value="1"></p>
+                <fieldset class="no-padding">
+                    <legend class="font_12">Sexo</legend>
+                    <input type="radio" name="input_sexo" id="iSexo1" value="Femenino" checked>Femenino
+                    <input type="radio" name="input_sexo" id="iSexo2" value="Masculino">Masculino
+                    <input type="radio" name="input_sexo" id="iSexo3" value="Outro">Outro
+                </fieldset>
+                
+            </div>
+        </fieldset>
+        <fieldset id="preferencia">
+            <legend class="font_15">Preferências Pessoais</legend>
+            <div class="container_25pct">
+                <p>Data <input type="date" name="input_data" id="iData"></p>
+                <p>Cor <input type="color" name="input_cor" id="iCor" value="#fa0000"></p>
+                <fieldset class="no-padding">
+                    <legend class="font_12">Estação do ano</legend>
+                    <input type="checkbox" name="input_estacao[]" id="iEstacao1" value="Primavera">Primavera
+                    <input type="checkbox" name="input_estacao[]" id="iEstacao2" value="Verão">Verão
+                    <input type="checkbox" name="input_estacao[]" id="iEstacao3" value="Outono">Outono
+                    <input type="checkbox" name="input_estacao[]" id="iEstacao4" value="Inverno">Inverno
+                </fieldset>
+                <!-- 5 opções minhas -->
+                <fieldset class="no-padding">
+                    <legend class="font_12">Pet</legend>
+                    <input type="radio" name="input_pet" id="iPet1" value="Cachorro" checked>Cachorro
+                    <input type="radio" name="input_pet" id="iPet2" value="Gato">Gato
+                </fieldset>
+                <fieldset class="no-padding">
+                    <legend class="font_12">Achocolatado</legend>
+                    <input type="radio" name="input_achocolatado" id="iAchocolatado1" value="Nescau" checked>Nescau
+                    <input type="radio" name="input_achocolatado" id="iAchocolatado2" value="Toddy">Toddy
+                </fieldset>
+                <fieldset class="no-padding">
+                    <legend class="font_12">Bolacha</legend>
+                    <input type="radio" name="input_bolacha" id="iBolacha1" value="Bolacha" checked>Bolacha
+                    <input type="radio" name="input_bolacha" id="iBolacha2" value="Bolacha">Biscoito
+                </fieldset>
+                <fieldset class="no-padding">
+                    <legend class="font_12">Idioma</legend>
+                    <input type="radio" name="input_idioma" id="iIdioma1" value="Inglês" checked>Inglês
+                    <input type="radio" name="input_idioma" id="iIdioma2" value="Espanhol">Espanhol
+                </fieldset>
+                <fieldset class="no-padding">
+                    <legend class="font_12">Hora do dia</legend>
+                    <input type="radio" name="input_dia" id="iDia1" value="Noite" checked>Noite
+                    <input type="radio" name="input_dia" id="iDia2" value="Dia">Dia
+                </fieldset>
+            </div>
+        </fieldset>
+        <input type="submit" value="Enviar">
+    </form>
+</body>
+</html>

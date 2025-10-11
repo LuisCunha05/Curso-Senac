@@ -1,0 +1,53 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="./style.css">
+        <title>Aval de PHP</title>
+    </head>
+    <body class="container">
+        <main class="conteudo">
+            <fieldset>
+                <legend>Atividade 1</legend>
+                <form method="post" action="./atv1.php">
+                    <p>Número A: <input oninput="numberMask(this)" type="text" name="a1_num1" /></p>
+                    <p>Número B: <input oninput="numberMask(this)" type="text" name="a1_num2" /></p>
+                    <input type="submit">
+                </form>
+            </fieldset>
+            <fieldset>
+                <legend>Atividade 2</legend>
+                <form method="post" action="./atv2.php">
+                    <p>Digite sua Idade: <input oninput="numberMask(this)" type="text" name="a2_num1" /></p>
+                    <input type="submit">
+                </form>
+            </fieldset>
+            <fieldset>
+                <legend>Atividade 3</legend>
+                <form method="post" action="./atv3.php">
+                    <p>Exibir números</p>
+                    <input type="submit">
+                </form>
+            </fieldset>
+            <fieldset>
+                <legend>Atividade 4</legend>
+                <form method="post" action="./atv4.php">
+                    <p>Calcular a área do retangulo</p>
+                    <p>Lado A: <input oninput="numberMask(this)" type="text" name="a4_num1" /></p>
+                    <p>Lado B: <input oninput="numberMask(this)" type="text" name="a4_num2" /></p>
+                    <input type="submit">
+                </form>
+            </fieldset>
+            <fieldset>
+                <legend>Atividade 5</legend>
+                <form method="post" action="./atv5.php">
+                    <p>Lista Fibbo</p>
+                    <input type="submit">
+                </form>
+            </fieldset>
+        </main>
+        <script src="./script.js"></script>
+    </body>
+</html>

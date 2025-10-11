@@ -1,0 +1,50 @@
+html, body {
+    min-height: 100vh;
+    min-height: 100dvh;
+    min-width: 100vw;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-size: 1rem;
+    font-weight: 400;
+}
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: darkgrey;
+}
+
+fieldset{
+    padding: 8px;
+    border-color: rgb(35, 218, 111);
+}
+
+.title{
+    font-size: 2rem;
+}
+
+.subtitle{
+    font-size: 1.25rem;
+}
+
+.bold{
+    font-weight: 600;
+}
+
+.conteudo{
+    border: dotted 2px orangered;
+    padding: 16px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.atv{
+    border: solid 1px aqua;
+    padding: 8px 8px;
+}

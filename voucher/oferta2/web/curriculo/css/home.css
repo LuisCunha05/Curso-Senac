@@ -1,0 +1,16 @@
+
+.img_holder{
+    display: flex;
+    justify-content: center;
+}
+
+#selfie{
+    border-radius: 30px;
+
+}
+
+.links {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}

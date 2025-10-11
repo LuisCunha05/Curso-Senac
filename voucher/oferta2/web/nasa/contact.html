@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <title>Nasa - Contato</title>
+        <meta charset="utf-8">
+        <meta content="text/html">
+        <meta http-equiv="Content-Type">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="css/common.css">
+        <link rel="stylesheet" href="css/contact.css">
+        <link rel="shortcut icon" href="img/nasa_icon.png">
+    </head>
+    <body>
+        <header>
+            <nav class="nav_container">
+                    <a class="nav_text" href="index.html">Home</a>
+                    <a class="nav_text" href="news.html">Novidades</a>
+                    <a class="nav_text" href="space.html">Espaço</a>
+                    <a id="logo_link" class="nav_text" href="index.html">
+                        <img id="logo_nav" width="60" height="50" src="img/nasa_logo.svg" alt="Logo Nasa">
+                    </a>
+                    <a class="nav_text" href="weather.html">Clima e Terra</a>
+                    <a class="nav_text" href="about.html">Sobre a Nasa</a>
+                    <a class="nav_text" href="contact.html">Contato</a>
+            </nav>
+        </header>
+        <br>
+        <h1 id="title">Contato:</h1>
+        <form class="contact_form" action="*" method="POST">
+            <label for="name">Nome:</label>
+            <input class="input_field" type="text" id="name" name="name" required>
+        
+            <label for="email">Email:</label>
+            <input class="input_field" type="email" id="email" name="email" required>
+        
+            <label for="phone">Telefone:</label>
+            <input class="input_field" type="tel" id="phone" name="phone" required>
+        
+            <label for="message">Mensagem:</label>
+            <textarea class="input_field" id="message" name="message" rows="5" required></textarea>
+        
+            <button type="submit">Enviar</button>
+        </form>
+    </body>
+</html>

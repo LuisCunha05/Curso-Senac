@@ -1,0 +1,23 @@
+
+.grid_container{
+    display: grid;
+    box-sizing: border-box;
+    justify-content: center;
+    grid-template-columns: repeat(3, 33%);
+}
+
+.grid_item{
+    text-align: center;
+    margin: 10px;
+    background-color: blueviolet;
+    border: 1px solid red;
+}
+
+#item1{
+    grid-column-start: 1;
+    grid-row-start: 2;
+}
+
+#item3{
+    grid-area: 2/ 2 / 4/ 4;
+}

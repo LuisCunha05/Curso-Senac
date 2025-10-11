@@ -1,0 +1,41 @@
+body{
+    font-family: 'Courier New', Courier, monospace;
+    background-image: url(../img/pine.jpg);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: 100% 100%;
+}
+
+header{
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 33%);
+    column-gap: auto;
+    color: rgb(51, 50, 50);
+    background-color: rgb(206, 173, 28);
+}
+
+.h_text{
+    /* width: 22rem; */
+    font-size: 1.5rem;
+}
+
+.text_center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.l_text{
+    text-decoration: none;
+    background-color: coral;
+    border-radius: 7px;
+    border-left: 5px solid coral;
+    border-right: 5px solid coral;
+}
+
+.div_grid {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

@@ -1,0 +1,43 @@
+html, body{
+    min-width: 100vw;
+    min-height: 100vh;
+}
+
+body{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-size: 1.5rem;
+}
+
+
+body{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}   
+
+
+form.loading {
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+form.loading::after {
+    content: "Loading...";
+    display: block;
+}
+
+form.sucess{
+    border-color: rgb(10, 241, 10) !important;
+}
+
+.error {
+    border-color: red !important;
+}
+
+.error-message {
+    color: red;
+    font-size: 0.8em;
+    margin-top: 0.25em;
+}

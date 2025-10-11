@@ -1,0 +1,41 @@
+#title_container{
+    color: white;
+    background-repeat: no-repeat;
+    height: 600px;
+    background-image: url("../img/people.webp");
+    background-size: cover;
+    overflow: hidden;
+    background-position: 54% 46%;
+
+}
+
+#title{
+    padding-left: 150px;
+    padding-top: 200px;
+    font-size: 6.5rem;
+    width: 550px;
+}
+
+.shadow{
+    border-image-source: linear-gradient(65.99deg, #000 0, transparent 99.04%);
+    border-image-slice: fill 1;
+}
+
+/* .main_text{
+    width: 500px;
+} */
+
+#img_ocean{
+    width: 700px;
+    height: auto;
+}
+
+.grid_content{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    padding: 200px;
+}
+
+#second_title{
+    font-size: 4.0rem;
+}

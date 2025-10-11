@@ -1,0 +1,18 @@
+body {
+    background-color: rgb(64, 114, 121);
+}
+h1 {
+    color: blue;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+input {
+    color: rgb(193, 231, 24);
+}
+
+#input_holder {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
